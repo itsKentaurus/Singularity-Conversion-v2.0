@@ -1,6 +1,7 @@
 ﻿// File: Player
 // Created by: Rigil Malubay
 
+using UnityEngine;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.Generic;
@@ -20,7 +21,13 @@ public class Player {
 	// protected
 
 	// private
-
+	public Vector3 StartLocation
+	{
+		get
+		{
+			return new Vector3(X, Y, 0f);
+		}
+	}
 	#region Unity API
 	#endregion
 

@@ -1,6 +1,7 @@
 ﻿// File: Level.cs
 // Created by: Rigil Malubay
 
+using UnityEngine;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.Generic;
@@ -31,6 +32,10 @@ public class Stage {
 	#endregion
 
 	#region Public Methods
+	public Vector3 PlayerStartLocation()
+	{
+		return m_Player.StartLocation;
+	}
 	#endregion
 
 	#region Protected Methods
