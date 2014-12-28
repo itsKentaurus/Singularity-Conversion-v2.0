@@ -11,13 +11,15 @@ public class StageController : MonoBehaviour {
 	
 	// const
 	private const string PATH = "Assets/Resources/XML/Stages.xml";
+	private const string BLOCK_PATH = "Prefabs/Terrain";
+
 	// enum
 
-	// private
+	// public
 
 	// protected
 
-	// public
+	// private
 
 	#region Unity API
 	protected virtual void Start()
@@ -29,7 +31,14 @@ public class StageController : MonoBehaviour {
 
 		foreach(Stage stage in container.m_Stages)
 		{
-			Debug.Log(stage.Name);
+			foreach(Block block in stage.m_Blocks)
+			{
+				GameObject obj = (GameObject)Instantiate(Resources.Load(BLOCK_PATH));
+				Terrain t = obj.GetComponent<Terrain>();
+				t.m_Type = (Terrain.eTerrainType)block.Type;
+				obj.transform.parent = transform;
+				obj.transform.position = new Vector3(block.X, block.Y, 0f);
+			}
 		}
 	}
 	#endregion

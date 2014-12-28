@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Core\Player\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Core\Stage\Block.cs" />
      <Compile Include="Assets\Scripts\Core\Stage\Stage.cs" />
      <Compile Include="Assets\Scripts\Core\Stage\StageContainer.cs" />
      <Compile Include="Assets\Scripts\Core\Stage\StageController.cs" />

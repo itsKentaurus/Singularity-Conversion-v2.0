@@ -2,7 +2,11 @@
 <StageCollection>
 	<Stages>
 		<Stage name="a">
-		
+			<Blocks>
+				<Block type="0" x="0" y="0" texture=""></Block>
+				<Block type="1" x="1" y="0" texture=""></Block>
+				<Block type="0" x="2" y="0" texture=""></Block>
+			</Blocks>
 		</Stage>
 		<Stage name="b"></Stage>
 	</Stages>

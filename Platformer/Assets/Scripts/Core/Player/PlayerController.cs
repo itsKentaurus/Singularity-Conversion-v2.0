@@ -23,8 +23,6 @@ public class PlayerController : MonoBehaviour {
 
 	// private
 	private bool m_HasJumped = false;
-	private bool m_IsInAir = false;
-	private bool m_HittingWall = false;
 	private Vector3 m_MovementVelocity = Vector3.zero;
 
 	#region Unity API
@@ -94,11 +92,9 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(col.gameObject.GetComponent<Terrain>().m_Type == Terrain.eTerrainType.FLOOR)
 		{
-			m_IsInAir = false;
 		}
 		if(col.gameObject.GetComponent<Terrain>().m_Type == Terrain.eTerrainType.WALL)
 		{
-			m_HittingWall = true;
 		}
 	}
 	#endregion

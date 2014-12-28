@@ -1,28 +1,28 @@
-﻿// File: Level.cs
+﻿// File: Block
 // Created by: Rigil Malubay
 
 using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 
-public class Stage {
+public class Block {
 	
 	// const
 
 	// enum
 
-	// private
-
+	// public
+	[XmlAttribute("type")]
+	public int Type { set; get; }
+	[XmlAttribute("x")]
+	public float X { set; get; }
+	[XmlAttribute("y")]
+	public float Y { set; get; }
+	[XmlAttribute("texture")]
+	public string Texture { set; get; }
 	// protected
 
-	// public
-	[XmlAttribute("name")]
-	public string Name;
-
-	[XmlArray("Blocks")]
-	[XmlArrayItem("Block")]
-	public List<Block> m_Blocks = new List<Block>();
-
+	// private
 	#region Unity API
 	#endregion
 
@@ -34,6 +34,4 @@ public class Stage {
 
 	#region Private Methods
 	#endregion
-
-
 }
