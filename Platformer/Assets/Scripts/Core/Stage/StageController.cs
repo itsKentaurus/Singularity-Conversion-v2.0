@@ -12,6 +12,7 @@ public class StageController : MonoBehaviour {
 	// const
 	private const string PATH = "Assets/Resources/XML/Stages.xml";
 	private const string BLOCK_PATH = "Prefabs/Terrain";
+	private const string PLAYER_PLATH = "Prefabs/Player";
 
 	// enum
 
@@ -40,6 +41,8 @@ public class StageController : MonoBehaviour {
 				obj.transform.position = new Vector3(block.X, block.Y, 0f);
 			}
 		}
+		GameObject player = (GameObject)Instantiate(Resources.Load(PLAYER_PLATH));
+		player.transform.position = new Vector3(container.m_Stages[0].m_Player.X, container.m_Stages[0].m_Player.Y, 0f);
 	}
 	#endregion
 
