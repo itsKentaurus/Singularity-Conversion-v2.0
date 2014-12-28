@@ -27,16 +27,23 @@ public class PlayerController : Subject {
 	public float m_WalkingVelocity = 2f;
 	public float m_RunningVelocity = 4f;
 	public float m_JumpingVelocity = 400f;
+	public float m_GravityForce = 0.05f;
+	public LineRenderer m_LineDirection;
 	// protected
 
 	// private
 	private bool m_HasJumped = false;
-	private Vector3 m_MovementVelocity = Vector3.zero;
+	private bool m_ApplyGravity = false;
+	private bool m_TouchFloor = false;
+	private bool m_TouchWall = false;
+	private Vector3 m_MovementWalkVelocity = Vector3.zero;
+	private Vector3 m_MovementJumpVelocity = Vector3.zero;
 
 	#region Unity API
 	protected virtual void FixedUpdate()
 	{
 		Movement();
+		ApplyGravity();
 		ApplyMovement();
 		Reset();
 	}
@@ -48,7 +55,7 @@ public class PlayerController : Subject {
 	#region Protected Methods
 	protected virtual void Reset()
 	{
-		m_MovementVelocity = Vector3.zero;
+		m_MovementWalkVelocity = Vector3.zero;
 	}
 
 	protected void Movement()
@@ -61,14 +68,9 @@ public class PlayerController : Subject {
 		{
 			WalkDirection(ePlayerDirection.RIGHT);
 		}
-		if (!m_HasJumped&& Input.GetKeyDown("space"))
+		if (!m_HasJumped && Input.GetKeyDown("space"))
 		{
-			m_HasJumped = true;
 			Jump();
-		}
-		if (m_HasJumped && Input.GetKeyUp("space"))
-		{
-			m_HasJumped = false;
 		}
 	}
 	protected void WalkDirection(ePlayerDirection dir)
@@ -77,32 +79,50 @@ public class PlayerController : Subject {
 		switch(dir)
 		{
 		case ePlayerDirection.LEFT:
-			m_MovementVelocity += -transform.right;
+			m_MovementWalkVelocity += -transform.right;
 			break;
 		case ePlayerDirection.RIGHT:
-			m_MovementVelocity += transform.right;
+			m_MovementWalkVelocity += transform.right;
 			break;
 		}
 	}
 	protected virtual void Jump()
 	{
-		rigidbody.AddForce(transform.up * m_JumpingVelocity);
+		m_HasJumped = true;
+//		transform.localPosition -= new Vector3(0f, 3f, 0f);
+		m_JumpingVelocity = 5f;
 	}
 
 	protected virtual void ApplyMovement()
 	{
-		transform.position += m_MovementVelocity * Time.deltaTime;
+		m_LineDirection.SetPosition(1, m_MovementWalkVelocity + m_MovementJumpVelocity);
+		transform.position += (m_MovementWalkVelocity + m_MovementJumpVelocity) * Time.deltaTime;
+	}
+	protected virtual void ApplyGravity()
+	{
+		if (m_HasJumped)
+		{
+			m_JumpingVelocity -= 0.15f;
+		}
+		else
+		{
+			m_JumpingVelocity = 0f;
+			m_HasJumped = false;
+		}
+		m_MovementJumpVelocity = new Vector3(0f, m_JumpingVelocity, 0f);
 	}
 	#endregion
 
 	#region Private Methods
-	private void OnCollisionEnter (Collision col)
+	public void OnCollisionEnter(Collision col)
 	{
 		if(col.gameObject.GetComponent<Terrain>().m_Type == Terrain.eTerrainType.FLOOR)
 		{
+			m_HasJumped = false;
 		}
 		if(col.gameObject.GetComponent<Terrain>().m_Type == Terrain.eTerrainType.WALL)
 		{
+			m_TouchWall = true;
 		}
 	}
 	#endregion
