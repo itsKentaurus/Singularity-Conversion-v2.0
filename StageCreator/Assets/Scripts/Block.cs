@@ -13,6 +13,8 @@ public class Block  {
 	public float X;
 	[XmlAttribute("y")]
 	public float Y;
+	[XmlAttribute("rotz")]
+	public float RotZ;
 
 	public Block()
 	{
@@ -23,5 +25,6 @@ public class Block  {
 	{
 		X = obj.transform.position.x;
 		Y = obj.transform.position.y;
+		RotZ = obj.transform.rotation.eulerAngles.z;
 	}
 }

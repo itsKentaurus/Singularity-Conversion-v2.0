@@ -77,7 +77,8 @@ public class StageController : Subject {
 			Terrain t = obj.GetComponent<Terrain>();
 			t.m_Type = (Terrain.eTerrainType)block.Type;
 			obj.transform.parent = transform;
-			obj.transform.position = new Vector3(block.X, block.Y, PLAYER_DEPTH);
+			obj.transform.position = block.Location;
+			obj.transform.rotation = block.Rotation;
 		}
 		LoadPlayer();
 	}

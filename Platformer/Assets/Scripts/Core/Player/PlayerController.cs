@@ -15,6 +15,14 @@ public class PlayerController : Subject {
 		LEFT,
 		RIGHT
 	}
+
+	public enum eMovingState
+	{
+		MOVING,
+		CLLIMBING,
+		JUMPING
+	}
+
 	// public
 	public float m_WalkingVelocity = 2f;
 	public float m_RunningVelocity = 4f;
@@ -69,10 +77,10 @@ public class PlayerController : Subject {
 		switch(dir)
 		{
 		case ePlayerDirection.LEFT:
-			m_MovementVelocity.x = -m_WalkingVelocity;
+			m_MovementVelocity += -transform.right;
 			break;
 		case ePlayerDirection.RIGHT:
-			m_MovementVelocity.x = m_WalkingVelocity;
+			m_MovementVelocity += transform.right;
 			break;
 		}
 	}

@@ -56,7 +56,6 @@
      <Compile Include="Assets\Scripts\Stage.cs" />
      <Compile Include="Assets\Scripts\StageCreator.cs" />
      <None Include="Assets\Resources\XML\Stage.xml" />
-     <None Include="Assets\Resources\XML\Stages.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>

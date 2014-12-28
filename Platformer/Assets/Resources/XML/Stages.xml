@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <StageCollection>
 	<Stages>
-		<Stage name="Somthing"><Player x="1" y="1" /><Blocks><Block x="0" y="0" /><Block x="1" y="0" /><Block x="2" y="0" /><Block x="3" y="0" /><Block x="4" y="0" /></Blocks></Stage>
+		<Stage name="0"><Player x="1" y="1" /><Blocks><Block x="0" y="0" rotz="45.0000076" /><Block x="1" y="0" rotz="45.0000076" /><Block x="2" y="0" rotz="45.0000076" /><Block x="3" y="0" rotz="45.0000076" /><Block x="4" y="0" rotz="45.0000076" /></Blocks></Stage>
 	</Stages>
 </StageCollection>

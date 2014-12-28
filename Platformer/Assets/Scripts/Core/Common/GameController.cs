@@ -38,7 +38,7 @@ public class GameController : Observer {
 			{
 				if (args.ToString() == GameConstants.PLAYER_LOADED)
 				{
-					Debug.Log(GameConstants.PLAYER_LOADED);
+//					Debug.Log(GameConstants.PLAYER_LOADED);
 				}
 			}
 		}
