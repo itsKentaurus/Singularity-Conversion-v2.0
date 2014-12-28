@@ -21,7 +21,7 @@ public class Stage {
 	[XmlAttribute("name")]
 	public string Name;
 
-	[XmlArrayItem("Player")]
+	[XmlElement("Player")]
 	public Player m_Player;
 
 	[XmlArray("Blocks")]

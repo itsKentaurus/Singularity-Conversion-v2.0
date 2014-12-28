@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 
 [XmlRoot("StageCollection")]
-public class StageContainer {
+public class StageCollection {
 	
 	// const
 

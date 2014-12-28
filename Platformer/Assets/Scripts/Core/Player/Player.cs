@@ -13,14 +13,16 @@ public class Player {
 	// enum
 
 	// public
+
+	// protected
+
+	// private
 	[XmlAttribute("x")]
 	public float X { set; get; }
 	[XmlAttribute("y")]
 	public float Y { set; get; }
 
-	// protected
-
-	// private
+	// properties
 	public Vector3 StartLocation
 	{
 		get
