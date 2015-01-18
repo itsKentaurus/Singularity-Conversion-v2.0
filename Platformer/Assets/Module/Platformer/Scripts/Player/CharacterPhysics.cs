@@ -1,32 +1,30 @@
 using UnityEngine;
 using System.Collections;
 
-
-[RequireComponent (typeof(BoxCollider))]
-public class PlayerPhysics : MonoBehaviour {
+public class CharacterPhysics : CharacterBase 
+{
+	private const int NUMBER_OF_RAYCASE = 3;
+	private const int STOP_VELOCITY = 0;
 	
 	public LayerMask m_CollisionMask;
 
-	private BoxCollider collider;
+	protected bool m_IsGrounded;
+	
 	private Vector3 m_ColliderSize;
 	private Vector3 m_ColliderCenter;
-
 	[SerializeField]
 	private float m_Skin = .005f;
-	
-	[HideInInspector]
-	public bool m_IsGrounded;
-	
 	Ray m_Ray;
 	RaycastHit m_Hit;
 	
-	void Start() {
-		collider = GetComponent<BoxCollider>();
+	protected void Awake() 
+	{
+		BoxCollider collider = GetComponent<BoxCollider>();
 		m_ColliderSize = collider.size;
 		m_ColliderCenter = collider.center;
 	}
 
-	public void Move(Vector2 moveAmount) 
+	protected virtual void Move(Vector2 moveAmount) 
 	{
 		float deltaY = moveAmount.y;
 		float deltaX = moveAmount.x;
@@ -35,7 +33,7 @@ public class PlayerPhysics : MonoBehaviour {
 		// Check collisions above and below
 		m_IsGrounded = false;
 		
-		for (int i = 0; i<3; ++i)
+		for (int i = 0; i<NUMBER_OF_RAYCASE; ++i)
 		{
 			float dir = Mathf.Sign(deltaY);
 			float x = (p.x + m_ColliderCenter.x - m_ColliderSize.x/2) + m_ColliderSize.x/2 * i; // Left, centre and then rightmost point of collider
@@ -55,7 +53,7 @@ public class PlayerPhysics : MonoBehaviour {
 				}
 				else 
 				{
-					deltaY = 0;
+					deltaY = STOP_VELOCITY;
 				}
 				
 				m_IsGrounded = true;
@@ -65,7 +63,7 @@ public class PlayerPhysics : MonoBehaviour {
 			}
 		}
 		
-		for (int i = 0; i<3 && deltaX != 0; ++i)
+		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaX != 0; ++i)
 		{
 			float dir = Mathf.Sign(deltaX);
 			float y = (p.y + m_ColliderCenter.y - m_ColliderSize.y/2) + m_ColliderSize.y/2 * i;
@@ -75,14 +73,8 @@ public class PlayerPhysics : MonoBehaviour {
 			Debug.DrawRay(m_Ray.origin,m_Ray.direction);
 			if (Physics.Raycast(m_Ray, out m_Hit, Mathf.Abs(deltaX), m_CollisionMask)) 
 			{
-				// Get Distance between player and ground
-				float dst = Vector3.Distance (m_Ray.origin, m_Hit.point);
-				
-				// Stop player's downwards movement after coming within skin width of a collider
-				deltaX = 0;
-				
+				deltaX = STOP_VELOCITY;
 				break;
-				
 			}
 		}
 

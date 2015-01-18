@@ -46,17 +46,18 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Module\Core\ActionUIButton.cs" />
-     <Compile Include="Assets\Module\Core\FlowManager.cs" />
-     <Compile Include="Assets\Module\Core\UIButton.cs" />
-     <Compile Include="Assets\Module\Core\View.cs" />
+     <Compile Include="Assets\Module\FlowManager\ActionUIButton.cs" />
+     <Compile Include="Assets\Module\FlowManager\FlowManager.cs" />
+     <Compile Include="Assets\Module\FlowManager\UIButton.cs" />
+     <Compile Include="Assets\Module\FlowManager\View.cs" />
      <Compile Include="Assets\Module\Observers\Observer.cs" />
      <Compile Include="Assets\Module\Observers\Subject.cs" />
      <Compile Include="Assets\Module\PC\Script\Splash.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\Common\CharacterBase.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\Common\PlatformerConstants.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\GameController.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\Player\CharacterPhysics.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\Player\PlayerController.cs" />
-     <Compile Include="Assets\Module\Platformer\Scripts\Player\PlayerPhysics.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\Terrain\Terrain.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Block.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Player.cs" />
