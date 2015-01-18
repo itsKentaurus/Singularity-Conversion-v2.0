@@ -12,8 +12,9 @@ public class Terrain : MonoBehaviour {
 	// enum
 	public enum eTerrainType
 	{
-		FLOOR,
-		WALL
+		FLOOR = 0,
+		WALL,
+		RAMP
 	}
 
 	// public

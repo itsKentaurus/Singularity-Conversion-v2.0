@@ -46,17 +46,24 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Core\Common\GameConstants.cs" />
-     <Compile Include="Assets\Scripts\Core\Common\GameController.cs" />
-     <Compile Include="Assets\Scripts\Core\Observers\Observer.cs" />
-     <Compile Include="Assets\Scripts\Core\Observers\Subject.cs" />
-     <Compile Include="Assets\Scripts\Core\Player\Player.cs" />
-     <Compile Include="Assets\Scripts\Core\Player\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\Core\Stage\Block.cs" />
-     <Compile Include="Assets\Scripts\Core\Stage\Stage.cs" />
-     <Compile Include="Assets\Scripts\Core\Stage\StageCollection.cs" />
-     <Compile Include="Assets\Scripts\Core\Stage\StageController.cs" />
-     <Compile Include="Assets\Scripts\Core\Terrain\Terrain.cs" />
+     <Compile Include="Assets\Module\Core\ActionUIButton.cs" />
+     <Compile Include="Assets\Module\Core\FlowManager.cs" />
+     <Compile Include="Assets\Module\Core\UIButton.cs" />
+     <Compile Include="Assets\Module\Core\View.cs" />
+     <Compile Include="Assets\Module\Observers\Observer.cs" />
+     <Compile Include="Assets\Module\Observers\Subject.cs" />
+     <Compile Include="Assets\Module\PC\Script\Splash.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\Common\PlatformerConstants.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\GameController.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\Player\PlayerController.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\Player\PlayerPhysics.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\Terrain\Terrain.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Block.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Player.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Stage.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\StageCollection.cs" />
+     <Compile Include="Assets\Scripts\CustomView.cs" />
+     <Compile Include="Assets\Scripts\GameConstants.cs" />
      <None Include="Assets\Resources\XML\Stages.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
