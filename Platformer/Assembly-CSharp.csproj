@@ -46,10 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Module\FlowManager\ActionUIButton.cs" />
-     <Compile Include="Assets\Module\FlowManager\FlowManager.cs" />
-     <Compile Include="Assets\Module\FlowManager\UIButton.cs" />
-     <Compile Include="Assets\Module\FlowManager\View.cs" />
+     <Compile Include="Assets\Module\Core\Scripts\PauseController.cs" />
+     <Compile Include="Assets\Module\FlowManager\Scripts\ActionUIButton.cs" />
+     <Compile Include="Assets\Module\FlowManager\Scripts\FlowManager.cs" />
+     <Compile Include="Assets\Module\FlowManager\Scripts\UIButton.cs" />
+     <Compile Include="Assets\Module\FlowManager\Scripts\View.cs" />
      <Compile Include="Assets\Module\Observers\Observer.cs" />
      <Compile Include="Assets\Module\Observers\Subject.cs" />
      <Compile Include="Assets\Module\PC\Script\Splash.cs" />
@@ -65,6 +66,7 @@
      <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\StageCollection.cs" />
      <Compile Include="Assets\Module\Timer\Timer.cs" />
      <Compile Include="Assets\Scripts\Charaters\CustomPlayerController.cs" />
+     <Compile Include="Assets\Scripts\Core\AppLauncher.cs" />
      <Compile Include="Assets\Scripts\GameConstants.cs" />
      <Compile Include="Assets\Scripts\Skills\BlackHole.cs" />
      <None Include="Assets\Resources\XML\Stages.xml" />

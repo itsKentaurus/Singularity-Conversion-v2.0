@@ -6,18 +6,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class FlowManager : MonoBehaviour {
-
-	private const string MAIN_CAMERA = "Prefabs/Camera/Main Camera";
-	private const string UI_CAMERA = "Prefabs/Camera/UI Camera";
-	private const string FIRST_SCENE = "Splash";
-
 	//Here is a private reference only this class can access
 	private static FlowManager m_Instance;
 
 	private View m_CurrentScene;
-
-
-	private List<GameObject> m_Objects = new List<GameObject>();
 	private GameObject m_MainCamera;
 
 	//This is the public reference that other classes will use
@@ -34,17 +26,6 @@ public class FlowManager : MonoBehaviour {
 			return m_Instance;
 		}
 	}
-	public void Awake()
-	{
-		m_MainCamera = (GameObject)Instantiate(Resources.Load(MAIN_CAMERA));
-		m_Objects.Add((GameObject)Instantiate(Resources.Load(UI_CAMERA)));
-		m_Objects.Add(m_MainCamera);
-	}
-	public void Start()
-	{
-		TriggerAction(FIRST_SCENE);
-	}
-
 	public void TriggerAction(string scene)
 	{
 		Application.LoadLevelAdditive(scene);

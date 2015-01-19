@@ -89,6 +89,11 @@ public class Timer
 	/// </summary>
 	public void Update()
 	{
+		if (PauseController.Instance != null && PauseController.Instance.IsPaused)
+		{
+			return;
+		}
+
 		if (m_IsStarted && Ratio < RATIO_COMPLETION)
 		{
 			if (m_OnUpdate != null)

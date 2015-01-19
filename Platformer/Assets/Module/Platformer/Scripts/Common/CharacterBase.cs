@@ -20,7 +20,10 @@ public class CharacterBase : MonoBehaviour {
 	#region Unity API
 	protected virtual void Update()
 	{
-
+		if (PauseController.Instance != null &&PauseController.Instance.IsPaused)
+		{
+			return;
+		}
 	}
 	#endregion
 
