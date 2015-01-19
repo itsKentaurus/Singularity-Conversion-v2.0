@@ -26,6 +26,12 @@ public class FlowManager : MonoBehaviour {
 			return m_Instance;
 		}
 	}
+
+	public void TriggerPopUp(string scene)
+	{
+		Application.LoadLevelAdditive(scene);
+	}
+
 	public void TriggerAction(string scene)
 	{
 		Application.LoadLevelAdditive(scene);
@@ -51,13 +57,12 @@ public class FlowManager : MonoBehaviour {
 			Debug.LogError("FlowManager: Scene is null.");
 			return false;
 		}
-
 		if (m_CurrentScene != null)
 		{
 			DestroyObject(m_CurrentScene.gameObject);
 			m_CurrentScene = null;
 		}
-
 		m_CurrentScene = view;
+		
 	}
 }

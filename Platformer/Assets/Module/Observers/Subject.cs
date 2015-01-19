@@ -5,7 +5,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Subject : MonoBehaviour {
+public class Subject : MonoBehaviour 
+{
 	
 	// const
 
@@ -32,7 +33,7 @@ public class Subject : MonoBehaviour {
 	{
 		foreach(Observer o in m_Observers)
 		{
-			o.OnNotify(this, obj)
+			o.OnNotify(this, obj);
 		}
 	}
 	#endregion

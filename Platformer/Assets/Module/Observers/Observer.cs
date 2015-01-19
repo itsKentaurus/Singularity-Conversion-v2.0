@@ -22,7 +22,7 @@ public class Observer : MonoBehaviour {
 	{
 		foreach(Subject subject in m_Subject)
 		{
-			//subject.RegisterObserver(this);
+			subject.RegisterObserver(this);
 		}
 
 	}
