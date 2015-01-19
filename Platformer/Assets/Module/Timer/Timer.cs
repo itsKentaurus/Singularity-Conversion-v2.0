@@ -22,7 +22,6 @@ public class Timer
 	private float m_Time;
 	private float m_CompleteAt;
 	private bool m_IsStarted = false;
-	private bool m_IsPaused = false;
 
 	// properties
 	public float Ratio

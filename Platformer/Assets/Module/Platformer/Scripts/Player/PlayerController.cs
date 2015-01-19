@@ -30,4 +30,9 @@ public class PlayerController : CharacterPhysics {
 		amountToMove.y -= gravity * Time.deltaTime;
 		Move(amountToMove * Time.deltaTime);
 	}
+
+	public virtual void Reset()
+	{
+
+	}
 }

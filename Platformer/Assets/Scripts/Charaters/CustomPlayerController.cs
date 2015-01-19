@@ -19,7 +19,6 @@ public class CustomPlayerController : PlayerController {
 	protected BlackHole m_RightBlackHole;
 
 	// private
-	private List<BlackHole> m_BlackHolesProjectile = new List<BlackHole>();
 
 	#region Unity API
 	protected override void Update() 
@@ -38,6 +37,17 @@ public class CustomPlayerController : PlayerController {
 	#endregion
 
 	#region Public Methods
+	public override void Reset()
+	{
+		if (m_LeftBlackHole != null)
+		{
+			Destroy(m_LeftBlackHole.gameObject);
+		}
+		if (m_RightBlackHole != null)
+		{
+			Destroy(m_RightBlackHole.gameObject);
+		}
+	}
 	#endregion
 
 	#region Protected Methods

@@ -8,8 +8,10 @@ using System.Collections.Generic;
 public class BlackHole : MonoBehaviour {
 	
 	// const
-	private const float TRAVEL_BY_UNIT = 0.5f;
+	private const float TRAVEL_BY_UNIT = 0.25f;
 	private const float ABSORB_TIME = 2f;
+	private const float STARTING_SCALE = 0.15f;
+	private const float TO_SCALE_UP = 1f - STARTING_SCALE;
 
 	// enum
 
@@ -44,6 +46,15 @@ public class BlackHole : MonoBehaviour {
 			m_AbsorbTimer.Update();
 		}
 	}
+	protected void OnDestroy()
+	{
+		m_TravelTimer.Stop();
+		m_AbsorbTimer.Stop();
+		m_TravelTimer.m_OnUpdate -= Travel;
+		m_TravelTimer.m_OnDone -= Absorb;
+		m_AbsorbTimer.m_OnUpdate -= Pull;
+		m_AbsorbTimer.m_OnDone -= SelfDestruct;
+	}
 	#endregion
 
 	#region Public Methods
@@ -60,7 +71,8 @@ public class BlackHole : MonoBehaviour {
 	#region Protected Methods
 	protected void Travel()
 	{
-		gameObject.transform.position = m_InitialPosition + m_DistanceToTravel * m_TravelTimer.Ratio;
+		transform.position = m_InitialPosition + m_DistanceToTravel * m_TravelTimer.Ratio;
+		transform.localScale = Vector3.one * STARTING_SCALE + Vector3.one * TO_SCALE_UP * m_TravelTimer.Ratio;
 	}
 	protected void Absorb()
 	{
@@ -71,7 +83,7 @@ public class BlackHole : MonoBehaviour {
 
 	protected void Pull()
 	{
-
+		// TODO Rigil: Detect all character in range and pull towards
 	}
 
 	protected void SelfDestruct()
