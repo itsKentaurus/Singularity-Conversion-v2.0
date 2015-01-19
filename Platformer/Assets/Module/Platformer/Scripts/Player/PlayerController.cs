@@ -5,7 +5,6 @@ public class PlayerController : CharacterPhysics {
 	
 	public float gravity = 20;
 	public float speed = 8;
-	public float acceleration = 30;
 	public float jumpHeight = 12;
 	
 	private float currentSpeed;
@@ -14,7 +13,6 @@ public class PlayerController : CharacterPhysics {
 
 	protected override void Update () 
 	{
-
 		base.Update();
 
 		currentSpeed = Input.GetAxisRaw("Horizontal") * speed;

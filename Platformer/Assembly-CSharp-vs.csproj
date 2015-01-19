@@ -63,8 +63,10 @@
      <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Player.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Stage.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\StageCollection.cs" />
-     <Compile Include="Assets\Scripts\CustomView.cs" />
+     <Compile Include="Assets\Module\Timer\Timer.cs" />
+     <Compile Include="Assets\Scripts\Charaters\CustomPlayerController.cs" />
      <Compile Include="Assets\Scripts\GameConstants.cs" />
+     <Compile Include="Assets\Scripts\Skills\BlackHole.cs" />
      <None Include="Assets\Resources\XML\Stages.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
