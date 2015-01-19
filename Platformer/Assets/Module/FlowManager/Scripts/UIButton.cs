@@ -5,13 +5,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UIButton : MonoBehaviour {
+public class UIButton : Subject {
 	
 	// const
 
 	// enum
 
 	// public
+	public Texture2D m_OnButtonUp;
+	public Texture2D m_OnButtonDown;
 
 	// protected
 
@@ -24,6 +26,31 @@ public class UIButton : MonoBehaviour {
 	#endregion
 
 	#region Protected Methods
+	protected virtual void OnMouseHover()
+	{
+	}
+
+	protected virtual void OnMouseDown()
+	{
+		if (m_OnButtonDown != null)
+		{
+			gameObject.renderer.material.mainTexture = m_OnButtonDown;
+		}
+	}
+
+	protected virtual void OnMouseUp()
+	{
+		if (m_OnButtonUp != null)
+		{
+			gameObject.renderer.material.mainTexture = m_OnButtonUp;
+		}
+		NotifyObervers();
+	}
+
+	public virtual bool IsFired(Subject subject, object args)
+	{
+		return (subject is UIButton && (UIButton)subject == this);
+	}
 	#endregion
 
 	#region Private Methods

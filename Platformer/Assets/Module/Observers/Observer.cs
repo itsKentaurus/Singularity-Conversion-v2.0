@@ -14,17 +14,17 @@ public class Observer : MonoBehaviour {
 	// public
 
 	// protected
+	[SerializeField]
 	protected List<Subject> m_Subject = new List<Subject>();
 	// private
 
 	#region Unity API
-	protected void Awake()
+	protected virtual void Awake()
 	{
 		foreach(Subject subject in m_Subject)
 		{
 			subject.RegisterObserver(this);
 		}
-
 	}
 	#endregion
 
@@ -32,12 +32,15 @@ public class Observer : MonoBehaviour {
 	#endregion
 
 	#region Protected Methods
-	public virtual void OnNotify(Subject subject, Object args)
-	{
-
-	}
 	#endregion
 
 	#region Private Methods
+	#endregion
+
+	#region IObserver Implementation
+	public virtual void OnNotify(Subject subject, Object args)
+	{
+		
+	}
 	#endregion
 }

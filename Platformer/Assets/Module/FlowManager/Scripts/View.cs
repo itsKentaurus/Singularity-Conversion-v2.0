@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class View : MonoBehaviour {
+public class View : Observer {
 	
 	// const
 
@@ -18,6 +18,14 @@ public class View : MonoBehaviour {
 	// private
 
 	#region Unity API
+	protected override void Awake()
+	{
+		base.Awake();
+		if (PauseController.Instance != null)
+		{
+			PauseController.Instance.IsPaused = false;
+		}
+	}
 	#endregion
 
 	#region Public Methods

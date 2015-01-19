@@ -36,6 +36,10 @@ public class PauseController : MonoBehaviour {
 
 	public bool IsPaused
 	{
+		set
+		{
+			m_IsPause = value;
+		}
 		get
 		{
 			return m_IsPause;
