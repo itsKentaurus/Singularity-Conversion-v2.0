@@ -5,31 +5,38 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Subject : Observer
-{
-	[SerializeField]
-	private List<Observer> m_Observers = new List<Observer>();
+public class Subject : MonoBehaviour {
+	
+	// const
 
-	public void RegisterObserver(Observer observer)
+	// enum
+
+	// public
+
+	// protected
+
+	// private
+	private List<Observer> m_Observers = new List<Observer>();
+	#region Unity API
+	#endregion
+
+	#region Public Methods
+	public void RegisterObserver(Observer o)
 	{
-		m_Observers.Add(observer);
+		m_Observers.Add(o);
 	}
-	
-	public void UnRegisterObserver(Observer observer)
+	#endregion
+
+	#region Protected Methods
+	protected void NotifyObervers(Object obj = null)
 	{
-		m_Observers.Remove(observer);
-	}
-	
-	protected void NotifyObservers(object obj = null)
-	{
-		foreach (Observer o in m_Observers)
+		foreach(Observer o in m_Observers)
 		{
-			o.OnNotify(this, obj);
+			o.OnNotify(this, obj)
 		}
 	}
+	#endregion
 
-	public override void OnNotify(Subject subject, object obj)
-	{
-
-	}
+	#region Private Methods
+	#endregion
 }
