@@ -12,7 +12,7 @@ public class ActionUIButton : UIButton {
 	// enum
 
 	// public
-
+	public string m_GoToScene;
 	// protected
 
 	// private
@@ -24,6 +24,22 @@ public class ActionUIButton : UIButton {
 	#endregion
 
 	#region Protected Methods
+	protected override void OnMouseUp()
+	{
+		base.OnMouseUp();
+
+		if (FlowManager.Instance != null)
+		{
+			if (m_GoToScene != "")
+			{
+				FlowManager.Instance.TriggerAction(m_GoToScene);
+			}
+			else
+			{
+				Debug.LogError("ActionUIButton: No scene was set.");
+			}
+		}
+	}
 	#endregion
 
 	#region Private Methods
