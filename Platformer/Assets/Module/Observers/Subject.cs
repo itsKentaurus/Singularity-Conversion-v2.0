@@ -29,7 +29,7 @@ public class Subject : MonoBehaviour
 	#endregion
 
 	#region Protected Methods
-	protected void NotifyObervers(Object obj = null)
+	protected void NotifyObervers(object obj = null)
 	{
 		foreach(Observer o in m_Observers)
 		{

@@ -8,15 +8,12 @@ using System.Collections.Generic;
 public class CustomPlayerController : PlayerController {
 	
 	// const
-	private const float CAMERA_DEPTH = 10f;
+	public const string LEFT_CLICK = "LeftClick";
 	// enum
 
 	// public
-	public BlackHole m_BlackHolePrefab;
 
 	// protected
-	protected BlackHole m_LeftBlackHole;
-	protected BlackHole m_RightBlackHole;
 
 	// private
 
@@ -24,45 +21,17 @@ public class CustomPlayerController : PlayerController {
 	protected override void Update() 
 	{
 		base.Update();
-		if (Input.GetMouseButtonDown(0) && m_LeftBlackHole == null)
+		if (Input.GetMouseButtonDown(0))
 		{
-			m_LeftBlackHole = ShootBlackHole();
-		}
-
-		if (Input.GetMouseButtonDown(1) && m_RightBlackHole == null)
-		{
-			m_RightBlackHole = ShootBlackHole();
+			NotifyObervers(LEFT_CLICK);
 		}
 	}
 	#endregion
 
 	#region Public Methods
-	public override void Reset()
-	{
-		if (m_LeftBlackHole != null)
-		{
-			Destroy(m_LeftBlackHole.gameObject);
-		}
-		if (m_RightBlackHole != null)
-		{
-			Destroy(m_RightBlackHole.gameObject);
-		}
-	}
 	#endregion
 
 	#region Protected Methods
-	protected virtual BlackHole ShootBlackHole()
-	{
-		BlackHole blackHole = (BlackHole)Instantiate(m_BlackHolePrefab);
-		blackHole.gameObject.transform.position = transform.position;
-		blackHole.gameObject.transform.parent = transform.parent;
-		Vector3 mousePos = Input.mousePosition;
-		mousePos.z = CAMERA_DEPTH;
-		blackHole.TargetPosition = Camera.main.ScreenToWorldPoint(mousePos);
-		blackHole.Shoot();
-
-		return blackHole;
-	}
 	#endregion
 
 	#region Private Methods

@@ -9,14 +9,21 @@ public class CharacterPhysics : CharacterBase
 	public LayerMask m_CollisionMask;
 
 	protected bool m_IsGrounded;
-	
+	protected Vector3 m_FinalTransform = Vector3.zero;
+	protected Vector3 m_ExternalModifiers = Vector3.zero;
+
 	private Vector3 m_ColliderSize;
 	private Vector3 m_ColliderCenter;
 	[SerializeField]
 	private float m_Skin = .005f;
 	Ray m_Ray;
 	RaycastHit m_Hit;
-	
+
+	public Vector3 ForcedMovement
+	{
+		set	{	m_ExternalModifiers = value;	}
+	}
+
 	protected void Awake() 
 	{
 		BoxCollider collider = GetComponent<BoxCollider>();
@@ -79,9 +86,8 @@ public class CharacterPhysics : CharacterBase
 		}
 
 		
-		Vector2 finalTransform = new Vector2(deltaX,deltaY);
+		m_FinalTransform = new Vector2(deltaX,deltaY);
 		
-		transform.Translate(finalTransform);
+		transform.Translate(m_FinalTransform + m_ExternalModifiers);
 	}
-	
 }

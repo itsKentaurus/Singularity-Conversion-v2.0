@@ -38,7 +38,7 @@ public class Observer : MonoBehaviour {
 	#endregion
 
 	#region IObserver Implementation
-	public virtual void OnNotify(Subject subject, Object args)
+	public virtual void OnNotify(Subject subject, object args)
 	{
 		
 	}

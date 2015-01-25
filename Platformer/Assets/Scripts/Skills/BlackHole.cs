@@ -5,13 +5,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BlackHole : MonoBehaviour {
+public class BlackHole : Projectile {
 	
 	// const
-	private const float TRAVEL_BY_UNIT = 0.25f;
+	private const float CAMERA_DEPTH = 10f;
+	private const float TRAVEL_BY_UNIT = 0.1f;
 	private const float ABSORB_TIME = 2f;
 	private const float STARTING_SCALE = 0.15f;
 	private const float TO_SCALE_UP = 1f - STARTING_SCALE;
+	private const float GRAVITY_RADIUS = 5f;
 
 	// enum
 
@@ -23,17 +25,10 @@ public class BlackHole : MonoBehaviour {
 	private Vector3 m_TargetPosition;
 	private Vector3 m_DistanceToTravel;
 	private Vector3 m_InitialPosition;
-	private Timer m_TravelTimer = new Timer();
 	private Timer m_AbsorbTimer = new Timer(ABSORB_TIME);
+	private List<CharacterPhysics> m_ObjectsInPull = new List<CharacterPhysics>();
 
 	// properties
-	public Vector3 TargetPosition
-	{
-		set
-		{
-			m_TargetPosition = value;
-		}
-	}
 	#region Unity API
 	protected void Update()
 	{
@@ -45,53 +40,90 @@ public class BlackHole : MonoBehaviour {
 		{
 			m_AbsorbTimer.Update();
 		}
+		Pull();
+		CheckInRange();
 	}
-	protected void OnDestroy()
+	protected override void OnDestroy()
 	{
-		m_TravelTimer.Stop();
+		base.OnDestroy();
 		m_AbsorbTimer.Stop();
 		m_TravelTimer.m_OnUpdate -= Travel;
 		m_TravelTimer.m_OnDone -= Absorb;
 		m_AbsorbTimer.m_OnUpdate -= Pull;
+		m_AbsorbTimer.m_OnUpdate -= CheckInRange;
 		m_AbsorbTimer.m_OnDone -= SelfDestruct;
 	}
+
 	#endregion
 
 	#region Public Methods
 	public void Shoot()
 	{
-		m_InitialPosition = transform.position;
-		m_DistanceToTravel = m_TargetPosition - m_InitialPosition;
-		m_TravelTimer.m_OnUpdate += Travel;
-		m_TravelTimer.m_OnDone += Absorb;
-		m_TravelTimer.Start(TRAVEL_BY_UNIT * m_DistanceToTravel.magnitude);
+		FindTargetPosition();
+		SetUpPath();
 	}
 	#endregion
 
 	#region Protected Methods
-	protected void Travel()
+	protected virtual void Travel()
 	{
 		transform.position = m_InitialPosition + m_DistanceToTravel * m_TravelTimer.Ratio;
 		transform.localScale = Vector3.one * STARTING_SCALE + Vector3.one * TO_SCALE_UP * m_TravelTimer.Ratio;
 	}
 	protected void Absorb()
 	{
-		m_AbsorbTimer.m_OnUpdate += Pull;
-		m_AbsorbTimer.m_OnDone += SelfDestruct;
+		m_AbsorbTimer.m_OnUpdate = Pull;
+		m_AbsorbTimer.m_OnUpdate += CheckInRange;
+		m_AbsorbTimer.m_OnDone = SelfDestruct;
 		m_AbsorbTimer.Start();
 	}
 
 	protected void Pull()
 	{
-		// TODO Rigil: Detect all character in range and pull towards
+		for (int i = 9 ; i < 360 ; ++i)
+		{
+			Ray ray = new Ray(transform.position, new Vector3(Mathf.Cos(i), Mathf.Sin(i)));
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit, GRAVITY_RADIUS))
+			{
+				Debug.DrawLine(ray.origin, hit.point);
+				CharacterPhysics obj = hit.collider.gameObject.GetComponent<CharacterPhysics>();
+				if (obj != null && !m_ObjectsInPull.Contains(obj))
+				{
+					m_ObjectsInPull.Add(obj);
+					obj.ForcedMovement = -(hit.transform.position - transform.position).normalized * 0.25f;
+				}
+			}
+		}
 	}
-
-	protected void SelfDestruct()
+	protected void CheckInRange()
 	{
-		Destroy(gameObject);
+		for (int i = m_ObjectsInPull.Count - 1; i >= 0 ; --i)
+		{
+			if (m_ObjectsInPull[i] != null && (transform.position - m_ObjectsInPull[i].gameObject.transform.position).magnitude > GRAVITY_RADIUS + 0.5f)
+			{
+				m_ObjectsInPull[i].ForcedMovement = Vector3.zero;
+				m_ObjectsInPull.RemoveAt(i);
+			}
+		}
 	}
 	#endregion
 
 	#region Private Methods
+	private void FindTargetPosition()
+	{
+		Vector3 mousePos = Input.mousePosition;
+		mousePos.z = CAMERA_DEPTH;
+		m_TargetPosition = Camera.main.ScreenToWorldPoint(mousePos);
+	}
+
+	private void SetUpPath()
+	{
+		m_InitialPosition = transform.position;
+		m_DistanceToTravel = m_TargetPosition - m_InitialPosition;
+		m_TravelTimer.m_OnUpdate = Travel;
+		m_TravelTimer.m_OnDone = Absorb;
+		m_TravelTimer.Start(TRAVEL_BY_UNIT * m_DistanceToTravel.magnitude);
+	}
 	#endregion
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CharacterBase : MonoBehaviour {
+public class CharacterBase : Subject {
 	
 	// const
 
