@@ -9,11 +9,11 @@ public class BlackHole : Projectile {
 	
 	// const
 	private const float CAMERA_DEPTH = 10f;
-	private const float TRAVEL_BY_UNIT = 0.1f;
+	private const float TRAVEL_BY_UNIT = 1000f;
 	private const float ABSORB_TIME = 2f;
 	private const float STARTING_SCALE = 0.15f;
 	private const float TO_SCALE_UP = 1f - STARTING_SCALE;
-	private const float GRAVITY_RADIUS = 5f;
+	private const float GRAVITY_RADIUS = 100f;
 
 	// enum
 
@@ -27,9 +27,14 @@ public class BlackHole : Projectile {
 	private Vector3 m_InitialPosition;
 	private Timer m_AbsorbTimer = new Timer(ABSORB_TIME);
 	private List<CharacterPhysics> m_ObjectsInPull = new List<CharacterPhysics>();
+	private Vector3 m_InitialScale;
 
 	// properties
 	#region Unity API
+	protected void Awake()
+	{
+		m_InitialScale = transform.localScale;
+	}
 	protected void Update()
 	{
 		if (m_TravelTimer != null)
@@ -66,7 +71,7 @@ public class BlackHole : Projectile {
 	protected virtual void Travel()
 	{
 		transform.position = m_InitialPosition + m_DistanceToTravel * m_TravelTimer.Ratio;
-		transform.localScale = Vector3.one * STARTING_SCALE + Vector3.one * TO_SCALE_UP * m_TravelTimer.Ratio;
+		transform.localScale = m_InitialScale * STARTING_SCALE + m_InitialScale * TO_SCALE_UP * m_TravelTimer.Ratio;
 	}
 	protected void Absorb()
 	{
@@ -78,7 +83,7 @@ public class BlackHole : Projectile {
 
 	protected void Pull()
 	{
-		for (int i = 9 ; i < 360 ; ++i)
+		for (int i = 0 ; i < 360 ; ++i)
 		{
 			Ray ray = new Ray(transform.position, new Vector3(Mathf.Cos(i), Mathf.Sin(i)));
 			RaycastHit hit;
@@ -121,7 +126,7 @@ public class BlackHole : Projectile {
 		m_DistanceToTravel = m_TargetPosition - m_InitialPosition;
 		m_TravelTimer.m_OnUpdate = Travel;
 		m_TravelTimer.m_OnDone = Absorb;
-		m_TravelTimer.Start(TRAVEL_BY_UNIT * m_DistanceToTravel.magnitude);
+		m_TravelTimer.Start( m_DistanceToTravel.magnitude / TRAVEL_BY_UNIT);
 	}
 	#endregion
 }
