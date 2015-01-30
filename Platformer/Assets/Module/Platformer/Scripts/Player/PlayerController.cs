@@ -3,9 +3,9 @@ using System.Collections;
 
 public class PlayerController : CharacterPhysics {
 	
-	public float gravity = 20;
-	public float speed = 8;
-	public float jumpHeight = 12;
+	public float gravity;
+	public float speed;
+	public float jumpHeight;
 	
 	private float currentSpeed;
 	private float targetSpeed;
