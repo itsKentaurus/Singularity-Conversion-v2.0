@@ -40,8 +40,6 @@ public class BlackHole : Projectile {
 		{
 			m_AbsorbTimer.Update();
 		}
-		Pull();
-		CheckInRange();
 	}
 	protected override void OnDestroy()
 	{
