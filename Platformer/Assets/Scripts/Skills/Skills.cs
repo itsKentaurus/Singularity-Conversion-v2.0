@@ -20,6 +20,10 @@ public class Skills : Observer {
 	private int m_MaxBlackHoleCount = 2;
 	private int m_BlackHoleCount = 0;
 	#region Unity API
+	protected void Update()
+	{
+		Debug.DrawLine(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+	}
 	#endregion
 
 	#region Public Methods

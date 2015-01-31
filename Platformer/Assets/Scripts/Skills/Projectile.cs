@@ -9,7 +9,7 @@ public class Projectile : Subject {
 	
 	// const
 	public const string SELF_DESTRUCT = "SelfDestruct";
-	public const float DISTANCE = 200f;
+	public const float DISTANCE = 500f;
 	// enum
 	public enum ePorjectileType
 	{

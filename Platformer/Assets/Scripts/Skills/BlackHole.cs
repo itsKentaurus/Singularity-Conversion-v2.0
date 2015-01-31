@@ -13,7 +13,7 @@ public class BlackHole : Projectile {
 	private const float ABSORB_TIME = 2f;
 	private const float STARTING_SCALE = 0.15f;
 	private const float TO_SCALE_UP = 1f - STARTING_SCALE;
-	private const float GRAVITY_RADIUS = 100f;
+	private const float GRAVITY_RADIUS = 150f;
 
 	// enum
 
@@ -31,10 +31,6 @@ public class BlackHole : Projectile {
 
 	// properties
 	#region Unity API
-	protected void Awake()
-	{
-		m_InitialScale = transform.localScale;
-	}
 	protected void Update()
 	{
 		if (m_TravelTimer != null)
@@ -72,6 +68,11 @@ public class BlackHole : Projectile {
 	{
 		transform.position = m_InitialPosition + m_DistanceToTravel * m_TravelTimer.Ratio;
 		transform.localScale = m_InitialScale * STARTING_SCALE + m_InitialScale * TO_SCALE_UP * m_TravelTimer.Ratio;
+		if (Vector3.Distance(transform.position, m_InitialPosition) >= DISTANCE)
+		{
+			m_TravelTimer.Stop();
+			Absorb();
+		}
 	}
 	protected void Absorb()
 	{
@@ -103,7 +104,7 @@ public class BlackHole : Projectile {
 	{
 		for (int i = m_ObjectsInPull.Count - 1; i >= 0 ; --i)
 		{
-			if (m_ObjectsInPull[i] != null && (transform.position - m_ObjectsInPull[i].gameObject.transform.position).magnitude > GRAVITY_RADIUS + 0.5f)
+			if (m_ObjectsInPull[i] != null && (transform.position - m_ObjectsInPull[i].gameObject.transform.position).magnitude > GRAVITY_RADIUS)
 			{
 				m_ObjectsInPull[i].ForcedMovement = Vector3.zero;
 				m_ObjectsInPull.RemoveAt(i);
@@ -115,14 +116,26 @@ public class BlackHole : Projectile {
 	#region Private Methods
 	private void FindTargetPosition()
 	{
+		m_InitialPosition = transform.position;
+		m_InitialScale = transform.localScale;
+
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.z = CAMERA_DEPTH;
-		m_TargetPosition = Camera.main.ScreenToWorldPoint(mousePos);
+		Ray ray = new Ray(transform.position, Camera.main.ScreenToViewportPoint(mousePos));
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit, DISTANCE))
+		{
+			m_TargetPosition = hit.point;
+			Debug.DrawLine(ray.origin, hit.point);
+		}
+		else
+		{
+			m_TargetPosition = Camera.main.ScreenToWorldPoint(mousePos);
+		}
 	}
 
 	private void SetUpPath()
 	{
-		m_InitialPosition = transform.position;
 		m_DistanceToTravel = m_TargetPosition - m_InitialPosition;
 		m_TravelTimer.m_OnUpdate = Travel;
 		m_TravelTimer.m_OnDone = Absorb;
