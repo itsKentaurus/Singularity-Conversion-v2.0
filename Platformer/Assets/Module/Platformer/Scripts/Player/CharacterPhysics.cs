@@ -33,13 +33,19 @@ public class CharacterPhysics : CharacterBase
 
 	protected virtual void Move(Vector2 moveAmount) 
 	{
-		float deltaY = moveAmount.y;
-		float deltaX = moveAmount.x;
-		Vector2 p = transform.position;
-		
-		// Check collisions above and below
 		m_IsGrounded = false;
 		
+		float deltaY = GetDeltaY(moveAmount.y);
+		float deltaX = GetDeltaX(moveAmount.x);
+
+		m_FinalTransform = new Vector2(deltaX,deltaY);
+		
+		transform.Translate(m_FinalTransform + m_ExternalModifiers);
+	}
+
+	private float GetDeltaY(float deltaY)
+	{
+		Vector2 p = transform.position;
 		for (int i = 0; i<NUMBER_OF_RAYCASE; ++i)
 		{
 			float dir = Mathf.Sign(deltaY);
@@ -64,12 +70,17 @@ public class CharacterPhysics : CharacterBase
 				}
 				
 				m_IsGrounded = true;
-				
+
+				return deltaY;
 				break;
 				
 			}
 		}
-		
+	}
+
+	private float GetDeltaX(float deltaX)
+	{
+		Vector2 p = transform.position;
 		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaX != 0; ++i)
 		{
 			float dir = Mathf.Sign(deltaX);
@@ -80,14 +91,11 @@ public class CharacterPhysics : CharacterBase
 			Debug.DrawRay(m_Ray.origin,m_Ray.direction);
 			if (Physics.Raycast(m_Ray, out m_Hit, Mathf.Abs(deltaX), m_CollisionMask)) 
 			{
-				deltaX = STOP_VELOCITY;
+				return STOP_VELOCITY;
 				break;
 			}
 		}
 
-		
-		m_FinalTransform = new Vector2(deltaX,deltaY);
-		
-		transform.Translate(m_FinalTransform + m_ExternalModifiers);
+		return deltaX;
 	}
 }
