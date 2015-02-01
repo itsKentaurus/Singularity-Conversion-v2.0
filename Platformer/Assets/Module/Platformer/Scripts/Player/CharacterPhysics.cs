@@ -76,6 +76,7 @@ public class CharacterPhysics : CharacterBase
 				
 			}
 		}
+		return deltaY;
 	}
 
 	private float GetDeltaX(float deltaX)
