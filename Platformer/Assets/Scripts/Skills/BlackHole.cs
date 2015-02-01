@@ -66,12 +66,15 @@ public class BlackHole : Projectile {
 	#region Protected Methods
 	protected virtual void Travel()
 	{
-		transform.position = m_InitialPosition + m_DistanceToTravel * m_TravelTimer.Ratio;
 		transform.localScale = m_InitialScale * STARTING_SCALE + m_InitialScale * TO_SCALE_UP * m_TravelTimer.Ratio;
 		if (Vector3.Distance(transform.position, m_InitialPosition) >= DISTANCE)
 		{
-			m_TravelTimer.Stop();
+			m_TravelTimer.m_OnDone -= Absorb;
 			Absorb();
+		}
+		else
+		{
+			transform.position = m_InitialPosition + m_DistanceToTravel * m_TravelTimer.Ratio;
 		}
 	}
 	protected void Absorb()
@@ -96,6 +99,7 @@ public class BlackHole : Projectile {
 				{
 					m_ObjectsInPull.Add(obj);
 					obj.ForcedMovement = -(hit.transform.position - transform.position).normalized * 0.25f;
+					Debug.Log("Number of objects in range: " + m_ObjectsInPull.Count);
 				}
 			}
 		}
