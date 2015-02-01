@@ -31,7 +31,7 @@ public class MainMenuView : View {
 	#endregion
 
 	#region IObservers Implementation
-	public override void OnNotify(Subject subject, object args)
+	public override void OnNotify(ISubject subject, object args)
 	{
 		base.OnNotify(subject, args);
 

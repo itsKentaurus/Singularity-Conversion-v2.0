@@ -48,7 +48,7 @@ public class Skills : Observer {
 	#region Private Methods
 	#endregion
 	#region IObserver Implementation
-	public override void OnNotify(Subject subject, object args)
+	public override void OnNotify(ISubject subject, object args)
 	{
 		base.OnNotify(subject, args);
 		if (subject is CustomPlayerController && args is string)

@@ -47,7 +47,7 @@ public class UIButton : Subject {
 		NotifyObervers();
 	}
 
-	public virtual bool IsFired(Subject subject, object args)
+	public virtual bool IsFired(ISubject subject, object args)
 	{
 		return (subject is UIButton && (UIButton)subject == this);
 	}

@@ -21,7 +21,7 @@ public class Observer : MonoBehaviour {
 	#region Unity API
 	protected virtual void Awake()
 	{
-		foreach(Subject subject in m_Subject)
+		foreach(ISubject subject in m_Subject)
 		{
 			subject.RegisterObserver(this);
 		}
@@ -38,7 +38,7 @@ public class Observer : MonoBehaviour {
 	#endregion
 
 	#region IObserver Implementation
-	public virtual void OnNotify(Subject subject, object args)
+	public virtual void OnNotify(ISubject subject, object args)
 	{
 		
 	}

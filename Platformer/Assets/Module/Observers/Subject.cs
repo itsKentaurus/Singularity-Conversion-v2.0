@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Subject : MonoBehaviour 
+public class Subject : MonoBehaviour, ISubject
 {
 	
 	// const
@@ -29,7 +29,7 @@ public class Subject : MonoBehaviour
 	#endregion
 
 	#region Protected Methods
-	protected void NotifyObervers(object obj = null)
+	public void NotifyObervers(object obj = null)
 	{
 		foreach(Observer o in m_Observers)
 		{
