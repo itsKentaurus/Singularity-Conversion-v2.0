@@ -72,8 +72,7 @@ public class CharacterPhysics : CharacterBase
 				m_IsGrounded = true;
 
 				return deltaY;
-				break;
-				
+
 			}
 		}
 		return deltaY;
@@ -93,7 +92,6 @@ public class CharacterPhysics : CharacterBase
 			if (Physics.Raycast(m_Ray, out m_Hit, Mathf.Abs(deltaX), m_CollisionMask)) 
 			{
 				return STOP_VELOCITY;
-				break;
 			}
 		}
 
