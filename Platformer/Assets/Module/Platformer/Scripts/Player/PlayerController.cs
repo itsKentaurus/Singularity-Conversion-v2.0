@@ -3,36 +3,33 @@ using System.Collections;
 
 public class PlayerController : CharacterBase {
 	
-	public float gravity;
-	public float speed;
-	public float jumpHeight;
+	// const
 	
-	private float currentSpeed;
-	private float targetSpeed;
-	private Vector2 amountToMove;
-
+	// enum
+	
+	// public
+	
+	// protected
+	
+	// private
+	
 	protected override void Update () 
 	{
 		base.Update();
 
-		currentSpeed = Input.GetAxisRaw("Horizontal") * speed;
+		m_CurrentSpeed = Input.GetAxisRaw("Horizontal") * m_Speed;
 
-		if (m_IsGrounded) {
-			amountToMove.y = 0;
+		if (m_IsGrounded) 
+		{
+			m_AmountToMove.y = 0;
 			
 			// Jump
-			if (Input.GetButtonDown("Jump")) {
-				amountToMove.y = jumpHeight;	
+			if (Input.GetButtonDown("Jump")) 
+			{
+				m_AmountToMove.y = m_JumpHeight;
 			}
 		}
-		
-		amountToMove.x = currentSpeed;
-		amountToMove.y -= gravity * Time.deltaTime;
-		Move(amountToMove * Time.deltaTime);
-	}
 
-	public virtual void Reset()
-	{
-
+		m_AmountToMove.x = m_CurrentSpeed;
 	}
 }

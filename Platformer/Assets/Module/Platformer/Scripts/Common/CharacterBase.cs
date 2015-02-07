@@ -15,12 +15,18 @@ public class CharacterBase : Subject {
 
 	// public
 	public LayerMask m_CollisionMask;
+	public float m_Gravity;
+	public float m_Speed;
+	public float m_JumpHeight;
 
 	// protected
-	protected bool m_IsGrounded;
-	protected bool m_IsOnWall;
+	protected bool m_IsGrounded = true;
+	protected bool m_IsOnWall = false;
 	protected Vector3 m_FinalTransform = Vector3.zero;
 	protected Vector3 m_ExternalModifiers = Vector3.zero;
+	protected Vector2 m_AmountToMove = Vector2.zero;
+	protected float m_CurrentSpeed;
+	protected float m_TargetSpeed;
 
 	// private
 	private Vector3 m_ColliderSize;
@@ -42,6 +48,10 @@ public class CharacterBase : Subject {
 		{
 			return;
 		}
+
+		m_AmountToMove.y -= m_Gravity * Time.deltaTime;
+
+		Move(m_AmountToMove * Time.deltaTime);
 	}
 	#endregion
 
