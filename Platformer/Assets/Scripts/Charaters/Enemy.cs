@@ -37,7 +37,7 @@ public class Enemy : CharacterBase {
 			return;
 		}
 
-		if (m_IsOnWall)
+		if (m_IsOnWall || !CheckOnEdge() && m_IsGrounded)
 		{
 			m_Direction *= -1;
 		}
@@ -48,5 +48,14 @@ public class Enemy : CharacterBase {
 	#endregion
 
 	#region Private Methods
+	private bool CheckOnEdge()
+	{
+		RaycastHit m_Hit;
+		Vector2 p = transform.position;
+		float x = p.x + m_ColliderCenter.x + m_ColliderSize.x/2 * m_Direction; // Left, centre and then rightmost point of collider
+		float y = p.y + m_ColliderCenter.y - m_ColliderSize.y/2; // Bottom of collider
+		Ray m_Ray = new Ray(new Vector2(x,y), new Vector2(0, -1f));
+		return (Physics.Raycast(m_Ray,out m_Hit,Mathf.Abs(m_Direction),m_CollisionMask));
+	}
 	#endregion
 }

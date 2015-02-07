@@ -26,15 +26,12 @@ public class CharacterBase : Subject {
 	protected Vector3 m_ExternalModifiers = Vector3.zero;
 	protected Vector2 m_AmountToMove = Vector2.zero;
 	protected float m_CurrentSpeed;
-	protected float m_TargetSpeed;
+	protected Vector3 m_ColliderSize;
+	protected Vector3 m_ColliderCenter;
 
 	// private
-	private Vector3 m_ColliderSize;
-	private Vector3 m_ColliderCenter;
 	[SerializeField]
 	private float m_Skin = .005f;
-	private Ray m_Ray;
-	private RaycastHit m_Hit;
 
 	// properties
 	public Vector3 ForcedMovement
@@ -77,7 +74,7 @@ public class CharacterBase : Subject {
 		float deltaX = GetDeltaX(moveAmount.x);
 		
 		m_IsOnWall = (deltaX == STOP_VELOCITY);
-		
+
 		m_FinalTransform = new Vector2(deltaX,deltaY);
 		
 		transform.Translate(m_FinalTransform + m_ExternalModifiers);
@@ -87,6 +84,8 @@ public class CharacterBase : Subject {
 	#region Private Methods
 	private float GetDeltaY(float deltaY)
 	{
+		Ray m_Ray;
+		RaycastHit m_Hit;
 		Vector2 p = transform.position;
 		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaY != STOP_VELOCITY; ++i)
 		{
@@ -122,6 +121,8 @@ public class CharacterBase : Subject {
 	
 	private float GetDeltaX(float deltaX)
 	{
+		Ray m_Ray;
+		RaycastHit m_Hit;
 		Vector2 p = transform.position;
 		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaX != STOP_VELOCITY; ++i)
 		{
