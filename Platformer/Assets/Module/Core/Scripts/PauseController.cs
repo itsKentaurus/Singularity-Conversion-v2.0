@@ -45,6 +45,14 @@ public class PauseController : MonoBehaviour {
 			return m_IsPause;
 		}
 	}
+
+	public static bool IsInstanceNull
+	{
+		get
+		{
+			return m_Instance == null;
+		}
+	}
 	#region Unity API
 	#endregion
 
