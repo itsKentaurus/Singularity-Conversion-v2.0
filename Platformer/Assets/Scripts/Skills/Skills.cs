@@ -30,7 +30,7 @@ public class Skills : Observer {
 	#endregion
 
 	#region Protected Methods
-	protected virtual void ShootBlackHole(GameObject subject)
+	public virtual void ShootBlackHole(GameObject subject)
 	{
 		if (m_BlackHoleCount < m_MaxBlackHoleCount)
 		{
@@ -51,17 +51,6 @@ public class Skills : Observer {
 	public override void OnNotify(ISubject subject, object args)
 	{
 		base.OnNotify(subject, args);
-		if (subject is CustomPlayerController && args is string)
-		{
-			GameObject obj = ((CustomPlayerController)subject).gameObject;
-			switch(args.ToString())
-			{
-			case CustomPlayerController.LEFT_CLICK:
-				ShootBlackHole(obj);
-				break;
-			}
-		}
-
 		if (subject is Projectile && args is string)
 		{
 			if (args.ToString() == Projectile.SELF_DESTRUCT)

@@ -9,9 +9,11 @@ public class CustomPlayerController : PlayerController {
 	
 	// const
 	public const string LEFT_CLICK = "LeftClick";
+
 	// enum
 
 	// public
+	public Skills m_Skills;
 
 	// protected
 
@@ -21,9 +23,14 @@ public class CustomPlayerController : PlayerController {
 	protected override void Update() 
 	{
 		base.Update();
+		if (m_Skills == null)
+		{
+			return;
+		}
+
 		if (Input.GetMouseButtonDown(0))
 		{
-			NotifyObervers(LEFT_CLICK);
+			m_Skills.ShootBlackHole(gameObject);
 		}
 	}
 	#endregion

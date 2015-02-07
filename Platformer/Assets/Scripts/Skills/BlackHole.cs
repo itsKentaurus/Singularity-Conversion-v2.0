@@ -26,7 +26,7 @@ public class BlackHole : Projectile {
 	private Vector3 m_DistanceToTravel;
 	private Vector3 m_InitialPosition;
 	private Timer m_AbsorbTimer = new Timer(ABSORB_TIME);
-	private List<CharacterPhysics> m_ObjectsInPull = new List<CharacterPhysics>();
+	private List<CharacterBase> m_ObjectsInPull = new List<CharacterBase>();
 	private Vector3 m_InitialScale;
 
 	// properties
@@ -94,7 +94,7 @@ public class BlackHole : Projectile {
 			if (Physics.Raycast(ray, out hit, GRAVITY_RADIUS))
 			{
 				Debug.DrawLine(ray.origin, hit.point);
-				CharacterPhysics obj = hit.collider.gameObject.GetComponent<CharacterPhysics>();
+				CharacterBase obj = hit.collider.gameObject.GetComponent<CharacterBase>();
 				if (obj != null && !m_ObjectsInPull.Contains(obj))
 				{
 					m_ObjectsInPull.Add(obj);
