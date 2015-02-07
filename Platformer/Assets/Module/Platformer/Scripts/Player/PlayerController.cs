@@ -15,14 +15,9 @@ public class PlayerController : CharacterBase {
 
 	protected override void ApplyGravity()
 	{
-		if (m_IsOnWall && !m_IsGrounded)
-		{
-			m_AmountToMove.y -= m_Gravity / 2f * Time.deltaTime;
-		}
-		else
-		{
-			base.ApplyGravity();
-		}
+		base.ApplyGravity();
+
+		// TODO Rigil: Slow down when attached to wall
 	}
 
 	protected override void Update () 
