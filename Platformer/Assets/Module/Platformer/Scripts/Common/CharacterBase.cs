@@ -15,9 +15,9 @@ public class CharacterBase : Subject {
 
 	// public
 	public LayerMask m_CollisionMask;
-	public float m_Gravity;
-	public float m_Speed;
-	public float m_JumpHeight;
+	public float m_Gravity = 1000f;
+	public float m_Speed = 1000f;
+	public float m_JumpHeight = 1000f;
 
 	// protected
 	protected bool m_IsGrounded = true;
@@ -42,15 +42,21 @@ public class CharacterBase : Subject {
 		set	{	m_ExternalModifiers = value;	}
 	}
 	#region Unity API
+	protected virtual void Awake() 
+	{
+		BoxCollider collider = GetComponent<BoxCollider>();
+		m_ColliderSize = collider.size;
+		m_ColliderCenter = collider.center;
+	}
+
 	protected virtual void Update()
 	{
-		if (PauseController.Instance != null &&PauseController.Instance.IsPaused)
+		if (!PauseController.IsInstanceNull)
 		{
 			return;
 		}
 
-		m_AmountToMove.y -= m_Gravity * Time.deltaTime;
-
+		ApplyGravity();
 		Move(m_AmountToMove * Time.deltaTime);
 	}
 	#endregion
@@ -59,13 +65,10 @@ public class CharacterBase : Subject {
 	#endregion
 
 	#region Protected Methods
-	protected void Awake() 
+	protected virtual void ApplyGravity()
 	{
-		BoxCollider collider = GetComponent<BoxCollider>();
-		m_ColliderSize = collider.size;
-		m_ColliderCenter = collider.center;
+		m_AmountToMove.y -= m_Gravity * Time.deltaTime;
 	}
-	
 	protected virtual void Move(Vector2 moveAmount) 
 	{
 		m_IsGrounded = false;
@@ -85,7 +88,7 @@ public class CharacterBase : Subject {
 	private float GetDeltaY(float deltaY)
 	{
 		Vector2 p = transform.position;
-		for (int i = 0; i<NUMBER_OF_RAYCASE; ++i)
+		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaY != STOP_VELOCITY; ++i)
 		{
 			float dir = Mathf.Sign(deltaY);
 			float x = (p.x + m_ColliderCenter.x - m_ColliderSize.x/2) + m_ColliderSize.x/2 * i; // Left, centre and then rightmost point of collider
@@ -120,7 +123,7 @@ public class CharacterBase : Subject {
 	private float GetDeltaX(float deltaX)
 	{
 		Vector2 p = transform.position;
-		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaX != 0; ++i)
+		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaX != STOP_VELOCITY; ++i)
 		{
 			float dir = Mathf.Sign(deltaX);
 			float y = (p.y + m_ColliderCenter.y - m_ColliderSize.y/2) + m_ColliderSize.y/2 * i;
@@ -135,5 +138,6 @@ public class CharacterBase : Subject {
 		}
 		
 		return deltaX;
-	}	#endregion
+	}	
+	#endregion
 }

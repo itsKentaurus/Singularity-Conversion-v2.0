@@ -23,15 +23,15 @@ public class CustomPlayerController : PlayerController {
 	protected override void Update() 
 	{
 		base.Update();
-		if (m_Skills == null)
+
+		if (m_Skills != null)
 		{
-			return;
+			if (Input.GetMouseButtonDown(0))
+			{
+				m_Skills.ShootBlackHole(gameObject);
+			}
 		}
 
-		if (Input.GetMouseButtonDown(0))
-		{
-			m_Skills.ShootBlackHole(gameObject);
-		}
 	}
 	#endregion
 
