@@ -10,9 +10,21 @@ public class PlayerController : CharacterBase {
 	// public
 	
 	// protected
-	
+
 	// private
-	
+
+	protected override void ApplyGravity()
+	{
+		if (m_IsOnWall && !m_IsGrounded)
+		{
+			m_AmountToMove.y -= m_Gravity / 2f * Time.deltaTime;
+		}
+		else
+		{
+			base.ApplyGravity();
+		}
+	}
+
 	protected override void Update () 
 	{
 		base.Update();
