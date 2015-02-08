@@ -8,21 +8,24 @@ using System.Collections.Generic;
 public class Enemy : CharacterBase {
 	
 	// const
-
+	private const float CHANGE_DIRECTION = -1f;
 	// enum
 
 	// public
-	public bool m_IsPatroling = true;
 
 	// protected
-	protected float m_Direction = 1;
+	[SerializeField]
+	protected bool m_IsPatroling = true;
+	[SerializeField]
+	protected LayerMask m_Targets;
+	protected float m_LookingDirection = 1;
 
 	// private
 
 	#region Unity API
 	protected void Start()
 	{
-		m_AmountToMove.x = m_Direction * m_Speed;
+		m_AmountToMove.x = m_LookingDirection * m_Speed;
 	}
 	#endregion
 
@@ -39,10 +42,10 @@ public class Enemy : CharacterBase {
 
 		if (m_IsOnWall || !CheckOnEdge() && m_IsGrounded)
 		{
-			m_Direction *= -1;
+			m_LookingDirection *= CHANGE_DIRECTION;
 		}
 		
-		moveAmount.x *= m_Direction;
+		moveAmount.x *= m_LookingDirection;
 		base.Move(moveAmount);
 	}
 	#endregion
@@ -52,10 +55,10 @@ public class Enemy : CharacterBase {
 	{
 		RaycastHit m_Hit;
 		Vector2 p = transform.position;
-		float x = p.x + m_ColliderCenter.x + m_ColliderSize.x/2 * m_Direction; // Left, centre and then rightmost point of collider
-		float y = p.y + m_ColliderCenter.y - m_ColliderSize.y/2; // Bottom of collider
+		float x = p.x + m_InitialScale.x/2 * m_LookingDirection;
+		float y = p.y - m_InitialScale.y/2;
 		Ray m_Ray = new Ray(new Vector2(x,y), new Vector2(0, -1f));
-		return (Physics.Raycast(m_Ray,out m_Hit,Mathf.Abs(m_Direction),m_CollisionMask));
+		return (Physics.Raycast(m_Ray,out m_Hit,Mathf.Abs(m_LookingDirection), m_CollisionMask));
 	}
 	#endregion
 }
