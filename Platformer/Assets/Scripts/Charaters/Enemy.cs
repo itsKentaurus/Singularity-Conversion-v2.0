@@ -35,18 +35,16 @@ public class Enemy : CharacterBase {
 	#region Protected Methods
 	protected override void Move(Vector2 moveAmount)
 	{
-		if (!m_IsPatroling)
-		{
-			return;
-		}
-
-		if (m_IsOnWall || !CheckOnEdge() && m_IsGrounded)
+		Patrol();
+		moveAmount.x *= m_LookingDirection;
+		base.Move(moveAmount);
+	}
+	protected virtual void Patrol()
+	{
+		if (m_IsPatroling && (m_IsOnWall || !CheckOnEdge() && m_IsGrounded))
 		{
 			m_LookingDirection *= CHANGE_DIRECTION;
 		}
-		
-		moveAmount.x *= m_LookingDirection;
-		base.Move(moveAmount);
 	}
 	#endregion
 

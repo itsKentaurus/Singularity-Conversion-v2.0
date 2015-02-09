@@ -87,7 +87,7 @@ public class CharacterBase : Subject {
 		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaY != STOP_VELOCITY; ++i)
 		{
 			float dir = Mathf.Sign(deltaY);
-			float x = p.x - m_InitialScale.x/2 + m_InitialScale.x/2 * i; // Left, centre and then rightmost point of collider
+			float x = p.x + m_InitialScale.x/2 * i; // Left, centre and then rightmost point of collider
 			float y = p.y + m_InitialScale.y/2 * dir; // Bottom of collider
 			
 			ray = new Ray(new Vector2(x,y), new Vector2(0,dir));
