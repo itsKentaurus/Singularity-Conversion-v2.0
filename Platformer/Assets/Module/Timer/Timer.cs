@@ -10,6 +10,17 @@ public class Timer
 	// constants
 	private const float RATIO_COMPLETION = 1f;
 
+	// enum
+	private enum eTimerState
+	{
+		INACTIVE,
+		STARTED,
+		DONE,
+		PAUSED,
+		STOPPED
+
+	}
+
 	// public
 	public delegate void OnDone();
 	public delegate void OnUpdate();
@@ -21,7 +32,7 @@ public class Timer
 	// private
 	private float m_Time;
 	private float m_CompleteAt;
-	private bool m_IsStarted = false;
+	private eTimerState m_State = eTimerState.INACTIVE;
 
 	// properties
 	public float Ratio
@@ -29,6 +40,14 @@ public class Timer
 		get
 		{
 			return m_Time / m_CompleteAt;
+		}
+	}
+
+	public bool IsStarted
+	{
+		get
+		{
+			return (m_State == eTimerState.STARTED);
 		}
 	}
 	#region Unity API
@@ -56,7 +75,8 @@ public class Timer
 		{
 			m_CompleteAt = time;
 		}
-		m_IsStarted = true;
+		m_Time = 0f;
+		m_State = eTimerState.STARTED;
 	}
 
 	/// <summary>
@@ -64,8 +84,8 @@ public class Timer
 	/// </summary>
 	public void Stop()
 	{
-		m_IsStarted = false;
 		m_Time = 0;
+		m_State = eTimerState.STOPPED;
 	}
 
 	/// <summary>
@@ -73,7 +93,7 @@ public class Timer
 	/// </summary>
 	public void Pause()
 	{
-		m_IsStarted = true;
+		m_State = eTimerState.PAUSED;
 	}
 
 	/// <summary>
@@ -81,7 +101,7 @@ public class Timer
 	/// </summary>
 	public void Resume()
 	{
-		m_IsStarted = false;
+		m_State = eTimerState.STARTED;
 	}
 
 	/// <summary>
@@ -89,25 +109,27 @@ public class Timer
 	/// </summary>
 	public void Update()
 	{
-		if (PauseController.Instance != null && PauseController.Instance.IsPaused)
+//		if (!PauseController.IsInstanceNull)
+//		{
+//			return;
+//		}
+		if (IsStarted)
 		{
-			return;
-		}
-
-		if (m_IsStarted && Ratio < RATIO_COMPLETION)
-		{
-			if (m_OnUpdate != null)
+			if (Ratio < RATIO_COMPLETION)
 			{
-				m_OnUpdate();
+				if (m_OnUpdate != null)
+				{
+					m_OnUpdate();
+				}
+				m_Time += Time.deltaTime;
 			}
-			m_Time += Time.deltaTime;
-		}
-		else
-		{
-			m_IsStarted = false;
-			if (m_OnDone != null)
+			else
 			{
-				m_OnDone();
+				m_State = eTimerState.STOPPED;
+				if (m_OnDone != null)
+				{
+					m_OnDone();
+				}
 			}
 		}
 	}
