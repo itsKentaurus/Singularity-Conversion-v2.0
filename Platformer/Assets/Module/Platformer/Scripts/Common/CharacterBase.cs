@@ -22,6 +22,10 @@ public class CharacterBase : Subject {
 	// protected
 	[SerializeField]
 	protected float m_Skin = .005f;
+	[SerializeField]
+	protected bool m_AffectedByExternals = true;
+	[SerializeField]
+	protected bool m_AffectedByGravity = true;
 	protected bool m_IsGrounded = true;
 	protected bool m_IsOnWall = false;
 	protected Vector3 m_FinalTransform = Vector3.zero;
@@ -61,7 +65,10 @@ public class CharacterBase : Subject {
 	#region Protected Methods
 	protected virtual void ApplyGravity()
 	{
-		m_AmountToMove.y -= m_Gravity * Time.deltaTime;
+		if (m_AffectedByGravity)
+		{
+			m_AmountToMove.y -= m_Gravity * Time.deltaTime;
+		}
 	}
 	protected virtual void Move(Vector2 moveAmount) 
 	{
@@ -73,8 +80,8 @@ public class CharacterBase : Subject {
 		m_IsOnWall = (deltaX == STOP_VELOCITY);
 
 		m_FinalTransform = new Vector2(deltaX,deltaY);
-		
-		transform.Translate(m_FinalTransform + m_ExternalModifiers);
+
+		transform.Translate(m_FinalTransform + (m_AffectedByExternals ? m_ExternalModifiers : Vector3.zero));
 	}
 	#endregion
 
@@ -92,7 +99,7 @@ public class CharacterBase : Subject {
 			
 			ray = new Ray(new Vector2(x,y), new Vector2(0,dir));
 			Debug.DrawRay(ray.origin, ray.direction);
-			if (Physics.Raycast(ray,out m_Hit,Mathf.Abs(deltaY),m_CollisionMask)) 
+			if (Physics.Raycast(ray,out m_Hit,Mathf.Abs(deltaY), m_CollisionMask)) 
 			{
 				// Get Distance between player and ground
 				float dst = Vector3.Distance (ray.origin, m_Hit.point);
