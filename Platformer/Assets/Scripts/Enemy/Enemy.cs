@@ -23,7 +23,7 @@ public class Enemy : CharacterBase {
 	// private
 
 	#region Unity API
-	protected void Start()
+	protected virtual void Start()
 	{
 		m_AmountToMove.x = m_LookingDirection * m_Speed;
 	}
