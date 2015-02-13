@@ -38,7 +38,7 @@ public class Skills : Observer {
 			GameObject obj = (GameObject)Instantiate(m_PrimarySkill);
 			obj.transform.position = subject.transform.position;
 			obj.transform.parent = subject.transform.parent;
-			BlackHole blackHole = obj.GetComponent<BlackHole>();
+			Projectile blackHole = obj.GetComponent<Projectile>();
 			blackHole.RegisterObserver(this);
 			blackHole.Shoot();
 		}

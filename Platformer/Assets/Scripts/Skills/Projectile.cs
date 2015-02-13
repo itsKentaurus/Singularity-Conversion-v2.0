@@ -5,11 +5,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class Projectile : Subject {
 	
 	// const
 	public const string SELF_DESTRUCT = "SelfDestruct";
-	public const float DISTANCE = 500f;
+
 	// enum
 	public enum ePorjectileType
 	{
@@ -21,25 +22,45 @@ public class Projectile : Subject {
 	public ePorjectileType m_Type;
 
 	// protected
-	protected Timer m_TravelTimer = new Timer();
+	[SerializeField]
+	protected float m_Damage;
+	protected Vector3 m_TargetPosition = Vector3.zero;
+	protected Vector3 m_InitialPosition = Vector3.zero;
+	protected Vector3 m_PathVector = Vector3.zero;
 
 	// private
 
-	#region Unity API
-	protected virtual void OnTriggerEnter()
+	// properties
+	public Vector3 TargetPosition 
 	{
-		SelfDestruct();
+		set 
+		{
+			m_TargetPosition = value;
+		}
+	}
+	#region Unity API
+	protected virtual void Update()
+	{
+		Travel();
 	}
 	protected virtual void OnDestroy()
 	{
-		m_TravelTimer.Stop();
+
 	}
 	#endregion
 
 	#region Public Methods
+	public virtual void Shoot()
+	{
+		m_PathVector = m_TargetPosition - transform.position;
+	}
 	#endregion
 
 	#region Protected Methods
+	protected virtual void Travel()
+	{
+		transform.Translate(m_PathVector * Time.deltaTime);
+	}
 	protected virtual void SelfDestruct()
 	{
 		NotifyObervers(SELF_DESTRUCT);

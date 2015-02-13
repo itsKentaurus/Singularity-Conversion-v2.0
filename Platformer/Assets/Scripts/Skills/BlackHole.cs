@@ -14,6 +14,7 @@ public class BlackHole : Projectile {
 	private const float STARTING_SCALE = 0.15f;
 	private const float TO_SCALE_UP = 1f - STARTING_SCALE;
 	private const float GRAVITY_RADIUS = 150f;
+	private const float DISTANCE = 500f;
 
 	// enum
 
@@ -22,16 +23,15 @@ public class BlackHole : Projectile {
 	// protected
 
 	// private
-	private Vector3 m_TargetPosition;
 	private Vector3 m_DistanceToTravel;
-	private Vector3 m_InitialPosition;
+	private Timer m_TravelTimer = new Timer();
 	private Timer m_AbsorbTimer = new Timer(ABSORB_TIME);
 	private List<CharacterBase> m_ObjectsInPull = new List<CharacterBase>();
 	private Vector3 m_InitialScale;
 
 	// properties
 	#region Unity API
-	protected void Update()
+	protected override void Update()
 	{
 		if (m_TravelTimer != null)
 		{
@@ -45,18 +45,19 @@ public class BlackHole : Projectile {
 	protected override void OnDestroy()
 	{
 		base.OnDestroy();
+		m_TravelTimer.Stop();
 		m_AbsorbTimer.Stop();
 		m_TravelTimer.m_OnUpdate -= Travel;
 		m_TravelTimer.m_OnDone -= Absorb;
 		m_AbsorbTimer.m_OnUpdate -= Pull;
 		m_AbsorbTimer.m_OnUpdate -= CheckInRange;
 		m_AbsorbTimer.m_OnDone -= SelfDestruct;
+		ClearPull();
 	}
-
 	#endregion
 
 	#region Public Methods
-	public void Shoot()
+	public override void Shoot()
 	{
 		FindTargetPosition();
 		SetUpPath();
@@ -64,15 +65,10 @@ public class BlackHole : Projectile {
 	#endregion
 
 	#region Protected Methods
-	protected virtual void Travel()
+	protected override void Travel()
 	{
 		transform.localScale = m_InitialScale * STARTING_SCALE + m_InitialScale * TO_SCALE_UP * m_TravelTimer.Ratio;
-		if (Vector3.Distance(transform.position, m_InitialPosition) >= DISTANCE)
-		{
-			m_TravelTimer.m_OnDone -= Absorb;
-			Absorb();
-		}
-		else
+		if (Vector3.Distance(transform.position, m_InitialPosition) < DISTANCE)
 		{
 			transform.position = m_InitialPosition + m_DistanceToTravel * m_TravelTimer.Ratio;
 		}
@@ -82,7 +78,10 @@ public class BlackHole : Projectile {
 		m_AbsorbTimer.m_OnUpdate = Pull;
 		m_AbsorbTimer.m_OnUpdate += CheckInRange;
 		m_AbsorbTimer.m_OnDone = SelfDestruct;
-		m_AbsorbTimer.Start();
+		if (!m_AbsorbTimer.IsStarted)
+		{
+			m_AbsorbTimer.Start();
+		}
 	}
 
 	protected void Pull()
@@ -118,6 +117,13 @@ public class BlackHole : Projectile {
 	#endregion
 
 	#region Private Methods
+	private void ClearPull()
+	{
+		foreach (CharacterBase ch in m_ObjectsInPull)
+		{
+			ch.ForcedMovement = Vector3.zero;
+		}
+	}
 	private void FindTargetPosition()
 	{
 		m_InitialPosition = transform.position;
@@ -143,7 +149,7 @@ public class BlackHole : Projectile {
 		m_DistanceToTravel = m_TargetPosition - m_InitialPosition;
 		m_TravelTimer.m_OnUpdate = Travel;
 		m_TravelTimer.m_OnDone = Absorb;
-		m_TravelTimer.Start( m_DistanceToTravel.magnitude / TRAVEL_BY_UNIT);
+		m_TravelTimer.Start(m_DistanceToTravel.magnitude / TRAVEL_BY_UNIT);
 	}
 	#endregion
 }
