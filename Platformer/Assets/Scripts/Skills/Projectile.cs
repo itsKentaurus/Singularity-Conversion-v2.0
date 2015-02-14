@@ -58,11 +58,15 @@ public class Projectile : Subject {
 	#region Public Methods
 	public virtual void Shoot()
 	{
-		m_PathVector = m_TargetPosition - transform.position;
+		UpdatePathVector();
 	}
 	#endregion
 
 	#region Protected Methods
+	protected virtual void UpdatePathVector()
+	{
+		m_PathVector = m_TargetPosition - transform.position;
+	}
 	protected virtual void Travel()
 	{
 		transform.Translate(m_PathVector.normalized * m_Speed * Time.deltaTime);

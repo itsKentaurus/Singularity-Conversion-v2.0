@@ -45,7 +45,7 @@ public class StaticDefender : Enemy {
 		}
 
 		FindTargets();
-		AquireTarget();
+		AcquireTarget();
 
 		if (m_Loaded && m_TargetLocated)
 		{
@@ -70,7 +70,7 @@ public class StaticDefender : Enemy {
 	{
 		m_Colliders = Physics.OverlapSphere(transform.position, m_RangeOfVision);
 	}
-	private void AquireTarget()
+	private void AcquireTarget()
 	{
 		foreach (Collider c in m_Colliders)
 		{
