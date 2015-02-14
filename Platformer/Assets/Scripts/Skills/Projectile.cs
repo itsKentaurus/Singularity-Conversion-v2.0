@@ -23,7 +23,9 @@ public class Projectile : Subject {
 
 	// protected
 	[SerializeField]
-	protected float m_Damage;
+	protected float m_Damage = 0;
+	[SerializeField]
+	protected float m_Speed = 500;
 	protected Vector3 m_TargetPosition = Vector3.zero;
 	protected Vector3 m_InitialPosition = Vector3.zero;
 	protected Vector3 m_PathVector = Vector3.zero;
@@ -39,6 +41,10 @@ public class Projectile : Subject {
 		}
 	}
 	#region Unity API
+	protected virtual void OnCollisionEnter(Collision collision)
+	{
+
+	}
 	protected virtual void Update()
 	{
 		Travel();
@@ -59,7 +65,7 @@ public class Projectile : Subject {
 	#region Protected Methods
 	protected virtual void Travel()
 	{
-		transform.Translate(m_PathVector * Time.deltaTime);
+		transform.Translate(m_PathVector.normalized * m_Speed * Time.deltaTime);
 	}
 	protected virtual void SelfDestruct()
 	{
