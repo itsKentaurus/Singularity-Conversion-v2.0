@@ -41,9 +41,12 @@ public class Projectile : Subject {
 		}
 	}
 	#region Unity API
-	protected virtual void OnCollisionEnter(Collision collision)
+	protected virtual void OnTriggerEnter(Collider c)
 	{
-
+		if (c.gameObject.GetComponent<PlayerController>() != null)
+		{
+			SelfDestruct();
+		}
 	}
 	protected virtual void Update()
 	{
