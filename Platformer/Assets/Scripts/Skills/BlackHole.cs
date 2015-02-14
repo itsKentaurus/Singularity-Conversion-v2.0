@@ -68,7 +68,12 @@ public class BlackHole : Projectile {
 	protected override void Travel()
 	{
 		transform.localScale = m_InitialScale * STARTING_SCALE + m_InitialScale * TO_SCALE_UP * m_TravelTimer.Ratio;
-		if (Vector3.Distance(transform.position, m_InitialPosition) < DISTANCE)
+		if (Vector3.Distance(transform.position, m_InitialPosition) >= DISTANCE)
+		{
+			m_TravelTimer.m_OnDone -= Absorb;
+			Absorb();
+		}
+		else
 		{
 			transform.position = m_InitialPosition + m_DistanceToTravel * m_TravelTimer.Ratio;
 		}
@@ -123,6 +128,7 @@ public class BlackHole : Projectile {
 		{
 			ch.ForcedMovement = Vector3.zero;
 		}
+		m_ObjectsInPull.Clear();
 	}
 	private void FindTargetPosition()
 	{
