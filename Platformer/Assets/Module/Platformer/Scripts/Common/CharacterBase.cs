@@ -46,6 +46,14 @@ public class CharacterBase : Subject {
 		get { return m_IsHitableByProjectile;	}
 	}
 	#region Unity API
+	protected virtual void OnTriggerEnter(Collider c)
+	{
+		Trigger trigger = c.GetComponent<Trigger>();
+		if (trigger != null && trigger.CanTriggerAction(this))
+		{
+			trigger.ActivateTrigger();
+		}
+	}
 	protected virtual void Awake() 
 	{
 		m_InitialScale = transform.localScale;

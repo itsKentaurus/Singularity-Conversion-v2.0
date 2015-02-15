@@ -36,7 +36,7 @@ public class GameController : Subject {
 	
 	// properties
 	#region Unity API
-	protected virtual void Start()
+	protected virtual void Awake()
 	{
 		LoadFromXML();
 
@@ -45,6 +45,8 @@ public class GameController : Subject {
 		LoadPlayer();
 		LoadStageContainer();
 		LoadStage();
+
+		EventTriggerController.Instance.Initialize();
 	}
 	#endregion
 
