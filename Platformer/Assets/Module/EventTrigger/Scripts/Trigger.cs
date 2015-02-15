@@ -17,7 +17,7 @@ public class Trigger : EventTrigger {
 		ENEMY
 	}
 
-	public enum eTriggerType
+	private enum eTriggerType
 	{
 		ONE_TIME,
 		ON_OFF
@@ -25,19 +25,19 @@ public class Trigger : EventTrigger {
 	// public
 
 	// protected
-	[SerializeField]
-	protected eTriggerType m_Type = EventTriggerEnum.eTriggerType.ONE_TIME;
-	[SerializeField]
-	protected eTriggerBy m_Users = EventTriggerEnum.eTriggerBy.ALL;
 
 	// private
+	[SerializeField]
+	private eTriggerType m_Type = eTriggerType.ONE_TIME;
+	[SerializeField]
+	private eTriggerBy m_Users = eTriggerBy.ALL;
 	private bool m_Used = false;
 
 	#region Unity API
 	#endregion
 
 	#region Public Methods
-	public virtual bool CanTriggerAction(CharacterBase character)
+	public bool CanTriggerAction(CharacterBase character)
 	{
 		switch(m_Users)
 		{
@@ -49,7 +49,7 @@ public class Trigger : EventTrigger {
 			return true;
 		}
 	}
-	public virtual void ActivateTrigger()
+	public void ActivateTrigger()
 	{
 		if (TriggerSwitch() || OneTimeUse())
 		{
@@ -65,12 +65,12 @@ public class Trigger : EventTrigger {
 	#region Private Methods
 	private bool OneTimeUse()
 	{
-		return (m_Type == EventTriggerEnum.eTriggerType.ONE_TIME && !m_Used);
+		return (m_Type == eTriggerType.ONE_TIME && !m_Used);
 	}
 
 	private bool TriggerSwitch()
 	{
-		return (m_Type == EventTriggerEnum.eTriggerType.ON_OFF);
+		return (m_Type == eTriggerType.ON_OFF);
 	}
 	#endregion
 }
