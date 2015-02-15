@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Flow>
+	<View action="GO_TO_SPLASH" name="Splash" scene="Splash"/>
+</Flow>

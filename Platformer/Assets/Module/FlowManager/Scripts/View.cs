@@ -18,20 +18,26 @@ public class View : Observer {
 	// private
 
 	#region Unity API
-	protected override void Awake()
-	{
-		base.Awake();
-		if (PauseController.Instance != null)
-		{
-			PauseController.Instance.IsPaused = false;
-		}
-	}
 	#endregion
 
 	#region Public Methods
 	#endregion
 
 	#region Protected Methods
+	protected virtual void OnViewLoaded()
+	{
+
+	}
+
+	protected virtual void OnViewOpened()
+	{
+
+	}
+
+	protected virtual void OnViewClosed()
+	{
+
+	}
 	#endregion
 
 	#region Private Methods

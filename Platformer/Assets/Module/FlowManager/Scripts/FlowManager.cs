@@ -4,22 +4,30 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+using System.IO;
 
 public class FlowManager : MonoBehaviour {
-	private const string OBJECT_NAME = "FlowMananger";
-	//Here is a private reference only this class can access
-	private static FlowManager m_Instance;
 
+	// const
+	private const string OBJECT_NAME = "FlowMananger";
+	private const string VIEW_TAG = "View";
+	private const string FLOW_XML_PATH = "XML/Flow";
+	private const string VIEW_NAME = "name";
+	private const string SCENE_NAME = "scene";
+	private const string ACTION = "action";
+
+	// private 
+	private static FlowManager m_Instance;
 	private View m_CurrentScene;
 	private GameObject m_MainCamera;
-
-	//This is the public reference that other classes will use
+	Dictionary<string, Dictionary<string, string>> m_Views = new Dictionary<string, Dictionary<string, string>>();
+	// properties
 	public static FlowManager Instance
 	{
 		get
 		{
-			//If _instance hasn't been set yet, we grab it from the scene!
-			//This will only happen the first time this reference is used.
 			if (m_Instance == null)
 			{
 				GameObject obj = new GameObject(OBJECT_NAME);
@@ -28,6 +36,11 @@ public class FlowManager : MonoBehaviour {
 			}
 			return m_Instance;
 		}
+	}
+
+	public void Initialize()
+	{
+		LoadViews();
 	}
 
 	public void TriggerPopUp(string scene)
@@ -67,5 +80,26 @@ public class FlowManager : MonoBehaviour {
 		}
 		m_CurrentScene = view;
 		
+	}
+
+	private void LoadViews()
+	{
+		XmlDocument xmlDoc = new XmlDocument();
+		TextAsset temp = (TextAsset)Resources.Load(FLOW_XML_PATH);
+		xmlDoc.LoadXml(temp.text);
+		XmlNodeList views = xmlDoc.GetElementsByTagName(VIEW_TAG);
+	
+		foreach (XmlNode viewInfo in views)
+		{
+			Dictionary<string, string> obj = new Dictionary<string,string>();
+			string action = viewInfo.Attributes[ACTION].Value;
+
+			string name = viewInfo.Attributes[VIEW_NAME].Value;
+			obj.Add(VIEW_NAME, name);
+			string scene = viewInfo.Attributes[SCENE_NAME].Value;
+			obj.Add(SCENE_NAME, scene);
+
+			m_Views.Add(action, obj);
+		}
 	}
 }

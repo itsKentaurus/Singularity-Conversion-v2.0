@@ -35,6 +35,7 @@ public class Launcher : MonoBehaviour {
 
 	private void InitFlowManager()
 	{
+		FlowManager.Instance.Initialize();
 		FlowManager.Instance.TriggerAction(FIRST_SCENE);
 	}
 
