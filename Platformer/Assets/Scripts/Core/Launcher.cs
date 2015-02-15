@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class AppLauncher : MonoBehaviour {
+public class Launcher : MonoBehaviour {
 	
 	private const string MAIN_CAMERA = "Prefabs/Init/Main Camera";
 	private const string UI_CAMERA = "Prefabs/Init/UI Camera";
@@ -17,7 +17,6 @@ public class AppLauncher : MonoBehaviour {
 	{
 		InitMainCamera();
 		InitUICamera();
-		InitPauseController();
 		InitFlowManager();
 
 		InitFirstScene();
@@ -34,14 +33,9 @@ public class AppLauncher : MonoBehaviour {
 		Instantiate(Resources.Load(UI_CAMERA));
 	}
 
-	private void InitPauseController()
-	{
-		Instantiate(Resources.Load(PAUSE_CONTROLLER));
-	}
-
 	private void InitFlowManager()
 	{
-		Instantiate(Resources.Load(FLOW_MANAGER));
+		FlowManager.Instance.TriggerAction(FIRST_SCENE);
 	}
 
 	private void InitFirstScene()

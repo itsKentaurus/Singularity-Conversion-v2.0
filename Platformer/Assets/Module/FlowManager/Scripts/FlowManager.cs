@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class FlowManager : MonoBehaviour {
+	private const string OBJECT_NAME = "FlowMananger";
 	//Here is a private reference only this class can access
 	private static FlowManager m_Instance;
 
@@ -19,9 +20,11 @@ public class FlowManager : MonoBehaviour {
 		{
 			//If _instance hasn't been set yet, we grab it from the scene!
 			//This will only happen the first time this reference is used.
-			if(m_Instance == null)
+			if (m_Instance == null)
 			{
-				m_Instance = GameObject.FindObjectOfType<FlowManager>();
+				GameObject obj = new GameObject(OBJECT_NAME);
+				obj.AddComponent<FlowManager>();
+				m_Instance = obj.GetComponent<FlowManager>();
 			}
 			return m_Instance;
 		}

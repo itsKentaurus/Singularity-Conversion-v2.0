@@ -20,12 +20,11 @@ public class CharacterBase : Subject {
 	public float m_JumpHeight = 1000f;
 
 	// protected
-	[SerializeField]
-	protected float m_Skin = .005f;
-	[SerializeField]
-	protected bool m_AffectedByExternals = true;
-	[SerializeField]
-	protected bool m_AffectedByGravity = true;
+	[SerializeField] protected float m_Skin = .005f;
+	[SerializeField] protected bool m_AffectedByExternals = true;
+	[SerializeField] protected bool m_AffectedByGravity = true;
+	[SerializeField] protected bool m_IsHitableByProjectile = true;
+
 	protected bool m_IsGrounded = true;
 	protected bool m_IsOnWall = false;
 	protected Vector3 m_FinalTransform = Vector3.zero;
@@ -40,6 +39,11 @@ public class CharacterBase : Subject {
 	public Vector3 ForcedMovement
 	{
 		set	{	m_ExternalModifiers = value;	}
+	}
+
+	public bool HitByProjectile
+	{
+		get { return m_IsHitableByProjectile;	}
 	}
 	#region Unity API
 	protected virtual void Awake() 
@@ -60,6 +64,10 @@ public class CharacterBase : Subject {
 	#endregion
 
 	#region Public Methods
+	public virtual void Hit(Projectile proj)
+	{
+		// TODO Rigil: Do stuff with projectile
+	}
 	#endregion
 
 	#region Protected Methods

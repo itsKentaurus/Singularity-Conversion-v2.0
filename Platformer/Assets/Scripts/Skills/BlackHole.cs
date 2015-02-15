@@ -15,6 +15,7 @@ public class BlackHole : Projectile {
 	private const float TO_SCALE_UP = 1f - STARTING_SCALE;
 	private const float GRAVITY_RADIUS = 150f;
 	private const float DISTANCE = 500f;
+	private const float PULL_SPEED = 50f;
 
 	// enum
 
@@ -31,6 +32,10 @@ public class BlackHole : Projectile {
 
 	// properties
 	#region Unity API
+	protected override void OnTriggerEnter (Collider c)
+	{
+		// Don't call base
+	}
 	protected override void Update()
 	{
 		if (m_TravelTimer != null)
@@ -102,7 +107,7 @@ public class BlackHole : Projectile {
 				if (obj != null && !m_ObjectsInPull.Contains(obj))
 				{
 					m_ObjectsInPull.Add(obj);
-					obj.ForcedMovement = -(hit.transform.position - transform.position).normalized * 0.25f;
+					obj.ForcedMovement = -(hit.transform.position - transform.position).normalized * PULL_SPEED;
 					Debug.Log("Number of objects in range: " + m_ObjectsInPull.Count);
 				}
 			}

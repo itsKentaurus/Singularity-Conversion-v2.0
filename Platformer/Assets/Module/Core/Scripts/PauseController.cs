@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class PauseController : MonoBehaviour {
 	
 	// const
-
+	private const string OBJECT_NAME = "PauseController";
 	// enum
 
 	// public
@@ -16,7 +16,7 @@ public class PauseController : MonoBehaviour {
 	// protected
 
 	// private
-	private static PauseController m_Instance;
+	private static PauseController m_Instance = null;
 	private bool m_IsPause = false;
 
 	//properties
@@ -24,11 +24,11 @@ public class PauseController : MonoBehaviour {
 	{
 		get
 		{
-			//If _instance hasn't been set yet, we grab it from the scene!
-			//This will only happen the first time this reference is used.
-			if(m_Instance == null)
+			if (m_Instance == null)
 			{
-				m_Instance = GameObject.FindObjectOfType<PauseController>();
+				GameObject obj = new GameObject(OBJECT_NAME);
+				obj.AddComponent<PauseController>();
+				m_Instance = obj.GetComponent<PauseController>();
 			}
 			return m_Instance;
 		}
@@ -57,6 +57,10 @@ public class PauseController : MonoBehaviour {
 	#endregion
 
 	#region Public Methods
+	public void Initialize()
+	{
+		// Don't need code here just make sure we can call this in came
+	}
 	#endregion
 
 	#region Protected Methods

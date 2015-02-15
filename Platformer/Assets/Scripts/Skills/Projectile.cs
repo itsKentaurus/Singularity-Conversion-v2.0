@@ -22,10 +22,8 @@ public class Projectile : Subject {
 	public ePorjectileType m_Type;
 
 	// protected
-	[SerializeField]
-	protected float m_Damage = 0;
-	[SerializeField]
-	protected float m_Speed = 500;
+	[SerializeField] protected float m_Damage = 0;
+	[SerializeField] protected float m_Speed = 500;
 	protected Vector3 m_TargetPosition = Vector3.zero;
 	protected Vector3 m_InitialPosition = Vector3.zero;
 	protected Vector3 m_PathVector = Vector3.zero;
@@ -40,13 +38,21 @@ public class Projectile : Subject {
 			m_TargetPosition = value;
 		}
 	}
+
 	#region Unity API
+
+	/// <summary>
+	/// The projectile needs to have rigidbody to be used
+	/// </summary>
+	/// <param name="c">C.</param>
 	protected virtual void OnTriggerEnter(Collider c)
 	{
-		if (c.gameObject.GetComponent<PlayerController>() != null)
+		CharacterBase character = c.gameObject.GetComponent<CharacterBase>();
+		if (character != null && character.HitByProjectile)
 		{
-			SelfDestruct();
+			character.Hit(this);
 		}
+		SelfDestruct();
 	}
 	protected virtual void Update()
 	{
