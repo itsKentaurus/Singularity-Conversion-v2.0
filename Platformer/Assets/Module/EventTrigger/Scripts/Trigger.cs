@@ -10,14 +10,25 @@ public class Trigger : EventTrigger {
 	// const
 
 	// enum
+	private enum eTriggerBy
+	{
+		ALL,
+		PLAYER,
+		ENEMY
+	}
 
+	public enum eTriggerType
+	{
+		ONE_TIME,
+		ON_OFF
+	}
 	// public
 
 	// protected
 	[SerializeField]
-	protected EventTriggerEnum.eTriggerType m_Type = EventTriggerEnum.eTriggerType.ONE_TIME;
+	protected eTriggerType m_Type = EventTriggerEnum.eTriggerType.ONE_TIME;
 	[SerializeField]
-	protected EventTriggerEnum.eTriggerBy m_Users = EventTriggerEnum.eTriggerBy.ALL;
+	protected eTriggerBy m_Users = EventTriggerEnum.eTriggerBy.ALL;
 
 	// private
 	private bool m_Used = false;
@@ -30,9 +41,9 @@ public class Trigger : EventTrigger {
 	{
 		switch(m_Users)
 		{
-		case EventTriggerEnum.eTriggerBy.ENEMY:
+		case eTriggerBy.ENEMY:
 			return (character is Enemy);
-		case EventTriggerEnum.eTriggerBy.PLAYER:
+		case eTriggerBy.PLAYER:
 			return (character is PlayerController);
 		default:
 			return true;
