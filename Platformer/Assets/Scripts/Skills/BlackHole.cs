@@ -108,7 +108,6 @@ public class BlackHole : Projectile {
 				{
 					m_ObjectsInPull.Add(obj);
 					obj.ForcedMovement = -(hit.transform.position - transform.position).normalized * PULL_SPEED;
-					Debug.Log("Number of objects in range: " + m_ObjectsInPull.Count);
 				}
 			}
 		}

@@ -44,7 +44,7 @@ public class Trigger : EventTrigger {
 		case eTriggerBy.ENEMY:
 			return (character is Enemy);
 		case eTriggerBy.PLAYER:
-			return (character is PlayerController);
+			return (character is Player);
 		default:
 			return true;
 		}

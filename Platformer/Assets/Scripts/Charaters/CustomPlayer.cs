@@ -1,11 +1,11 @@
-﻿// File: CustomPlayerController
+﻿// File: CustomPlayer
 // Created by: Rigil Malubay
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CustomPlayerController : PlayerController {
+public class CustomPlayer : Player {
 	
 	// const
 	public const string LEFT_CLICK = "LeftClick";

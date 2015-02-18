@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<StageCollection>
-	<Stages>
-		<Stage name="0"><Player x="-1.201" y="1.105" /><Blocks><Block x="0" y="-129" rotz="0" type="0" /></Blocks></Stage>
-	</Stages>
-</StageCollection>

@@ -75,7 +75,7 @@ public class StaticDefender : Enemy {
 		foreach (Collider c in m_Colliders)
 		{
 			GameObject obj = c.gameObject;
-			if (obj.GetComponent<PlayerController>() != null)
+			if (obj.GetComponent<Player>() != null)
 			{
 				m_TargetPosition = obj.transform.position;
 				Ray ray = new Ray(transform.position, m_TargetPosition);

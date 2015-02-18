@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\Platformer\Assets\Module\Platformer\Player\PlayerController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\XML\Levels.xml">
     <Files>
-      <File FileName="..\Platformer\Assets\Resources\XML\Stages.xml" Line="6" Column="19" />
-      <File FileName="..\Platformer\Assets\Module\Platformer\Player\PlayerController.cs" Line="57" Column="3" />
+      <File FileName="Assets\Scripts\TextToXml.cs" Line="58" Column="15" />
+      <File FileName="Assets\Resources\XML\Levels.xml" Line="168" Column="10" />
+      <File FileName="Assets\Resources\XML\level.txt" Line="22" Column="91" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

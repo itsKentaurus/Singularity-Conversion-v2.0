@@ -52,7 +52,7 @@ public class Missle : Projectile {
 		foreach (Collider c in m_Colliders)
 		{
 			GameObject obj = c.gameObject;
-			if (obj.GetComponent<PlayerController>() != null && IsInFieldOfVision())
+			if (obj.GetComponent<Player>() != null && IsInFieldOfVision())
 			{
 				Ray ray = new Ray(transform.position, obj.transform.position);
 				if (Physics.Raycast(ray, m_Targets))
