@@ -75,6 +75,7 @@ public class LevelController : MonoBehaviour {
 	private int m_CurrentLevel = 0;
 	private float m_OffSetX = 0;
 	private float m_OffSetY = 0;
+//	private List<GameObject> m_
 
 	#region Unity API
 	protected virtual void Awake()
