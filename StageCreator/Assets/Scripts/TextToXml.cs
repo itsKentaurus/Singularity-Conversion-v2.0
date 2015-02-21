@@ -25,13 +25,13 @@ public class TextToXml : MonoBehaviour {
 
 		string[] lines = fileContents.Split("\n"[0]);
 		int yIndex = 0;
-		int xIndex = 0;
-		XmlAttribute width = xmlDoc.CreateAttribute("Width");
-		XmlAttribute height = xmlDoc.CreateAttribute("Height");
+		int xIndex = -1;
+		XmlAttribute width = xmlDoc.CreateAttribute("OffSetX");
+		XmlAttribute height = xmlDoc.CreateAttribute("OffSetY");
 
 		char[] character = lines[0].ToCharArray();
-		width.Value = character.Length.ToString();
-		height.Value = lines.Length.ToString();
+		width.Value = ((character.Length - 1)/2).ToString();
+		height.Value = (lines.Length / 2).ToString();
 
 		level.Attributes.Append(width);
 		level.Attributes.Append(height);
@@ -45,11 +45,6 @@ public class TextToXml : MonoBehaviour {
 			char letter;
 			while(count < maxCount)
 			{
-				XmlNode block = xmlDoc.CreateElement("Block");
-				XmlAttribute y = xmlDoc.CreateAttribute("Y");
-				XmlAttribute x = xmlDoc.CreateAttribute("X");
-				XmlAttribute key = xmlDoc.CreateAttribute("Key");
-				XmlAttribute keyCount = xmlDoc.CreateAttribute("Unit");
 				xIndex = count;
 				do
 				{
@@ -57,25 +52,33 @@ public class TextToXml : MonoBehaviour {
 					letterCount++;
 				} while(count < maxCount && letter == chars[count]);
 
-				key.Value = letter.ToString();
-				keyCount.Value = letterCount.ToString();
-				y.Value = yIndex.ToString();
-				x.Value = xIndex.ToString();
+				if (letter != '.')
+				{
+					XmlNode block = xmlDoc.CreateElement("Block" + letter);
+					XmlAttribute y = xmlDoc.CreateAttribute("Y");
+					XmlAttribute x = xmlDoc.CreateAttribute("X");
+					XmlAttribute keyCount = xmlDoc.CreateAttribute("Unit");
 
-				block.Attributes.Append(key);
-				block.Attributes.Append(keyCount);
-				block.Attributes.Append(y);
-				block.Attributes.Append(x);
+					y.Value = (yIndex).ToString();
+					x.Value = ((xIndex > 0 ? xIndex : 0 ) + (count - xIndex) / 2).ToString();
+					keyCount.Value = letterCount.ToString();
+					
+					block.Attributes.Append(y);
+					block.Attributes.Append(x);
+					block.Attributes.Append(keyCount);					
+
+					level.AppendChild(block);
+				}
 
 				letterCount = 0;
 				letter = ' ';
-				level.AppendChild(block);
 			}
 			yIndex++;
 		}
 		rootNode.AppendChild(level);
 
 		xmlDoc.Save(Application.dataPath + "/Resources/XML/Levels.xml");
+		Debug.Log("SAVED");
 	}
 }
 
