@@ -55,7 +55,7 @@ public class CharacterBase : Subject {
 		}
 
 		MeshRenderer mesh = GetComponent<MeshRenderer>();
-		if (c.GetComponent<CameraDetection>() != null && mesh != null)
+		if (c.GetComponent<PlatformerCamera>() != null && mesh != null)
 		{
 			mesh.enabled = true;
 		}
@@ -64,7 +64,7 @@ public class CharacterBase : Subject {
 	protected virtual void OnTriggerExit(Collider c)
 	{
 		MeshRenderer mesh = GetComponent<MeshRenderer>();
-		if (c.GetComponent<CameraDetection>() != null && mesh != null)
+		if (c.GetComponent<PlatformerCamera>() != null && mesh != null)
 		{
 			mesh.GetComponent<MeshRenderer>().enabled = false;
 		}

@@ -24,8 +24,8 @@ public class TextToXml : MonoBehaviour {
 		XmlNode level = xmlDoc.CreateElement("Level");
 
 		string[] lines = fileContents.Split("\n"[0]);
-		int yIndex = 0;
-		int xIndex = 0;
+		float yIndex = 0;
+		float xIndex = 0;
 		XmlAttribute width = xmlDoc.CreateAttribute("OffSetX");
 		XmlAttribute height = xmlDoc.CreateAttribute("OffSetY");
 
@@ -60,7 +60,7 @@ public class TextToXml : MonoBehaviour {
 					XmlAttribute keyCount = xmlDoc.CreateAttribute("Unit");
 
 					y.Value = (yIndex).ToString();
-					x.Value = ((xIndex > 0 ? xIndex : 0 ) + (count - (xIndex > 0 ? xIndex : 0 )) / 2).ToString();
+					x.Value = (xIndex + (count - xIndex) / 2f).ToString();
 					keyCount.Value = letterCount.ToString();
 					
 					block.Attributes.Append(y);

@@ -21,12 +21,11 @@ public class LevelController : MonoBehaviour {
 	private string GENERAL_ATTRIBUTE_Y = "Y";
 
 	// enum
-	public enum eSpawnDirection
+	[System.Serializable]
+	public struct Player
 	{
-		BOTTOM,
-		LEFT,
-		RIGHT,
-		TOP
+		public string m_Key;
+		public GameObject m_Prefab;
 	}
 
 	[System.Serializable]
@@ -43,19 +42,26 @@ public class LevelController : MonoBehaviour {
 		public string m_Name;
 		public string m_Key;
 		public GameObject m_Prefab;
-		public eSpawnDirection eDirection;
 	}
 	
 	[System.Serializable]
-	public struct EventTrigger
+	public struct Trigger
 	{
 		public string m_Name;
 		public string m_EventId;
 		public string m_TriggerKey;
-		public string m_EventKey;
-		public GameObject m_TriggerPrefab;
 		public GameObject m_EventPrefab;
 	}
+
+	[System.Serializable]
+	public struct Event
+	{
+		public string m_Name;
+		public string m_EventId;
+		public string m_EventKey;
+		public GameObject m_EventPrefab;
+	}
+	
 
 	// public
 
@@ -67,7 +73,11 @@ public class LevelController : MonoBehaviour {
 	[SerializeField]
 	protected Enemy[] m_Enemies;
 	[SerializeField]
-	protected EventTrigger[] m_EventTriggers;
+	protected Trigger[] m_Triggers;
+	[SerializeField]
+	protected Event[] m_Events;
+	[SerializeField]
+	protected Player m_Player;
 
 	// private
 	private XmlDocument xmlDoc = new XmlDocument();
@@ -114,6 +124,8 @@ public class LevelController : MonoBehaviour {
 		LoadEnemies();
 
 		LoadEventTriggers();
+
+		LoadPlayer();
 	}
 
 	public void ClearLevel()
@@ -179,6 +191,21 @@ public class LevelController : MonoBehaviour {
 	private void LoadEventTriggers()
 	{
 
+	}
+
+	private void LoadPlayer()
+	{
+		XmlNodeList player = m_Levels[m_CurrentLevel].SelectNodes(BLOCK_TAG + m_Player.m_Key);
+		if (player.Count == 1)
+		{
+			float x = float.Parse(player[0].Attributes[GENERAL_ATTRIBUTE_X].Value);
+			float y = float.Parse(player[0].Attributes[GENERAL_ATTRIBUTE_Y].Value);
+
+			float yPosition = m_OffSetY - y;
+			float xPosition = x - m_OffSetX;
+
+			PositionObject((GameObject)Instantiate(m_Player.m_Prefab), "Player", Vector3.one, new Vector3(xPosition, yPosition, 0));
+		}
 	}
 
 	private void PositionObject(GameObject obj, string name, Vector3 scale, Vector3 position)
