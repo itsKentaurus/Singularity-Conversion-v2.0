@@ -61,13 +61,13 @@ public class LevelController : MonoBehaviour {
 
 	// protected
 	[SerializeField]
+	protected float m_BlockSize = 100f;
+	[SerializeField]
 	protected Block[] m_Blocks;
 	[SerializeField]
 	protected Enemy[] m_Enemies;
 	[SerializeField]
 	protected EventTrigger[] m_EventTriggers;
-	[SerializeField]
-	protected float m_BlockSize = 50f;
 
 	// private
 	private XmlDocument xmlDoc = new XmlDocument();
@@ -75,18 +75,25 @@ public class LevelController : MonoBehaviour {
 	private int m_CurrentLevel = 0;
 	private float m_OffSetX = 0;
 	private float m_OffSetY = 0;
-//	private List<GameObject> m_
+	private List<GameObject> m_Objects = new List<GameObject>();
 
 	#region Unity API
-	protected virtual void Awake()
+	protected void Awake()
 	{		 
 		TextAsset temp = (TextAsset)Resources.Load(LEVEL_XML_PATH);
 		xmlDoc.LoadXml(temp.text);
 
-		Initialize();
-		LoadLevel(0);
-		LoadBlocks();
 	}
+
+	protected void OnDestroy()
+	{
+		foreach(GameObject obj in m_Objects)
+		{
+			Destroy(obj);
+		}
+	}
+
+	// properties
 	#endregion
 
 	#region Public Methods
@@ -95,12 +102,26 @@ public class LevelController : MonoBehaviour {
 		if (m_Levels == null)
 		{
 			m_Levels = xmlDoc.GetElementsByTagName(LEVEL_TAG);
-			Debug.Log("Level loaded");
 		}
 	}
+
 	public void LoadLevel(int index)
 	{
 		m_CurrentLevel = index;
+
+		LoadBlocks();
+
+		LoadEnemies();
+
+		LoadEventTriggers();
+	}
+
+	public void ClearLevel()
+	{
+		foreach(GameObject obj in m_Objects)
+		{
+			Destroy(obj);
+		}
 	}
 	#endregion
 
@@ -110,6 +131,25 @@ public class LevelController : MonoBehaviour {
 	#region Private Methods
 	private void LoadEnemies()
 	{
+		foreach (Enemy e in m_Enemies)
+		{
+			XmlNodeList enemies = m_Levels[m_CurrentLevel].SelectNodes(BLOCK_TAG + e.m_Key);
+			m_OffSetY = float.Parse(m_Levels[m_CurrentLevel].Attributes[LEVEL_OFFSET_Y].Value);
+			m_OffSetX = float.Parse(m_Levels[m_CurrentLevel].Attributes[LEVEL_OFFSET_X].Value);
+			
+			foreach (XmlNode enemy in enemies)
+			{
+				float x = float.Parse(enemy.Attributes[GENERAL_ATTRIBUTE_X].Value);
+				float y = float.Parse(enemy.Attributes[GENERAL_ATTRIBUTE_Y].Value);
+
+				float yPosition = m_OffSetY - y;
+				float xPosition = x - m_OffSetX;
+				
+				GameObject obj = (GameObject)Instantiate(e.m_Prefab);
+				
+				PositionObject(obj, e.m_Name, Vector3.one, new Vector3(xPosition, yPosition, 0));
+			}
+		}
 	}
 	
 	private void LoadBlocks()
@@ -134,12 +174,11 @@ public class LevelController : MonoBehaviour {
 				PositionObject(obj, b.m_Name, new Vector3(unit, 1f, 1f), new Vector3(xPosition, yPosition, 0));
 			}
 		}
-
 	}
 	
 	private void LoadEventTriggers()
 	{
-		
+
 	}
 
 	private void PositionObject(GameObject obj, string name, Vector3 scale, Vector3 position)
@@ -148,6 +187,8 @@ public class LevelController : MonoBehaviour {
 		obj.transform.localScale = scale * m_BlockSize;
 		obj.transform.position = position * m_BlockSize;
 		obj.transform.parent = this.transform;
+
+		m_Objects.Add(obj);
 	}
 	#endregion
 }

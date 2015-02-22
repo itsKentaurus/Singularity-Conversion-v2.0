@@ -53,7 +53,23 @@ public class CharacterBase : Subject {
 		{
 			trigger.ActivateTrigger();
 		}
+
+		MeshRenderer mesh = GetComponent<MeshRenderer>();
+		if (c.GetComponent<CameraDetection>() != null && mesh != null)
+		{
+			mesh.enabled = true;
+		}
 	}
+
+	protected virtual void OnTriggerExit(Collider c)
+	{
+		MeshRenderer mesh = GetComponent<MeshRenderer>();
+		if (c.GetComponent<CameraDetection>() != null && mesh != null)
+		{
+			mesh.GetComponent<MeshRenderer>().enabled = false;
+		}
+	}
+
 	protected virtual void Awake() 
 	{
 		m_InitialScale = transform.localScale;
@@ -61,7 +77,7 @@ public class CharacterBase : Subject {
 
 	protected virtual void Update()
 	{
-		if (!PauseController.IsInstanceNull)
+		if (PauseController.Instance.IsPaused)
 		{
 			return;
 		}

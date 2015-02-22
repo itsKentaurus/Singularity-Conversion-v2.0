@@ -1,10 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\XML\Levels.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\XML\level.txt">
     <Files>
-      <File FileName="Assets\Scripts\TextToXml.cs" Line="70" Column="31" />
-      <File FileName="Assets\Resources\XML\level.txt" Line="1" Column="1" />
-      <File FileName="Assets\Resources\XML\Levels.xml" Line="97" Column="10" />
+      <File FileName="Assets\Scripts\TextToXml.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\XML\level.txt" Line="12" Column="7" />
+      <File FileName="Assets\Resources\XML\Levels.xml" Line="86" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

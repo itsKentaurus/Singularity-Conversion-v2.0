@@ -60,12 +60,12 @@ public class TextToXml : MonoBehaviour {
 					XmlAttribute keyCount = xmlDoc.CreateAttribute("Unit");
 
 					y.Value = (yIndex).ToString();
-					x.Value = ((xIndex > 0 ? xIndex : 0 ) + (count - (xIndex > 0 ? xIndex : 0 )) / 2).ToString();
+					x.Value = ((xIndex > 0 ? xIndex : 0 ) + (count - xIndex) / 2).ToString();
 					keyCount.Value = letterCount.ToString();
 					
 					block.Attributes.Append(y);
 					block.Attributes.Append(x);
-					block.Attributes.Append(keyCount);
+					block.Attributes.Append(keyCount);					
 
 					level.AppendChild(block);
 				}

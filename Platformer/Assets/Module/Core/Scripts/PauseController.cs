@@ -9,6 +9,7 @@ public class PauseController : MonoBehaviour {
 	
 	// const
 	private const string OBJECT_NAME = "PauseController";
+
 	// enum
 
 	// public
@@ -36,10 +37,6 @@ public class PauseController : MonoBehaviour {
 
 	public bool IsPaused
 	{
-		set
-		{
-			m_IsPause = value;
-		}
 		get
 		{
 			return m_IsPause;
@@ -60,6 +57,16 @@ public class PauseController : MonoBehaviour {
 	public void Initialize()
 	{
 		// Don't need code here just make sure we can call this in came
+	}
+
+	public void Pause()
+	{
+		m_IsPause = true;
+	}
+
+	public void Resume()
+	{
+		m_IsPause = false;
 	}
 	#endregion
 

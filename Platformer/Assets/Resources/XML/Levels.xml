@@ -1,98 +1,100 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <Levels>
-  <Level OffSetX="50" OffSetY="11">
-    <Blockb Y="0" X="50" Unit="100" />
-    <Blockb Y="1" X="50" Unit="100" />
+  <Level OffSetX="49" OffSetY="11">
+    <Blockb Y="0" X="49" Unit="99" />
+    <Blockb Y="1" X="49" Unit="99" />
     <Blockb Y="2" X="5" Unit="11" />
-    <Blockb Y="2" X="19" Unit="6" />
-    <Blockb Y="2" X="69" Unit="62" />
+    <Blockb Y="2" X="18" Unit="5" />
+    <Blockw Y="2" X="21" Unit="1" />
+    <Blockb Y="2" X="68" Unit="61" />
     <Blockb Y="3" X="6" Unit="12" />
     <Blockb Y="3" X="19" Unit="4" />
-    <Blockb Y="3" X="69" Unit="62" />
+    <Blockb Y="3" X="68" Unit="61" />
     <Blockb Y="4" X="0" Unit="1" />
     <Blockb Y="4" X="12" Unit="3" />
     <Blockb Y="4" X="25" Unit="1" />
     <Blockb Y="4" X="33" Unit="1" />
-    <Blockb Y="4" X="77" Unit="45" />
+    <Blockb Y="4" X="77" Unit="44" />
     <Blockb Y="5" X="0" Unit="1" />
     <Blockb Y="5" X="12" Unit="4" />
     <Blockb Y="5" X="25" Unit="3" />
     <Blockb Y="5" X="33" Unit="3" />
-    <Blockb Y="5" X="78" Unit="43" />
+    <Blockb Y="5" X="78" Unit="42" />
     <Blockb Y="6" X="0" Unit="1" />
     <Blockb Y="6" X="11" Unit="5" />
     <Blockb Y="6" X="17" Unit="1" />
     <Blockb Y="6" X="29" Unit="13" />
-    <Blockb Y="6" X="51" Unit="1" />
+    <Blockq Y="6" X="51" Unit="1" />
     <Blockb Y="6" X="63" Unit="10" />
-    <Blockb Y="6" X="97" Unit="5" />
+    <Blockb Y="6" X="97" Unit="4" />
     <Blockb Y="7" X="22" Unit="44" />
     <Blockb Y="7" X="49" Unit="7" />
     <Blockb Y="7" X="62" Unit="7" />
-    <Blockb Y="7" X="98" Unit="3" />
+    <Blockb Y="7" X="98" Unit="2" />
     <Blockb Y="8" X="22" Unit="44" />
     <Blockb Y="8" X="50" Unit="5" />
     <Blockb Y="8" X="62" Unit="6" />
     <Blockb Y="8" X="83" Unit="2" />
-    <Blockb Y="8" X="99" Unit="2" />
+    <Blockb Y="8" X="98" Unit="1" />
     <Blockb Y="9" X="23" Unit="46" />
     <Blockb Y="9" X="50" Unit="5" />
     <Blockb Y="9" X="62" Unit="6" />
     <Blockb Y="9" X="79" Unit="2" />
-    <Blockb Y="9" X="99" Unit="2" />
+    <Blockb Y="9" X="98" Unit="1" />
     <Blockb Y="10" X="0" Unit="1" />
     <Blockb Y="10" X="51" Unit="7" />
     <Blockb Y="10" X="62" Unit="5" />
     <Blockb Y="10" X="75" Unit="2" />
     <Blockb Y="10" X="87" Unit="1" />
-    <Blockb Y="10" X="99" Unit="2" />
-    <Blockb Y="11" X="1" Unit="2" />
+    <Blockb Y="10" X="98" Unit="1" />
+    <Blockb Y="11" X="0" Unit="1" />
+    <Blockw Y="11" X="1" Unit="1" />
     <Blockb Y="11" X="50" Unit="9" />
     <Blockb Y="11" X="62" Unit="4" />
     <Blockb Y="11" X="71" Unit="2" />
-    <Blockb Y="11" X="99" Unit="2" />
+    <Blockb Y="11" X="98" Unit="1" />
     <Blockb Y="12" X="0" Unit="1" />
-    <Blockb Y="12" X="5" Unit="1" />
+    <Blockq Y="12" X="5" Unit="1" />
     <Blockb Y="12" X="51" Unit="7" />
     <Blockb Y="12" X="62" Unit="4" />
     <Blockb Y="12" X="71" Unit="2" />
     <Blockb Y="12" X="85" Unit="1" />
-    <Blockb Y="12" X="99" Unit="2" />
+    <Blockb Y="12" X="98" Unit="1" />
     <Blockb Y="13" X="11" Unit="22" />
     <Blockb Y="13" X="41" Unit="28" />
     <Blockb Y="13" X="62" Unit="2" />
     <Blockb Y="13" X="71" Unit="4" />
-    <Blockb Y="13" X="99" Unit="2" />
+    <Blockb Y="13" X="98" Unit="1" />
     <Blockb Y="14" X="11" Unit="23" />
     <Blockb Y="14" X="43" Unit="28" />
     <Blockb Y="14" X="62" Unit="2" />
     <Blockb Y="14" X="71" Unit="4" />
-    <Blockb Y="14" X="99" Unit="2" />
+    <Blockb Y="14" X="98" Unit="1" />
     <Blockb Y="15" X="12" Unit="25" />
     <Blockb Y="15" X="43" Unit="28" />
     <Blockb Y="15" X="71" Unit="6" />
-    <Blockb Y="15" X="99" Unit="2" />
+    <Blockb Y="15" X="98" Unit="1" />
     <Blockb Y="16" X="0" Unit="1" />
     <Blockb Y="16" X="29" Unit="2" />
     <Blockb Y="16" X="52" Unit="9" />
     <Blockb Y="16" X="71" Unit="6" />
-    <Blockb Y="16" X="95" Unit="10" />
+    <Blockb Y="16" X="94" Unit="9" />
     <Blockb Y="17" X="0" Unit="1" />
     <BlockP Y="17" X="5" Unit="1" />
     <Blockb Y="17" X="28" Unit="3" />
     <Blockb Y="17" X="52" Unit="9" />
     <Blockb Y="17" X="71" Unit="8" />
-    <Blockb Y="17" X="94" Unit="11" />
+    <Blocke Y="17" X="89" Unit="1" />
+    <Blockb Y="17" X="94" Unit="9" />
     <Blockb Y="18" X="0" Unit="1" />
     <Blockb Y="18" X="28" Unit="7" />
-    <Blockb Y="18" X="39" Unit="1" />
+    <Blockq Y="18" X="39" Unit="1" />
     <Blockb Y="18" X="52" Unit="9" />
-    <Blockb Y="18" X="63" Unit="1" />
+    <Blockq Y="18" X="63" Unit="1" />
     <Blockb Y="18" X="71" Unit="8" />
-    <Blockb Y="18" X="82" Unit="1" />
-    <Blockb Y="18" X="95" Unit="10" />
-    <Blockb Y="19" X="50" Unit="100" />
-    <Blockb Y="20" X="50" Unit="100" />
+    <Blockq Y="18" X="82" Unit="1" />
+    <Blockb Y="18" X="94" Unit="9" />
+    <Blockb Y="19" X="49" Unit="99" />
+    <Blockb Y="20" X="49" Unit="99" />
     <Blockb Y="21" X="49" Unit="99" />
   </Level>
 </Levels>
