@@ -22,16 +22,20 @@ public class GameController : Subject {
 	// private
 	[SerializeField]
 	private LevelController m_LevelController;
+	[SerializeField]
+	private PlatformerCamera m_PlatformerCamera;
 
 	// properties
 	#region Unity API
 	protected virtual void Awake()
 	{
-		PauseController.Instance.Pause();
-		EventTriggerController.Instance.Initialize();
+		PauseManager.Instance.Pause();
+		EventTriggerManager.Instance.Initialize();
 		m_LevelController.Initialize();
 		m_LevelController.LoadLevel(0);
-		PauseController.Instance.Resume();
+		PlatformerCamera camera = (PlatformerCamera)Instantiate(m_PlatformerCamera);
+		camera.Offset = m_LevelController.OffSet;
+		PauseManager.Instance.Resume();
 	}
 	#endregion
 

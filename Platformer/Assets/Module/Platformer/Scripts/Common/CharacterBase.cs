@@ -1,4 +1,4 @@
-﻿// File: CharacterBase
+// File: CharacterBase
 // Created by: Rigil Malubay
 
 using UnityEngine;
@@ -77,7 +77,7 @@ public class CharacterBase : Subject {
 
 	protected virtual void Update()
 	{
-		if (PauseController.Instance.IsPaused)
+		if (PauseManager.Instance.IsPaused)
 		{
 			return;
 		}

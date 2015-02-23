@@ -1,4 +1,4 @@
-﻿// File: Trigger
+// File: Trigger
 // Created by: Rigil Malubay
 
 using UnityEngine;
@@ -54,7 +54,7 @@ public class Trigger : EventTrigger {
 		if (TriggerSwitch() || OneTimeUse())
 		{
 			m_Used = true;
-			EventTriggerController.Instance.TriggerEvent(this);
+			EventTriggerManager.Instance.TriggerEvent(this);
 		}
 	}
 	#endregion

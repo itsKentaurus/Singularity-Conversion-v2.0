@@ -1,11 +1,11 @@
-﻿// File: EventTriggerController
+// File: EventTriggerController
 // Created by: Rigil Malubay
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EventTriggerController : MonoBehaviour {
+public class EventTriggerManager : MonoBehaviour {
 	
 	// const
 	private const string OBJECT_NAME = "EventTriggerController";
@@ -17,19 +17,19 @@ public class EventTriggerController : MonoBehaviour {
 	// protected
 
 	// private
-	private static EventTriggerController m_Instance;
+	private static EventTriggerManager m_Instance;
 	private Dictionary<string, Event> m_EventList = new Dictionary<string, Event>();
 
 	// properties
-	public static EventTriggerController Instance
+	public static EventTriggerManager Instance
 	{
 		get
 		{
 			if (m_Instance == null)
 			{
 				GameObject obj = new GameObject(OBJECT_NAME);
-				obj.AddComponent<EventTriggerController>();
-				m_Instance = obj.GetComponent<EventTriggerController>();
+				obj.AddComponent<EventTriggerManager>();
+				m_Instance = obj.GetComponent<EventTriggerManager>();
 			}
 			return m_Instance;
 		}

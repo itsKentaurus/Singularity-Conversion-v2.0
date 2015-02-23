@@ -16,9 +16,20 @@ public class PlatformerCamera : MonoBehaviour {
 	// protected
 
 	// private
+	private Vector3 m_CameraOffset = Vector3.zero;
+	private Player m_Player = null;
+
+	// properties
+	public Vector3 Offset
+	{
+		set 
+		{ 
+			m_CameraOffset = value; 
+		}
+	}
 
 	#region Unity API
-	protected void OnTriggerEnter(Collider collider)
+	private void OnTriggerEnter(Collider collider)
 	{
 		MeshRenderer mesh = collider.gameObject.GetComponent<MeshRenderer>();
 		if (mesh != null)
@@ -27,12 +38,40 @@ public class PlatformerCamera : MonoBehaviour {
 		}
 	}
 
-	protected void OnTriggerExit(Collider collider)
+	private void OnTriggerExit(Collider collider)
 	{
 		MeshRenderer mesh = collider.gameObject.GetComponent<MeshRenderer>();
 		if (mesh != null)
 		{
 			mesh.enabled = false;
+		}
+	}
+
+	private void FixedUpdate()
+	{
+		if (m_Player == null)
+		{
+			m_Player = GameObject.Find("Player").GetComponent<Player>();
+		}
+		else
+		{
+			float xPosition = Mathf.Clamp(transform.position.x, -Mathf.Abs(m_CameraOffset.x), Mathf.Abs(m_CameraOffset.x));
+			float yPosition = Mathf.Clamp(transform.position.y, -Mathf.Abs(m_CameraOffset.y), Mathf.Abs(m_CameraOffset.y));
+
+			Vector3 translation = m_Player.gameObject.transform.position - new Vector3(xPosition, yPosition);
+			translation.z = 0f;
+
+			if (Mathf.Abs(xPosition) >= Mathf.Abs(m_CameraOffset.x) && Mathf.Abs(m_Player.transform.position.x) > Mathf.Abs(m_CameraOffset.x))
+			{
+				translation.x = 0f;
+			}
+
+			if (Mathf.Abs(yPosition) >= Mathf.Abs(m_CameraOffset.y) && Mathf.Abs(m_Player.transform.position.y) > Mathf.Abs(m_CameraOffset.y))
+			{
+				translation.y = 0f;
+			}
+
+			transform.Translate(translation * Time.deltaTime);
 		}
 	}
 	#endregion

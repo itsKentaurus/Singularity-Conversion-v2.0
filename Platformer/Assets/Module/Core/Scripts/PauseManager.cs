@@ -1,11 +1,11 @@
-﻿// File: PauseController
+// File: PauseController
 // Created by: Rigil Malubay
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PauseController : MonoBehaviour {
+public class PauseManager : MonoBehaviour {
 	
 	// const
 	private const string OBJECT_NAME = "PauseController";
@@ -17,19 +17,19 @@ public class PauseController : MonoBehaviour {
 	// protected
 
 	// private
-	private static PauseController m_Instance = null;
+	private static PauseManager m_Instance = null;
 	private bool m_IsPause = false;
 
 	//properties
-	public static PauseController Instance
+	public static PauseManager Instance
 	{
 		get
 		{
 			if (m_Instance == null)
 			{
 				GameObject obj = new GameObject(OBJECT_NAME);
-				obj.AddComponent<PauseController>();
-				m_Instance = obj.GetComponent<PauseController>();
+				obj.AddComponent<PauseManager>();
+				m_Instance = obj.GetComponent<PauseManager>();
 			}
 			return m_Instance;
 		}

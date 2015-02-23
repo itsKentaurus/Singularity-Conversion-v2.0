@@ -87,6 +87,11 @@ public class LevelController : MonoBehaviour {
 	private float m_OffSetY = 0;
 	private List<GameObject> m_Objects = new List<GameObject>();
 
+	// properties
+	public Vector3 OffSet
+	{
+		get { return (new Vector3(m_OffSetX, m_OffSetY) - new Vector3(8f, 4.5f)) * m_BlockSize; }
+	}
 	#region Unity API
 	protected void Awake()
 	{		 
@@ -119,6 +124,8 @@ public class LevelController : MonoBehaviour {
 	{
 		m_CurrentLevel = index;
 
+		LoadOffSet();
+
 		LoadBlocks();
 
 		LoadEnemies();
@@ -141,14 +148,18 @@ public class LevelController : MonoBehaviour {
 	#endregion
 
 	#region Private Methods
+	private void LoadOffSet()
+	{
+		m_OffSetY = float.Parse(m_Levels[m_CurrentLevel].Attributes[LEVEL_OFFSET_Y].Value);
+		m_OffSetX = float.Parse(m_Levels[m_CurrentLevel].Attributes[LEVEL_OFFSET_X].Value);
+	}
+
 	private void LoadEnemies()
 	{
 		foreach (Enemy e in m_Enemies)
 		{
 			XmlNodeList enemies = m_Levels[m_CurrentLevel].SelectNodes(BLOCK_TAG + e.m_Key);
-			m_OffSetY = float.Parse(m_Levels[m_CurrentLevel].Attributes[LEVEL_OFFSET_Y].Value);
-			m_OffSetX = float.Parse(m_Levels[m_CurrentLevel].Attributes[LEVEL_OFFSET_X].Value);
-			
+
 			foreach (XmlNode enemy in enemies)
 			{
 				float x = float.Parse(enemy.Attributes[GENERAL_ATTRIBUTE_X].Value);
@@ -169,8 +180,6 @@ public class LevelController : MonoBehaviour {
 		foreach (Block b in m_Blocks)
 		{
 			XmlNodeList blocks = m_Levels[m_CurrentLevel].SelectNodes(BLOCK_TAG + b.m_Key);
-			m_OffSetY = float.Parse(m_Levels[m_CurrentLevel].Attributes[LEVEL_OFFSET_Y].Value);
-			m_OffSetX = float.Parse(m_Levels[m_CurrentLevel].Attributes[LEVEL_OFFSET_X].Value);
 
 			foreach (XmlNode block in blocks)
 			{
