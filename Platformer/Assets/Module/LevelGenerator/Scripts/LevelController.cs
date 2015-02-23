@@ -116,15 +116,9 @@ public class LevelController : MonoBehaviour {
 	{
 		m_CurrentLevel = index;
 
-		LoadOffSet();
+		ClearLevel();
 
-		LoadBlocks();
-
-		LoadEnemies();
-
-		LoadEventTriggers();
-
-		LoadPlayer();
+		LoadObjects();
 	}
 
 	public void ClearLevel()
@@ -134,12 +128,37 @@ public class LevelController : MonoBehaviour {
 			Destroy(obj);
 		}
 	}
+
+	public void RestartLevel()
+	{
+		ClearLevel();
+
+		LoadObjects();
+	}
+
+	public void NextLevel()
+	{
+		LoadLevel(++m_CurrentLevel);
+	}
 	#endregion
 
 	#region Protected Methods
 	#endregion
 
 	#region Private Methods
+	private void LoadObjects()
+	{
+		LoadOffSet();
+		
+		LoadBlocks();
+		
+		LoadEnemies();
+		
+		LoadEventTriggers();
+		
+		LoadPlayer();
+	}
+
 	private void LoadOffSet()
 	{
 		m_OffSetY = float.Parse(m_Levels[m_CurrentLevel].Attributes[LEVEL_OFFSET_Y].Value);
