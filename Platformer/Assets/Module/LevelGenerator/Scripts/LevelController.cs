@@ -93,13 +93,6 @@ public class LevelController : MonoBehaviour {
 		get { return (new Vector3(m_OffSetX, m_OffSetY) - new Vector3(8f, 4.5f)) * m_BlockSize; }
 	}
 	#region Unity API
-	protected void Awake()
-	{		 
-		TextAsset temp = (TextAsset)Resources.Load(LEVEL_XML_PATH);
-		xmlDoc.LoadXml(temp.text);
-
-	}
-
 	protected void OnDestroy()
 	{
 		foreach(GameObject obj in m_Objects)
@@ -114,10 +107,9 @@ public class LevelController : MonoBehaviour {
 	#region Public Methods
 	public void Initialize()
 	{
-		if (m_Levels == null)
-		{
-			m_Levels = xmlDoc.GetElementsByTagName(LEVEL_TAG);
-		}
+		TextAsset temp = (TextAsset)Resources.Load(LEVEL_XML_PATH);
+		xmlDoc.LoadXml(temp.text);
+		m_Levels = xmlDoc.GetElementsByTagName(LEVEL_TAG);
 	}
 
 	public void LoadLevel(int index)
@@ -188,7 +180,7 @@ public class LevelController : MonoBehaviour {
 				float unit = float.Parse(block.Attributes[BLOCK_ATTRIBUTE_UNIT].Value);
 
 				float yPosition = m_OffSetY - y;
-				float xPosition = x - m_OffSetX;
+				float xPosition = -(m_OffSetX - x);
 
 				GameObject obj = (GameObject)Instantiate(b.m_Prefab);
 
@@ -211,7 +203,7 @@ public class LevelController : MonoBehaviour {
 			float y = float.Parse(player[0].Attributes[GENERAL_ATTRIBUTE_Y].Value);
 
 			float yPosition = m_OffSetY - y;
-			float xPosition = x - m_OffSetX;
+			float xPosition = -(m_OffSetX - x);
 
 			PositionObject((GameObject)Instantiate(m_Player.m_Prefab), "Player", Vector3.one, new Vector3(xPosition, yPosition, 0));
 		}
