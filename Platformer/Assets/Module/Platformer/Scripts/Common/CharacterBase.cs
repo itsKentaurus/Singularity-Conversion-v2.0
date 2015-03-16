@@ -123,7 +123,7 @@ public class CharacterBase : Subject {
 		Ray ray;
 		RaycastHit m_Hit;
 		Vector2 p = transform.position;
-		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaY != STOP_VELOCITY; ++i)
+		for (int i = -1; i<NUMBER_OF_RAYCASE - 1 && deltaY != STOP_VELOCITY; ++i)
 		{
 			float dir = Mathf.Sign(deltaY);
 			float x = p.x + m_InitialScale.x/2 * i; // Left, centre and then rightmost point of collider
@@ -160,10 +160,10 @@ public class CharacterBase : Subject {
 		Ray ray;
 		RaycastHit m_Hit;
 		Vector2 p = transform.position;
-		for (int i = 0; i<NUMBER_OF_RAYCASE && deltaX != STOP_VELOCITY; ++i)
+		for (int i = -1; i<NUMBER_OF_RAYCASE - 1 && deltaX != STOP_VELOCITY; ++i)
 		{
 			float dir = Mathf.Sign(deltaX);
-			float y = (p.y  - m_InitialScale.y/2) + m_InitialScale.y/2 * i;
+			float y = p.y + m_InitialScale.y/2 * i;
 			float x = p.x + m_InitialScale.x/2 * dir;
 			
 			ray = new Ray(new Vector2(x,y), new Vector2(dir, 0));

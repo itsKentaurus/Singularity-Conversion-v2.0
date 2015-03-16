@@ -34,7 +34,7 @@ public class UIButton : Subject {
 	{
 		if (m_OnButtonDown != null)
 		{
-			gameObject.renderer.material.mainTexture = m_OnButtonDown;
+			gameObject.GetComponent<Renderer>().material.mainTexture = m_OnButtonDown;
 		}
 	}
 
@@ -42,7 +42,7 @@ public class UIButton : Subject {
 	{
 		if (m_OnButtonUp != null)
 		{
-			gameObject.renderer.material.mainTexture = m_OnButtonUp;
+			gameObject.GetComponent<Renderer>().material.mainTexture = m_OnButtonUp;
 		}
 		NotifyObervers();
 	}

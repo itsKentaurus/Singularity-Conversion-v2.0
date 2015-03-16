@@ -21,7 +21,7 @@ public class Tiling : MonoBehaviour {
 	protected void Start()
 	{
 		Vector3 scale = transform.localScale / 100f;
-		renderer.material.mainTextureScale = new Vector2(scale.x, scale.y);
+		GetComponent<Renderer>().material.mainTextureScale = new Vector2(scale.x, scale.y);
 	}
 	#endregion
 
