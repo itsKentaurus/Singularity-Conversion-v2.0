@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class PlatformerCamera : MonoBehaviour {
 	
 	// const
-
+	private float TIME_TO_REACH = 1f;
 	// enum
 
 	// public
@@ -47,11 +47,19 @@ public class PlatformerCamera : MonoBehaviour {
 		}
 	}
 
-	private void FixedUpdate()
+	private void LateUpdate()
 	{
 		if (m_Player == null)
 		{
-			m_Player = GameObject.Find("Player").GetComponent<Player>();
+			GameObject player = GameObject.Find("Player");
+			if (player != null)
+			{
+				m_Player = player.GetComponent<Player>();
+			}
+			else
+			{
+				Debug.LogError("Player not found");
+			}
 		}
 		else
 		{
@@ -71,7 +79,7 @@ public class PlatformerCamera : MonoBehaviour {
 				translation.y = 0f;
 			}
 
-			transform.Translate(translation * Time.deltaTime);
+			transform.position = LerpVectors(translation);
 		}
 	}
 	#endregion
@@ -83,5 +91,12 @@ public class PlatformerCamera : MonoBehaviour {
 	#endregion
 
 	#region Private Methods
+	private Vector3 LerpVectors(Vector3 translation)
+	{
+		float x = Mathf.Lerp(transform.position.x, transform.position.x + translation.x, TIME_TO_REACH);
+		float y = Mathf.Lerp(transform.position.y, transform.position.y + translation.y, TIME_TO_REACH);
+
+		return new Vector3(x, y, transform.position.z);
+	}
 	#endregion
 }
