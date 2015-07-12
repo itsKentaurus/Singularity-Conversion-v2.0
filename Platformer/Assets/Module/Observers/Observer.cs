@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Observer : MonoBehaviour {
+public class Observer : MonoBehaviour, IObserver {
 	
 	// const
 
@@ -21,10 +21,7 @@ public class Observer : MonoBehaviour {
 	#region Unity API
 	protected virtual void Awake()
 	{
-		foreach(ISubject subject in m_Subject)
-		{
-			subject.RegisterObserver(this);
-		}
+		RegisterSubjects();
 	}
 	#endregion
 
@@ -38,6 +35,13 @@ public class Observer : MonoBehaviour {
 	#endregion
 
 	#region IObserver Implementation
+	public void RegisterSubjects()
+	{
+		foreach(ISubject subject in m_Subject)
+		{
+			subject.RegisterObserver(this);
+		}
+	}
 	public virtual void OnNotify(ISubject subject, object args)
 	{
 		

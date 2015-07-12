@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_6_1;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_5_0_0;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -39,39 +39,60 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Module\Core\Scripts\PauseController.cs" />
+     <Compile Include="Assets\Module\CameraManager\Scripts\CameraController.cs" />
+     <Compile Include="Assets\Module\CameraManager\Scripts\CameraManager.cs" />
+     <Compile Include="Assets\Module\Core\Scripts\PauseManager.cs" />
+     <Compile Include="Assets\Module\EventTrigger\Scripts\Event.cs" />
+     <Compile Include="Assets\Module\EventTrigger\Scripts\EventTrigger.cs" />
+     <Compile Include="Assets\Module\EventTrigger\Scripts\EventTriggerManager.cs" />
+     <Compile Include="Assets\Module\EventTrigger\Scripts\Trigger.cs" />
      <Compile Include="Assets\Module\FlowManager\Scripts\ActionUIButton.cs" />
      <Compile Include="Assets\Module\FlowManager\Scripts\FlowManager.cs" />
      <Compile Include="Assets\Module\FlowManager\Scripts\UIButton.cs" />
      <Compile Include="Assets\Module\FlowManager\Scripts\View.cs" />
+     <Compile Include="Assets\Module\LevelGenerator\Scripts\LevelController.cs" />
+     <Compile Include="Assets\Module\LevelGenerator\Scripts\TextToXml.cs" />
+     <Compile Include="Assets\Module\Observers\IObserver.cs" />
+     <Compile Include="Assets\Module\Observers\ISubject.cs" />
      <Compile Include="Assets\Module\Observers\Observer.cs" />
      <Compile Include="Assets\Module\Observers\Subject.cs" />
+     <Compile Include="Assets\Module\Observers\SubjectObserver.cs" />
      <Compile Include="Assets\Module\PC\Script\Splash.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\Camera\PlatformerCamera.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\Common\CharacterBase.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\Common\PlatformerConstants.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\Enemy\Enemy.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\GameController.cs" />
-     <Compile Include="Assets\Module\Platformer\Scripts\Player\CharacterPhysics.cs" />
-     <Compile Include="Assets\Module\Platformer\Scripts\Player\PlayerController.cs" />
+     <Compile Include="Assets\Module\Platformer\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Module\Platformer\Scripts\Terrain\Terrain.cs" />
-     <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Block.cs" />
-     <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Player.cs" />
-     <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\Stage.cs" />
-     <Compile Include="Assets\Module\Platformer\Scripts\XMLScripts\StageCollection.cs" />
      <Compile Include="Assets\Module\Timer\Timer.cs" />
-     <Compile Include="Assets\Scripts\Charaters\CustomPlayerController.cs" />
-     <Compile Include="Assets\Scripts\Core\AppLauncher.cs" />
-     <Compile Include="Assets\Scripts\GameConstants.cs" />
+     <Compile Include="Assets\Module\TouchController\Scripts\ITouchListener.cs" />
+     <Compile Include="Assets\Module\TouchController\Scripts\TouchEvent.cs" />
+     <Compile Include="Assets\Module\TouchController\Scripts\TouchManager.cs" />
+     <Compile Include="Assets\Module\UIComponent\Scripts\UIButton.cs" />
+     <Compile Include="Assets\Scripts\Charaters\CustomPlayer.cs" />
+     <Compile Include="Assets\Scripts\Charaters\Enemy\Roomba.cs" />
+     <Compile Include="Assets\Scripts\Charaters\Enemy\StaticDefender.cs" />
+     <Compile Include="Assets\Scripts\Core\GameConstants.cs" />
+     <Compile Include="Assets\Scripts\Core\Launcher.cs" />
+     <Compile Include="Assets\Scripts\Core\Tiling.cs" />
+     <Compile Include="Assets\Scripts\Scenes\MainMenu\MainMenuView.cs" />
      <Compile Include="Assets\Scripts\Skills\BlackHole.cs" />
-     <None Include="Assets\Resources\XML\Stages.xml" />
+     <Compile Include="Assets\Scripts\Skills\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Skills\Missle.cs" />
+     <Compile Include="Assets\Scripts\Skills\Projectile.cs" />
+     <Compile Include="Assets\Scripts\Skills\Skills.cs" />
+     <None Include="Assets\Resources\XML\Levels.xml" />
+     <None Include="Assets\Resources\XML\Flow.xml" />
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

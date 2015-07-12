@@ -6,6 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public interface ISubject {
-	void RegisterObserver(Observer o);
+	void RegisterObserver(IObserver o);
 	void NotifyObervers(object obj = null);
 }

@@ -1,11 +1,12 @@
-﻿// File: View
+﻿// File: View.cs
 // Created by: Rigil Malubay
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class View : Observer {
+public class View : SubjectObserver 
+{
 	
 	// const
 
@@ -17,27 +18,29 @@ public class View : Observer {
 
 	// private
 
+	// properties
+
 	#region Unity API
 	#endregion
 
 	#region Public Methods
+	public virtual void OnViewLoaded(Dictionary<string, Object> parameters)
+	{
+
+	}
+
+	public virtual void OnViewOpened()
+	{
+
+	}
+
+	public virtual void OnViewClosed()
+	{
+
+	}
 	#endregion
 
 	#region Protected Methods
-	protected virtual void OnViewLoaded()
-	{
-
-	}
-
-	protected virtual void OnViewOpened()
-	{
-
-	}
-
-	protected virtual void OnViewClosed()
-	{
-
-	}
 	#endregion
 
 	#region Private Methods

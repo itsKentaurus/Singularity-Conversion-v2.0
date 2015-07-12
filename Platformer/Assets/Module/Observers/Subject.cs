@@ -17,12 +17,12 @@ public class Subject : MonoBehaviour, ISubject
 	// protected
 
 	// private
-	private List<Observer> m_Observers = new List<Observer>();
+	private List<IObserver> m_Observers = new List<IObserver>();
 	#region Unity API
 	#endregion
 
 	#region Public Methods
-	public void RegisterObserver(Observer o)
+	public void RegisterObserver(IObserver o)
 	{
 		m_Observers.Add(o);
 	}
@@ -31,7 +31,7 @@ public class Subject : MonoBehaviour, ISubject
 	#region Protected Methods
 	public void NotifyObervers(object obj = null)
 	{
-		foreach(Observer o in m_Observers)
+		foreach(IObserver o in m_Observers)
 		{
 			o.OnNotify(this, obj);
 		}
