@@ -8,15 +8,23 @@ using System.IO;
 
 public class LevelEditorScript : BaseEditorScript
 {
+	private Vector2 m_ScrollPosition = Vector2.zero;
+
 	private class Tile
 	{
 		public char m_Symbol = ' ';
 		public List<Vector3> m_Positions = new List<Vector3>();
+		public Texture2D m_Texture = null;
 
 		public Tile(char symbol, Vector3 position)
 		{
 			m_Symbol = symbol;
 			m_Positions.Add(position);
+		}
+
+		public void ClearTexture()
+		{
+			m_Texture = null;
 		}
 	}
 
@@ -43,13 +51,19 @@ public class LevelEditorScript : BaseEditorScript
 		base.Display();
 		Rect boudingBox = new Rect();
 		Rect fileDropLocation = new Rect();
+		m_ScrollPosition = EditorGUILayout.BeginScrollView(m_ScrollPosition, false, false);
 		for (int index = 0; index < m_Tiles.Count; ++index)
 		{
 			boudingBox = EditorGUILayout.BeginHorizontal(GUI.skin.box, GUILayout.Height(100f));
 			float side = boudingBox.height * 0.9f;
 			fileDropLocation = new Rect(boudingBox.width - boudingBox.height * 0.925f, boudingBox.position.y + boudingBox.height * 0.05f, side, side);
 
-			DropFileLocation(fileDropLocation, "");
+			m_Tiles.ElementAt(index).Value.m_Texture = EditorGUILayout.DropLocation<Texture2D>(fileDropLocation, "Drop \n Texture \n Here", m_Tiles.ElementAt(index).Value.m_Texture);
+
+			if (m_Tiles.ElementAt(index).Value.m_Texture!= null)
+			{
+				EditorGUI.DrawPreviewTexture(fileDropLocation, m_Tiles.ElementAt(index).Value.m_Texture);	
+			}
 
 			Event currentEvent = Event.current;
 			if (currentEvent.type == EventType.ContextClick)
@@ -59,7 +73,7 @@ public class LevelEditorScript : BaseEditorScript
 				{
 					// Now create the menu, add items and show it
 					GenericMenu menu = new GenericMenu();
-					menu.AddItem(new GUIContent("MenuItem" + index), false, null);
+					menu.AddItem(new GUIContent("Clear Texture"), false, m_Tiles.ElementAt(index).Value.ClearTexture);
 //					menu.AddSeparator("");
 //					menu.AddItem(new GUIContent("SubMenu/MenuItem3"), false, Callback, "item 3");
 					menu.ShowAsContext();
@@ -69,6 +83,7 @@ public class LevelEditorScript : BaseEditorScript
 			EditorGUILayout.LabelField(m_Tiles.ElementAt(index).Key.ToString());
 			EditorGUILayout.EndHorizontal();
 		}
+		EditorGUILayout.EndScrollView();
 	}
 
 	public override void Save()
@@ -76,29 +91,29 @@ public class LevelEditorScript : BaseEditorScript
 		base.Save();
 	}
 
-	private string DropFileLocation(Rect rect, string label)
-	{
-		Event evt = Event.current;
-		GUI.Box(rect, label);
-
-		var eventType = Event.current.type;
-
-		if (rect.Contains(evt.mousePosition) && (eventType == EventType.DragUpdated || eventType == EventType.DragPerform))
-		{
-			// Show a copy icon on the drag
-			DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-
-			if (eventType == EventType.DragPerform)
-			{
-				DragAndDrop.AcceptDrag();
-				return ConvertStringArrayToString(DragAndDrop.paths);
-			}
-			
-			Event.current.Use();
-		}
-
-		return string.Empty;
-	}
+//	private T DropLocation<T>(Rect rect, string label, T defaultObject = null) where T : Object
+//	{
+//		Event evt = Event.current;
+//		GUI.Box(rect, label);
+//
+//		var eventType = Event.current.type;
+//
+//		if (rect.Contains(evt.mousePosition) && (eventType == EventType.DragUpdated || eventType == EventType.DragPerform))
+//		{
+//			// Show a copy icon on the drag
+//			DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+//
+//			if (eventType == EventType.DragPerform)
+//			{
+//				DragAndDrop.AcceptDrag();
+//				return DragAndDrop.objectReferences[0] as T;
+//			}
+//			
+//			Event.current.Use();
+//		}
+//
+//		return defaultObject;
+//	}
 
 	private string ConvertStringArrayToString(string[] array)
 	{
@@ -109,5 +124,4 @@ public class LevelEditorScript : BaseEditorScript
 		}
 		return builder.ToString();
 	}
-
 }
