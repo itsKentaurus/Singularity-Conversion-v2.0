@@ -1,4 +1,5 @@
 ﻿using System.Net.Sockets;
+using UnityEngine;
 
 public class FileInformation
 {
@@ -40,6 +41,7 @@ public class FileInformation
 	private string GetFilename()
 	{
 		string[] components = Path.Split('/');
+
 		if (components.Length == 0) 
 		{
 			return string.Empty;

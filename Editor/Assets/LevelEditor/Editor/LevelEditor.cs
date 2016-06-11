@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Text;
+using System.IO;  
 
 public class LevelEditor : EditorWindow 
 {
@@ -22,23 +23,31 @@ public class LevelEditor : EditorWindow
 			return;
 		}
 
-		FileInformation fileInfo = DropFileLocation();
+		FileInformation fileInfo = null;
 
-		if (GUILayout.Button("Reset"))
+		if (m_Script == null)
 		{
-			Reset();
+			fileInfo = DropFileLocation();
 		}
-
-		if (GUILayout.Button("Save"))
+		else
 		{
-			if (m_Script != null) 
+			if (GUILayout.Button("Reset"))
 			{
-				m_Script.Save ();
+				Reset();
 			}
-			else 
+
+			if (GUILayout.Button("Save"))
 			{
-				Debug.Log("Nothing to save.");
+				if (m_Script != null) 
+				{
+					m_Script.Save();
+				}
+				else 
+				{
+					Debug.Log("Nothing to save.");
+				}
 			}
+
 		}
 
 		if (m_Script == null && fileInfo == null) 
@@ -56,7 +65,21 @@ public class LevelEditor : EditorWindow
 			switch (fileInfo.Type) 
 			{
 			case FileInformation.FileType.TXT:
-				m_Script = new BaseEditorScript();
+				m_Script = new LevelEditorScript();
+				string line;
+				StreamReader theReader = new StreamReader(fileInfo.Path, Encoding.Default);
+				using (theReader)
+				{
+					do
+					{
+						line = theReader.ReadLine();
+						if (line != null)
+						{
+							(m_Script as LevelEditorScript).AddRow(line.ToCharArray());
+						}
+					}
+					while (line != null);
+				}
 				break;
 			case FileInformation.FileType.XML:
 				break;
@@ -77,7 +100,7 @@ public class LevelEditor : EditorWindow
 	private FileInformation DropFileLocation()
 	{
 		Event evt = Event.current;
-		Rect dropArea = GUILayoutUtility.GetRect(0f, 50f, GUILayout.ExpandWidth (true));
+		Rect dropArea = new Rect(0f, 0f, Screen.width, Screen.height);
 		GUI.Box(dropArea, "Drop Level Here");
 
 		var eventType = Event.current.type;
