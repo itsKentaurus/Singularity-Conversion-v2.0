@@ -3,45 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using System.Text;
-using System.IO;  
+using System.Xml;
+using System.Xml.Serialization;
 
 public class LevelEditorScript : BaseEditorScript
 {
 	private Vector2 m_ScrollPosition = Vector2.zero;
 
-	private class Tile
-	{
-		public char m_Symbol = ' ';
-		public List<Vector3> m_Positions = new List<Vector3>();
-		public Texture2D m_Texture = null;
+	Container<Tile> m_Tiles = new Container<Tile>();
 
-		public Tile(char symbol, Vector3 position)
-		{
-			m_Symbol = symbol;
-			m_Positions.Add(position);
-		}
-
-		public void ClearTexture()
-		{
-			m_Texture = null;
-		}
-	}
-
-	Dictionary<char, Tile> m_Tiles = new Dictionary<char, Tile>();
 	private int m_CurrentRow = 0;
 
 	public void AddRow(char[] tiles)
 	{
 		for (int i = 0 ; i < tiles.Length ; ++i)
 		{
-			if (m_Tiles.ContainsKey(tiles[i])) 
+			if (m_Tiles.Contains(tiles[i].ToString())) 
 			{
-				m_Tiles[tiles[i]].m_Positions.Add(new Vector3(i, m_CurrentRow));
+				m_Tiles.GetElement(tiles[i].ToString()).m_Positions.Add(new Vector3(i, m_CurrentRow));
 			}
 			else 
 			{
-				m_Tiles.Add(tiles[i], new Tile(tiles[i], new Vector3(i, m_CurrentRow)));
+				Tile tile = m_Tiles.Add(tiles[i].ToString());
+				tile.m_Positions.Add(new Vector3(i, m_CurrentRow));
 			}
 		}
 	}
@@ -58,11 +42,16 @@ public class LevelEditorScript : BaseEditorScript
 			float side = boudingBox.height * 0.9f;
 			fileDropLocation = new Rect(boudingBox.width - boudingBox.height * 0.925f, boudingBox.position.y + boudingBox.height * 0.05f, side, side);
 
-			m_Tiles.ElementAt(index).Value.m_Texture = EditorGUILayout.DropLocation<Texture2D>(fileDropLocation, "Drop \n Texture \n Here", m_Tiles.ElementAt(index).Value.m_Texture);
+			m_Tiles.ElementAt(index).m_Texture = EditorGUILayoutExtensions.DragAndDropArea<Texture2D>(fileDropLocation, "Drop \n Texture \n Here", m_Tiles.ElementAt(index).m_Texture);
 
-			if (m_Tiles.ElementAt(index).Value.m_Texture!= null)
+			if (m_Tiles.ElementAt(index).m_Texture != null)
 			{
-				EditorGUI.DrawPreviewTexture(fileDropLocation, m_Tiles.ElementAt(index).Value.m_Texture);	
+				EditorGUI.DrawPreviewTexture(fileDropLocation, m_Tiles.ElementAt(index).m_Texture);
+			}
+
+			if (string.IsNullOrEmpty(m_Tiles.ElementAt(index).m_Path) && m_Tiles.ElementAt(index).m_Texture != null)
+			{
+				m_Tiles.ElementAt(index).m_Path = AssetDatabase.GetAssetPath(m_Tiles.ElementAt(index).m_Texture);
 			}
 
 			Event currentEvent = Event.current;
@@ -73,14 +62,14 @@ public class LevelEditorScript : BaseEditorScript
 				{
 					// Now create the menu, add items and show it
 					GenericMenu menu = new GenericMenu();
-					menu.AddItem(new GUIContent("Clear Texture"), false, m_Tiles.ElementAt(index).Value.ClearTexture);
+					menu.AddItem(new GUIContent("Remove Texture"), false, m_Tiles.ElementAt(index).ClearTexture);
 //					menu.AddSeparator("");
 //					menu.AddItem(new GUIContent("SubMenu/MenuItem3"), false, Callback, "item 3");
 					menu.ShowAsContext();
 					currentEvent.Use();
 				}
 			}
-			EditorGUILayout.LabelField(m_Tiles.ElementAt(index).Key.ToString());
+			EditorGUILayout.LabelField(m_Tiles.ElementAt(index).m_Key);
 			EditorGUILayout.EndHorizontal();
 		}
 		EditorGUILayout.EndScrollView();
@@ -115,13 +104,13 @@ public class LevelEditorScript : BaseEditorScript
 //		return defaultObject;
 //	}
 
-	private string ConvertStringArrayToString(string[] array)
-	{
-		StringBuilder builder = new StringBuilder();
-		foreach(string str in array)
-		{
-			builder.Append(str);
-		}
-		return builder.ToString();
-	}
+//	private string ConvertStringArrayToString(string[] array)
+//	{
+//		StringBuilder builder = new StringBuilder();
+//		foreach(string str in array)
+//		{
+//			builder.Append(str);
+//		}
+//		return builder.ToString();
+//	}
 }
