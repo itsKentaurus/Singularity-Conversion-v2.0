@@ -48,7 +48,7 @@ public class FileInformation
 		}
 		else
 		{
-			return components[components.Length - 1];
+			return components[components.Length - 1].Split('.')[0];
 		}
 	}
 }
