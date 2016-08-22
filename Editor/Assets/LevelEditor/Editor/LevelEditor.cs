@@ -66,6 +66,7 @@ public class LevelEditor : EditorWindow
 			{
 			case FileInformation.FileType.TXT:
 				m_Script = new LevelEditorScript();
+				m_Script.Filename = fileInfo.Filename;
 				string line;
 				StreamReader theReader = new StreamReader(fileInfo.Path, Encoding.Default);
 				using (theReader)
@@ -82,6 +83,9 @@ public class LevelEditor : EditorWindow
 				}
 				break;
 			case FileInformation.FileType.XML:
+				m_Script = new LevelEditorScript();
+				m_Script.Filename = fileInfo.Filename;
+				m_Script.LoadXML(fileInfo.Filename);
 				break;
 			case FileInformation.FileType.UNKNOWN:
 				Reset();

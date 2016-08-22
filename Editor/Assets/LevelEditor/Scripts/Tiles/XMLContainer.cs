@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 using System.IO;
 
 [XmlRoot("Container")]
-public class Container<T> where T : BlockInformation, new()
+public class XMLContainer<T> where T : BlockInformation, new()
 {
 	private const string PATH = "Assets/Resources/XML";
 
@@ -65,19 +65,21 @@ public class Container<T> where T : BlockInformation, new()
 
 	public void Save(string filename)
 	{
-		var serializer = new XmlSerializer(typeof(Container<T>));
+		filename += ".xml";
+		var serializer = new XmlSerializer(typeof(XMLContainer<T>));
 		using (var stream = new FileStream(Path.Combine(PATH, filename), FileMode.Create))
 		{
 			serializer.Serialize(stream, this);
 		}
 	}
 
-	public static Container<T> Load(string filename)
+	public static XMLContainer<T> Load(string filename)
 	{
-		var serializer = new XmlSerializer(typeof(Container<T>));
+		filename += ".xml";
+		var serializer = new XmlSerializer(typeof(XMLContainer<T>));
 		using (var stream = new FileStream(Path.Combine(PATH, filename), FileMode.Open))
 		{
-			return serializer.Deserialize(stream) as Container<T>;
+			return serializer.Deserialize(stream) as XMLContainer<T>;
 		}
 	}
 }
