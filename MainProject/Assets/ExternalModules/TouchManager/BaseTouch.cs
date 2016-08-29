@@ -13,6 +13,8 @@ namespace TouchAction
 	public class BaseTouch : MonoBehaviour, ITouchable
 	{
 		#region Variables
+
+		[SerializeField] protected bool m_SwallowTouch = true;
 		#endregion
 
 		#region Unity API
@@ -30,7 +32,7 @@ namespace TouchAction
 		#region ITouchable
 		public virtual bool OnTouchBegin(TouchEvent evt)
 		{
-			return true;
+			return m_SwallowTouch;
 		}
 
 		public virtual void OnTouchMoved(TouchEvent evt)

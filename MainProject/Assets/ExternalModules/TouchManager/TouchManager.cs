@@ -7,15 +7,15 @@
 
 using UnityEngine;
 using System.Collections;
-using System.Security.Cryptography.X509Certificates;
-using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 namespace TouchAction
 {
 	public class TouchManager : SingletonComponent<TouchManager> 
 	{
 		#region Variables
-		private const string TOUCH_PREFIX = "Input <color=red>{0}</color> is at position <color=blue>{1}</color>";
+		private List<BaseTouch> m_CurrentTouches = new List<BaseTouch>();
+		private TouchEvent m_CurrentTouchEvent = new TouchEvent();
 		#endregion
 
 		#region Unity API
@@ -61,42 +61,117 @@ namespace TouchAction
 
 		private void OnTouchBegin(Vector3 position)
 		{
-			Ray ray = new Ray(CustomCamera.CameraManager.Instance.UICamera.ScreenToWorldPoint(position), CustomCamera.CameraManager.Instance.UICamera.transform.forward);
-			RaycastHit[] hit = Physics.RaycastAll(ray, Mathf.Infinity, LayerMask.NameToLayer("UI"));
+			RaycastHit[] hits = Physics.RaycastAll(CustomCamera.CameraManager.Instance.UICamera.ScreenPointToRay(position));
+
+			// Settings touch event information
+			m_CurrentTouchEvent.StartPosition = CustomCamera.CameraManager.Instance.UICamera.ScreenToWorldPoint(position);
+			m_CurrentTouchEvent.CurrentPosition = CustomCamera.CameraManager.Instance.UICamera.ScreenToWorldPoint(position);
+
 			BaseTouch touch = null;
-			Collider collider = null;
 
-			TouchEvent evt = new TouchEvent();
-			evt.StartPosition = CustomCamera.CameraManager.Instance.UICamera.ScreenToWorldPoint(position);
+			List<RaycastHit> hitsList = GetLayersAndSort("UI", hits);
 
-			for (int i = 0; i < hit.Length; ++i)
+			for (int i = 0; i < hitsList.Count; ++i)
 			{
-				collider = hit[i].collider;
-				if (collider != null)
+				if (hitsList[i].collider)
 				{
-					touch = collider.gameObject.GetComponent<BaseTouch>();
+					touch = hitsList[i].collider.gameObject.GetComponent<BaseTouch>();
 					if (touch != null)
 					{
-						touch.OnTouchBegin(evt);
+						m_CurrentTouches.Add(touch);
+						if (touch.OnTouchBegin(m_CurrentTouchEvent))
+						{
+							break;
+						}
 					}
 				}
-
 			}
 
-			ray = new Ray(position, CustomCamera.CameraManager.Instance.MainCamera.transform.forward);
-			hit = Physics.RaycastAll(ray, Mathf.Infinity, LayerMask.NameToLayer("Default"));
+			hitsList = GetLayersAndSort("Default", hits);
+
+			for (int i = 0; i < hitsList.Count; ++i)
+			{
+				if (hitsList[i].collider)
+				{
+					touch = hitsList[i].collider.gameObject.GetComponent<BaseTouch>();
+					if (touch != null)
+					{
+						m_CurrentTouches.Add(touch);
+						if (touch.OnTouchBegin(m_CurrentTouchEvent))
+						{
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		private List<RaycastHit> GetLayersAndSort(string layerName, RaycastHit[] hits)
+		{
+			List<RaycastHit> hitsList = new List<RaycastHit>();
+
+			for (int i = 0; i < hits.Length; ++i)
+			{
+				if (hits[i].collider != null && hits[i].collider.gameObject.layer == LayerMask.NameToLayer(layerName))
+				{
+					hitsList.Add(hits[i]);
+				}
+			}
+
+			return BubbleSort(hitsList);
+		}
+
+		private List<RaycastHit> BubbleSort(List<RaycastHit> hitsList)
+		{
+			RaycastHit temp;
+			for (int i = 0; i < hitsList.Count; ++i)
+			{
+				for (int j = i + 1; j < hitsList.Count; ++j)
+				{
+					if (hitsList[j].distance < hitsList[i].distance)
+					{
+						temp = hitsList[j];
+						hitsList[j] = hitsList[i];
+						hitsList[i] = temp;
+					}
+				}
+			}
+
+			return hitsList;
 		}
 
 		private void OnTouchMoved(Vector3 position)
 		{
-
+			for (int i = 0; i < m_CurrentTouches.Count; ++i)
+			{
+				UpdateCurrentTouchEvent(position, m_CurrentTouches[i].gameObject.layer);
+				m_CurrentTouches[i].OnTouchMoved(m_CurrentTouchEvent);
+			}
 		}
 
 		private void OnTouchEnded(Vector3 position)
 		{
-		
+			for (int i = 0; i < m_CurrentTouches.Count; ++i)
+			{
+				UpdateCurrentTouchEvent(position, m_CurrentTouches[i].gameObject.layer);
+				m_CurrentTouches[i].OnTouchEnded(m_CurrentTouchEvent);
+			}
+			m_CurrentTouches.Clear();
+			m_CurrentTouchEvent.Reset();
+		}
+
+		private void UpdateCurrentTouchEvent(Vector3 position, int layer)
+		{
+			m_CurrentTouchEvent.LastPosition = m_CurrentTouchEvent.CurrentPosition;
+			if (layer == LayerMask.NameToLayer("UI"))
+			{
+				m_CurrentTouchEvent.CurrentPosition = CustomCamera.CameraManager.Instance.UICamera.ScreenToWorldPoint(position);
+			}
+			else if (layer == LayerMask.NameToLayer("Default"))
+			{
+				m_CurrentTouchEvent.CurrentPosition = CustomCamera.CameraManager.Instance.MainCamera.ScreenToWorldPoint(position);
+			}
 		}
 		#endregion
-
 	}
 }
