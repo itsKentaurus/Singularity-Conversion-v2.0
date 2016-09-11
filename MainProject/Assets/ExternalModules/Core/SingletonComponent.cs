@@ -8,7 +8,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SingletonComponent<T> : MonoBehaviour where T : Component
+public class SingletonComponent<T> : SubjectObserver where T : Component
 {
 	#region Variables
 	protected static T m_Instance;
