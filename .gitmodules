@@ -1,0 +1,3 @@
+[submodule "MainProject/Assets/ExternalModules"]
+	path = MainProject/Assets/ExternalModules
+	url = https://github.com/kentaurus44/ExternalModules.git
