@@ -7,14 +7,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "Assets/LevelEditor/Scripts/Tiles/XMLContainer.cs",
-			"settings":
-			{
-				"buffer_size": 1573,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -96,6 +88,7 @@
 	],
 	"file_history":
 	[
+		"/C/Users/rigil/Documents/Singularity-Conversion-v2.0/Editor/Assets/LevelEditor/Scripts/Tiles/XMLContainer.cs",
 		"/C/Users/rigil/Documents/Singularity-Conversion-v2.0/Editor/Assets/LevelEditor/Scripts/BaseEditorScript.cs",
 		"/C/Users/rigil/Documents/Simple/MainProject/Assets/Scripts/TouchManager.cs",
 		"/C/Program Files/Unity/Editor/Data/Resources/ScriptTemplates/81-C# Script-NewBehaviourScript.cs.txt",
@@ -134,38 +127,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "Assets/LevelEditor/Scripts/Tiles/XMLContainer.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1573,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1106,
-								1106
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],

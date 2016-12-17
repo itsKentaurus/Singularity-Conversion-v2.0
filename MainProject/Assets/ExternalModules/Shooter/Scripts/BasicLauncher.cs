@@ -48,14 +48,20 @@ namespace Shooter
 			m_CanShoot = m_ReloadTime == 0f;
 
 			m_Timer.StartTimer(m_ReloadTime, OnReloadCOmplete, true);
-			BasicProjectile projectile = Instantiate(m_Projectile);
-			projectile.RegisterObserver(this);
-			projectile.Launch(target, m_LaunchVelocity);
-
+			CreateProjectiles(target);
 		}
 		#endregion
 
 		#region Protected Methods
+		protected virtual void CreateProjectiles(Transform target)
+		{
+			BasicProjectile projectile = Instantiate(m_Projectile);
+			projectile.transform.position = transform.position;
+			projectile.RegisterObserver(this);
+			projectile.Launch(target, m_LaunchVelocity);
+			ProjectileManager.Instance.AddProjectile(projectile);
+		}
+
 		protected virtual void OnReloadCOmplete()
 		{
 			m_CanShoot = true;
