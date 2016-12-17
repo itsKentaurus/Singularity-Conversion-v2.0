@@ -14,8 +14,9 @@ namespace Platformer
     public class LevelController : MonoBehaviour
     {
         #region Variables
-        [SerializeField] protected TrackController m_TrackController;
-        [SerializeField] protected TrackVehicle m_Vehicule;
+        [SerializeField] protected TrackBuilder m_TrackController;
+        [SerializeField] protected Player m_Player;
+        protected XMLToTrackConverter m_Converter = new XMLToTrackConverter();
 
         protected bool m_IsInitialized = false;
         #endregion
@@ -33,9 +34,9 @@ namespace Platformer
                 return;
             }
 
-            if (m_Vehicule.IsInAir)
+            if (m_Player.IsInAir)
             {
-                m_Vehicule.SetTrackPiece(m_TrackController.FindClosestTrack(m_Vehicule.transform.position));
+                //m_Player.SetTrackPiece(m_TrackController.FindClosestTrack(m_Player.transform.position));
             }
         }
         #endregion
@@ -45,7 +46,8 @@ namespace Platformer
         {
             if (!m_IsInitialized)
             {
-                m_TrackController.Init();
+                m_TrackController.SetTracks(m_Converter.Load("hi"));
+                m_Player.Init();
                 m_IsInitialized = true;
             }
         }

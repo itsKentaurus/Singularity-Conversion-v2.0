@@ -6,10 +6,17 @@
 //
 
 using UnityEngine;
-using System.Collections;
 
 namespace Track
 {
+    [System.Serializable]
+    public class TrackInformation
+    {
+        [SerializeField, ReadOnly] public Vector3 Position;
+
+        public TrackInformation() { }
+    }
+
     public class TrackPiece : MonoBehaviour
     {
         #region Variables
@@ -17,6 +24,7 @@ namespace Track
         [SerializeField] private Transform m_EndLocation;
         [SerializeField, ReadOnly] private TrackPiece m_PreviousTrack = null;
         [SerializeField, ReadOnly] private TrackPiece m_NextTrack = null;
+        [SerializeField, ReadOnly] private TrackInformation m_TrackInformation;
 
         protected bool m_IsInitialized = false;
 
@@ -33,6 +41,11 @@ namespace Track
         public Transform EndLocation
         {
             get { return m_EndLocation; }
+        }
+
+        public TrackInformation Information
+        {
+            get { return m_TrackInformation; }
         }
         #endregion
 
@@ -68,6 +81,11 @@ namespace Track
             }
 
             return this;
+        }
+
+        public virtual void SetTrackInformation(TrackInformation information)
+        {
+            m_TrackInformation = information;
         }
 
         public virtual void SetNextTrack(TrackPiece piece)

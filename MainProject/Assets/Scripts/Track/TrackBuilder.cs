@@ -11,10 +11,17 @@ using System.Collections.Generic;
 
 namespace Track
 {
-    public class TrackController : MonoBehaviour
+    public class TrackBuilder : MonoBehaviour
     {
         #region Variables
+        private const string PATH_TO_PREFABS = "Prefabs/TrackPieces/{0}";
+        private const float SCALING_SIZE = 50f;
+
         [SerializeField] protected List<TrackPiece> m_Tracks = new List<TrackPiece>();
+
+        // Used to load all the track pieces
+        private Dictionary<string, TrackPiece> m_TrackHolder = new Dictionary<string, TrackPiece>();
+        private Dictionary<string, List<TrackInformation>> m_Information;
 
         protected bool m_IsInitialized = false;
         #endregion
@@ -47,9 +54,17 @@ namespace Track
         /// When set a list of tracks it destroys all the tracks
         /// </summary>
         /// <param name="tracks"></param>
-        public void SetTrack(List<TrackPiece> tracks)
+        public void SetTracks(Dictionary<string, List<TrackInformation>> tracks)
         {
-            m_Tracks = tracks;
+            m_Information = tracks;
+            m_Information.Remove(string.Empty);
+            foreach (string str in tracks.Keys)
+            {
+                if (!string.IsNullOrEmpty(str) && !m_TrackHolder.ContainsKey(str))
+                {
+                    m_TrackHolder.Add(str, Resources.Load<TrackPiece>(string.Format(PATH_TO_PREFABS, str)));
+                }
+            }
             m_IsInitialized = false;
             Init();
         }
@@ -71,42 +86,28 @@ namespace Track
         #region Protected Methods
         protected virtual void InitTrack()
         {
-            TrackPiece previous = null;
-            TrackPiece current = null;
-
-            foreach (TrackPiece track in m_Tracks)
+            TrackPiece piece = null;
+            foreach (KeyValuePair<string, List<TrackInformation>> info in m_Information)
             {
-                previous = current;
-
-                if (previous != null)
+                foreach (TrackInformation trackInfo in info.Value)
                 {
-                    previous.SetNextTrack(track);
+                    piece = Instantiate<TrackPiece>(m_TrackHolder[info.Key]);
+                    // Makes sure it's parented
+                    piece.transform.parent = transform;
+                    // Reset name to not have the (clone)
+                    piece.name = info.Key;
+                    // Set Track information
+                    piece.SetTrackInformation(trackInfo);
+                    m_Tracks.Add(piece);
                 }
-
-                current = track;
-
-                current.SetPreviousTrack(previous);
             }
         }
 
         protected virtual void PlaceTracks()
         {
-            TrackPiece previous = null;
-
-            foreach (TrackPiece track in m_Tracks)
+            foreach (TrackPiece piece in m_Tracks)
             {
-                if (previous == null)
-                {
-                    track.transform.position = Vector3.zero;
-                }
-                else
-                {
-                    // Multiplying by -1f to make sure the start position of 
-                    // the next track is the same as the end of the current track
-                    track.transform.position = previous.EndLocation.position + track.StartLocation.localPosition * -1f;
-                }
-
-                previous = track;
+                piece.transform.position = piece.Information.Position * SCALING_SIZE;
             }
         }
         #endregion

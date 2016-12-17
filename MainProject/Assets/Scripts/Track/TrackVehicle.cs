@@ -14,23 +14,18 @@ namespace Track
     {
         #region Variables
         [SerializeField] protected TrackPiece m_CurrentTrack;
-        [SerializeField] protected float m_Gravity = 1f;
         [SerializeField, ReadOnly] protected Vector3 m_LastPosition = Vector3.zero;
 
-        public bool IsInAir
+        public bool IsOnTrack
         {
-            get { return m_CurrentTrack == null; }
+            get { return m_CurrentTrack != null; }
         }
         #endregion
 
         #region Unity API
-        protected virtual void Update()
+        public void OnUpdate()
         {
-            if (m_CurrentTrack == null)
-            {
-                transform.position += Vector3.down * m_Gravity * Time.deltaTime;
-            }
-            else
+            if (m_CurrentTrack != null)
             {
                 m_LastPosition = transform.position;
                 m_LastPosition.y = m_CurrentTrack.GetHeightOnTrack(m_LastPosition.x);
