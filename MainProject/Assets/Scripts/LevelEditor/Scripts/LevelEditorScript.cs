@@ -33,13 +33,14 @@ public class LevelEditorScript : BaseEditorScript
 public override void Display()
 	{
 		base.Display();
-		Rect boudingBox = new Rect();
+		//Rect boudingBox = new Rect();
 		Rect fileDropLocation = new Rect();
 		m_ScrollPosition = EditorGUILayout.BeginScrollView(m_ScrollPosition, false, false);
 
 		for (int index = 0; index < m_Tiles.Count; ++index)
 		{
-			boudingBox = EditorGUILayout.BeginHorizontal(GUI.skin.box, GUILayout.Height(100f));
+			//boudingBox = 
+                EditorGUILayout.BeginHorizontal(GUI.skin.box, GUILayout.Height(100f));
             EditorGUILayout.LabelField(m_Tiles.ElementAt(index).m_Key);
 
             //			float side = boudingBox.height * 0.9f;

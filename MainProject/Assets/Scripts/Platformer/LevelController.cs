@@ -17,6 +17,7 @@ namespace Platformer
         [SerializeField] protected TrackBuilder m_TrackController;
         [SerializeField] protected Player m_Player;
         protected XMLToTrackConverter m_Converter = new XMLToTrackConverter();
+        protected TrackPiece m_ClosestTrack = null;
 
         protected bool m_IsInitialized = false;
         #endregion
@@ -36,7 +37,21 @@ namespace Platformer
 
             if (m_Player.IsInAir)
             {
-                //m_Player.SetTrackPiece(m_TrackController.FindClosestTrack(m_Player.transform.position));
+                if (m_ClosestTrack == null)
+                {
+                    m_ClosestTrack = m_TrackController.FindClosestTrack(m_Player.transform.position);
+                }
+                else
+                {
+                    if (m_ClosestTrack.GetHeightOnTrack(m_Player.transform.position.x) > m_Player.transform.position.y)
+                    {
+                        m_Player.SetTrackPiece(m_ClosestTrack);
+                    }
+                }
+            }
+            else if (m_ClosestTrack != null)
+            {
+                m_ClosestTrack = null;
             }
         }
         #endregion

@@ -55,6 +55,11 @@ public class Player : SubjectObserver
             m_IsIntialized = true;
         }
     }
+
+    public virtual void SetTrackPiece(TrackPiece track)
+    {
+        m_Vehicle.SetTrackPiece(track);
+    }
     #endregion
 
     #region Protected Methods

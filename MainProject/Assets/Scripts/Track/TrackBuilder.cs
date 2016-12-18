@@ -15,9 +15,11 @@ namespace Track
     {
         #region Variables
         private const string PATH_TO_PREFABS = "Prefabs/TrackPieces/{0}";
-        private const float SCALING_SIZE = 50f;
+        // Base size of all platforms
+        private const float BASE_SIZE = 100f;
 
-        [SerializeField] protected List<TrackPiece> m_Tracks = new List<TrackPiece>();
+        [SerializeField]
+        protected Dictionary<float, List<TrackPiece>> m_Tracks = new Dictionary<float, List<TrackPiece>>();
 
         // Used to load all the track pieces
         private Dictionary<string, TrackPiece> m_TrackHolder = new Dictionary<string, TrackPiece>();
@@ -30,9 +32,12 @@ namespace Track
 #if UNITY_EDITOR
         protected virtual void OnDrawGizmos()
         {
-            foreach (TrackPiece track in m_Tracks)
+            foreach (KeyValuePair<float, List<TrackPiece>> tracks in m_Tracks)
             {
-                track.DrawGizmo();
+                foreach (TrackPiece track in tracks.Value)
+                {
+                    track.DrawGizmo();
+                }
             }
         }
 #endif
@@ -71,11 +76,14 @@ namespace Track
 
         public TrackPiece FindClosestTrack(Vector3 position)
         {
-            foreach (TrackPiece track in m_Tracks)
+            foreach (KeyValuePair<float, List<TrackPiece>> tracks in m_Tracks)
             {
-                if (track.IsIntersecting(position))
+                foreach (TrackPiece trackPiece in tracks.Value)
                 {
-                    return track;
+                    if (trackPiece.IsGoingToIntersect(position))
+                    {
+                        return trackPiece;
+                    }
                 }
             }
 
@@ -98,22 +106,88 @@ namespace Track
                     piece.name = info.Key;
                     // Set Track information
                     piece.SetTrackInformation(trackInfo);
-                    m_Tracks.Add(piece);
+
+                    if (!m_Tracks.ContainsKey(piece.Information.Position.x))
+                    {
+                        m_Tracks.Add(piece.Information.Position.x, new List<TrackPiece>());
+                    }
+
+                    m_Tracks[piece.Information.Position.x].Add(piece);
                 }
             }
+
+            foreach (KeyValuePair<float, List<TrackPiece>> tracks in m_Tracks)
+            {
+                tracks.Value.Sort(SortByHeight);
+                //foreach (TrackPiece p in tracks.Value)
+                //{
+                //    Debug.Log(p.Information.Position.y);
+                //}
+            }
+        }
+
+        protected virtual int SortByHeight(TrackPiece p1, TrackPiece p2)
+        {
+            return p1.Information.Position.y > p2.Information.Position.y ? -1 : 1;
         }
 
         protected virtual void PlaceTracks()
         {
-            foreach (TrackPiece piece in m_Tracks)
+            foreach (KeyValuePair<float, List<TrackPiece>> tracks in m_Tracks)
             {
-                piece.transform.position = piece.Information.Position * SCALING_SIZE;
+                foreach (TrackPiece piece in tracks.Value)
+                {
+                    piece.transform.position = piece.Information.Position * BASE_SIZE;
+                }
+            }
+
+            foreach (KeyValuePair<float, List<TrackPiece>> tracks in m_Tracks)
+            {
+                foreach (TrackPiece trackPiece in tracks.Value)
+                {
+                    if (m_Tracks.ContainsKey(tracks.Key - 1f))
+                    {
+                        FindPreviousTrack(trackPiece, m_Tracks[tracks.Key - 1f]);
+                    }
+
+                    if (m_Tracks.ContainsKey(tracks.Key + 1f))
+                    {
+                        FindNextTrack(trackPiece, m_Tracks[tracks.Key + 1f]);
+                    }
+
+                }
+            }
+        }
+
+        protected virtual void FindPreviousTrack(TrackPiece trackPiece, List<TrackPiece> prevCol)
+        {
+            foreach (TrackPiece track in prevCol)
+            {
+                if (Mathf.Abs(trackPiece.Information.Position.y - track.Information.Position.y) <= 1f &&
+                    trackPiece.StartLocation.position == track.EndLocation.position)
+                {
+                    trackPiece.SetPreviousTrack(track);
+                    break;
+                }
+            }
+        }
+
+        protected virtual void FindNextTrack(TrackPiece trackPiece, List<TrackPiece> nextCol)
+        {
+            foreach (TrackPiece track in nextCol)
+            {
+                if (Mathf.Abs(trackPiece.Information.Position.y - track.Information.Position.y) <= 1f &&
+                    track.StartLocation.localPosition + track.transform.position == trackPiece.EndLocation.localPosition + trackPiece.transform.position)
+                {
+                    trackPiece.SetNextTrack(track);
+                    break;
+                }
             }
         }
         #endregion
 
         #region Private Methods
         #endregion
-
     }
+
 }

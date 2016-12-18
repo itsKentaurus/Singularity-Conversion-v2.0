@@ -3196,7 +3196,7 @@
       </Positions>
     </Information>
     <Information Key="a">
-      <PrefabName>SlantDown</PrefabName>
+      <PrefabName>SlantUp</PrefabName>
       <Path />
       <TextureName />
       <Positions>
@@ -3213,7 +3213,7 @@
       </Positions>
     </Information>
     <Information Key="b">
-      <PrefabName>SlantUp</PrefabName>
+      <PrefabName>SlantDown</PrefabName>
       <Path />
       <TextureName />
       <Positions>

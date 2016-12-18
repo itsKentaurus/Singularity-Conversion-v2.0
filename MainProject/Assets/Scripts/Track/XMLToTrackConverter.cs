@@ -41,7 +41,7 @@ public class XMLToTrackConverter
             foreach (Vector3 vector in tile.Positions)
             {
                 information = new TrackInformation();
-                information.Position = vector;
+                information.Position = new Vector3(vector.x, vector.y * -1f, vector.z);
 
                 if (!m_Tracks.ContainsKey(tile.PrefabName))
                 {

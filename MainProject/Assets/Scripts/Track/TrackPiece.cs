@@ -13,6 +13,8 @@ namespace Track
     public class TrackInformation
     {
         [SerializeField, ReadOnly] public Vector3 Position;
+        [SerializeField, ReadOnly] public float CurrentScale;
+
 
         public TrackInformation() { }
     }
@@ -64,7 +66,6 @@ namespace Track
         {
             if (!m_IsInitialized)
             {
-
                 m_IsInitialized = true;
             }
         }
@@ -79,7 +80,6 @@ namespace Track
             {
                 return m_NextTrack;
             }
-
             return this;
         }
 
@@ -98,21 +98,21 @@ namespace Track
             m_PreviousTrack = piece;
         }
 
-        public virtual bool IsIntersecting(Vector3 position)
+        public virtual bool IsGoingToIntersect(Vector3 position)
         {
-            bool isIntersecting = true;
+            bool isGoingToIntersect = true;
 
-            isIntersecting &= StartLocation.position.x < position.x;
-            isIntersecting &= EndLocation.position.x > position.x;
+            isGoingToIntersect &= StartLocation.position.x < position.x;
+            isGoingToIntersect &= EndLocation.position.x > position.x;
 
-            if (!isIntersecting)
+            if (!isGoingToIntersect)
             {
                 return false;
             }
 
-            isIntersecting &= GetHeightOnTrack(position.x) > position.y;
+            isGoingToIntersect &= GetHeightOnTrack(position.x) < position.y;
 
-            return isIntersecting;
+            return isGoingToIntersect;
         }
 
         public virtual float GetHeightOnTrack(float xPosition)
@@ -123,6 +123,13 @@ namespace Track
             float initial = m_StartLocation.position.y - slope * m_StartLocation.position.x;
 
             return slope * xPosition + initial;
+        }
+
+        public virtual void Scale(float scale)
+        {
+            m_StartLocation.localPosition = m_StartLocation.localPosition * scale / m_TrackInformation.CurrentScale;
+            m_EndLocation.localPosition = m_EndLocation.localPosition * scale / m_TrackInformation.CurrentScale;
+            m_TrackInformation.CurrentScale = scale;
         }
         #endregion
 
