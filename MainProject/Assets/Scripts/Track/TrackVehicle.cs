@@ -31,7 +31,7 @@ namespace Track
                 m_LastPosition.y = m_CurrentTrack.GetHeightOnTrack(m_LastPosition.x);
                 transform.position = m_LastPosition;
             }
-            MoveBackward(10f);
+            MoveForward(10f);
         }
         #endregion
 

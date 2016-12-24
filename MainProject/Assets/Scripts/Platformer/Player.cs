@@ -69,20 +69,5 @@ public class Player : SubjectObserver
     #endregion
 
     #region IObservable
-    public override void OnNotify(ISubject subject, params object[] args)
-    {
-        base.OnNotify(subject, args);
-        if (subject is InputController)
-        {
-            if (string.Compare(System.Convert.ToString(args[0]), InputController.LEFT_INPUT) == 0)
-            {
-                m_Vehicle.MoveBackward(m_MovementVelocity * m_SpeedMofier);
-            }
-            else if (string.Compare(System.Convert.ToString(args[0]), InputController.RIGHT_INPUT) == 0)
-            {
-                m_Vehicle.MoveForward(m_MovementVelocity * m_SpeedMofier);
-            }
-        }
-    }
     #endregion
 }
