@@ -115,6 +115,11 @@ namespace Track
             return isGoingToIntersect;
         }
 
+        public virtual float DeltaY(Vector3 position)
+        {
+            return position.y - GetHeightOnTrack(position.x);
+        }
+
         public virtual float GetHeightOnTrack(float xPosition)
         {
             float numerator = m_EndLocation.position.y - m_StartLocation.position.y;

@@ -14,7 +14,6 @@ namespace Track
     {
         #region Variables
         [SerializeField] protected TrackPiece m_CurrentTrack;
-        [SerializeField, ReadOnly] protected Vector3 m_LastPosition = Vector3.zero;
 
         public bool IsOnTrack
         {
@@ -25,46 +24,38 @@ namespace Track
         #region Unity API
         public void OnUpdate()
         {
-            if (m_CurrentTrack != null)
-            {
-                m_LastPosition = transform.position;
-                m_LastPosition.y = m_CurrentTrack.GetHeightOnTrack(m_LastPosition.x);
-                transform.position = m_LastPosition;
-            }
-            MoveForward(10f);
+            Move();
         }
         #endregion
 
         #region Public Methods
+        public float TrackHeightPosition()
+        {
+            float position = transform.position.y;
+
+            if (m_CurrentTrack != null)
+            {
+                position = m_CurrentTrack.GetHeightOnTrack(transform.position.x);
+            }
+
+            return position;
+        }
+
         public void SetTrackPiece(TrackPiece track)
         {
             m_CurrentTrack = track;
         }
 
-        public void MoveForward(float velocity)
+        public void Move()
         {
-            Move(velocity);
-        }
-
-        public void MoveBackward(float velocity)
-        {
-            Move(-velocity);
+            if (m_CurrentTrack != null)
+            {
+                m_CurrentTrack = m_CurrentTrack.GetNextTrackPiece(transform);
+            }
         }
         #endregion
 
         #region Protected Methods
-        protected virtual void Move(float velocity)
-        {
-            if (m_CurrentTrack != null)
-            {
-                transform.position += m_CurrentTrack.Right * velocity;
-                m_CurrentTrack = m_CurrentTrack.GetNextTrackPiece(transform);
-            }
-            else
-            {
-                transform.position += Vector3.right * velocity * Time.deltaTime;
-            }
-        }
         #endregion
 
         #region Private Methods
