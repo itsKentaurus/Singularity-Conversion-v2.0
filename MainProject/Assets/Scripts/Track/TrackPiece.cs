@@ -27,6 +27,9 @@ namespace Track
         [SerializeField, ReadOnly] private TrackPiece m_PreviousTrack = null;
         [SerializeField, ReadOnly] private TrackPiece m_NextTrack = null;
         [SerializeField, ReadOnly] private TrackInformation m_TrackInformation;
+#if UNITY_EDITOR
+        protected Vector3? m_IntersectedPoint = Vector3.zero;
+#endif
 
         protected bool m_IsInitialized = false;
 
@@ -57,6 +60,11 @@ namespace Track
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(m_StartLocation.position, EndLocation.position);
+            if (m_IntersectedPoint != null)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawCube((Vector3) m_IntersectedPoint, Vector3.one * 20f);
+            }
         }
 #endif
         #endregion
@@ -98,6 +106,38 @@ namespace Track
             m_PreviousTrack = piece;
         }
 
+        public virtual bool IsGoingToIntersect(Vector3 origin, Vector3 direction)
+        {
+            Vector3 position = GetIntersectedPositon(origin, direction);
+
+            return IsGoingToIntersect(position);
+        }
+
+        public virtual Vector3 GetIntersectedPositon(Vector3 origin, Vector3 direction)
+        {
+            float trackSlop = GetSlope();
+            float trackInitial = GetInitial(trackSlop);
+
+            float slope = direction.y / direction.x;
+            float initial = slope * origin.x - origin.y;
+
+            float leftSide = trackInitial - initial;
+            float rightSide = slope - trackSlop;
+
+
+            Vector3 position = Vector3.zero;
+
+            position.x = leftSide / rightSide;
+
+            position.y = GetHeightOnTrack(position.x);
+
+            position.z = origin.z;
+
+            m_IntersectedPoint = (Vector3?) position + origin;
+
+            return position;
+        }
+
         public virtual bool IsGoingToIntersect(Vector3 position)
         {
             bool isGoingToIntersect = true;
@@ -122,10 +162,8 @@ namespace Track
 
         public virtual float GetHeightOnTrack(float xPosition)
         {
-            float numerator = m_EndLocation.position.y - m_StartLocation.position.y;
-            float denominator = m_EndLocation.position.x - m_StartLocation.position.x;
-            float slope = numerator / denominator;
-            float initial = m_StartLocation.position.y - slope * m_StartLocation.position.x;
+            float slope = GetSlope();
+            float initial = GetInitial(slope);
 
             return slope * xPosition + initial;
         }
@@ -139,6 +177,17 @@ namespace Track
         #endregion
 
         #region Protected Methods
+        protected float GetSlope()
+        {
+            float numerator = m_EndLocation.position.y - m_StartLocation.position.y;
+            float denominator = m_EndLocation.position.x - m_StartLocation.position.x;
+            return numerator / denominator;
+        }
+
+        protected float GetInitial(float slope)
+        {
+            return m_StartLocation.position.y - (  slope * m_StartLocation.position.x);
+        }
         #endregion
 
         #region Private Methods

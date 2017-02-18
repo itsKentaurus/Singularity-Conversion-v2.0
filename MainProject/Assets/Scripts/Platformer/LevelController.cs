@@ -23,6 +23,10 @@ namespace Platformer
         [Header("Testing")]
         [SerializeField] protected Transform m_Shadow = null;
         [SerializeField, ReadOnly] protected Vector3 m_NextPosition = Vector3.zero;
+        [SerializeField] protected Transform m_Landing = null;
+        [SerializeField, ReadOnly] protected Vector3 m_TargetDirectionToMouse = Vector3.zero;
+        [SerializeField, ReadOnly] protected Vector3 m_TargetPosition = Vector3.zero;
+        [SerializeField, ReadOnly] protected Vector3 m_LandingPositoon = Vector3.zero;
 
         protected bool m_IsInitialized = false;
         #endregion
@@ -33,6 +37,14 @@ namespace Platformer
             Init();
         }
 
+        protected virtual void OnDrawGizmos()
+        {
+            //Gizmos.color = Color.cyan;
+            //Gizmos.DrawLine(m_Player.transform.position, m_TargetPosition);
+            //Gizmos.color = Color.blue;
+            //Gizmos.DrawLine(m_Player.transform.position, m_LandingPositoon);
+        }
+
         protected virtual void Update()
         {
             if (!m_IsInitialized)
@@ -40,6 +52,14 @@ namespace Platformer
                 return;
             }
 
+            // Removed shooting code for now
+            //m_TargetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //m_TargetPosition.z = m_Player.transform.position.z;
+            //m_TargetDirectionToMouse = m_TargetPosition - m_Player.transform.position;
+
+
+            //m_TargetDirectionToMouse.z = m_Player.transform.position.z;
+            //FindGround(m_Player.transform.position, m_TargetDirectionToMouse);
             FindClosestTrack();
 
             m_Player.OnUpdate();
@@ -96,6 +116,19 @@ namespace Platformer
                 m_Shadow.transform.position = m_NextPosition;
                 m_NextPosition = Vector3.zero;
             }
+        }
+
+        protected virtual void FindGround(Vector3 origin, Vector3 direction)
+        {
+            Vector3? position = m_TrackController.FindLandingPoint(origin, direction);
+
+            if (position == null)
+            {
+                position = origin;
+            }
+
+            m_Landing.position = (Vector3) position;
+            m_LandingPositoon = m_Landing.position;
         }
         #endregion
 

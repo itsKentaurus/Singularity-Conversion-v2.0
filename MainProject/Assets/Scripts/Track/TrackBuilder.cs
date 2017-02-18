@@ -89,6 +89,44 @@ namespace Track
 
             return null;
         }
+
+        public TrackPiece FindClosestTack(Vector3 origin, Vector3 direction)
+        {
+            TrackPiece closestTrack = null;
+            float closestDistance = -1f;
+            float temp = -1f;
+            foreach (KeyValuePair<float, List<TrackPiece>> tracks in m_Tracks)
+            {
+                foreach (TrackPiece track in tracks.Value)
+                {
+                    if (track.IsGoingToIntersect(origin, direction))
+                    {
+                        temp = Vector3.Distance(closestTrack.GetIntersectedPositon(origin, direction), origin);
+                        if (closestTrack == null || closestDistance > temp)
+                        {
+                            closestTrack = track;
+                            closestDistance = temp;
+                        }
+                    }
+                }
+            }
+
+            return closestTrack;
+        }
+
+        public Vector3? FindLandingPoint(Vector3 origin, Vector3 direction)
+        {
+            Vector3? position = null;
+
+            TrackPiece piece = FindClosestTack(origin, direction);
+
+            if (piece != null)
+            {
+                position = piece.GetIntersectedPositon(origin, direction);
+            }
+
+            return position; 
+        }
         #endregion
 
         #region Protected Methods

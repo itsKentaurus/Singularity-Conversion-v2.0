@@ -14,12 +14,18 @@ public class Player : InputController
     [SerializeField] protected TrackVehicle m_Vehicle;
     [SerializeField] protected float m_Gravity = 100f;
 
-    [SerializeField, ReadOnly] protected Vector3 m_MoveDirection = Vector3.zero;
+    [SerializeField, ReadOnly] private Vector3 m_MoveDirection = Vector3.zero;
     [SerializeField] protected float m_JumpSpeed = 20f;
     [SerializeField] protected float m_Acceleration = 10f;
     [SerializeField] protected float m_MaxSpeed = 100f;
     [SerializeField] protected Vector3 m_NextPosition = Vector3.zero;
     protected bool m_IsIntialized = false;
+
+    public Vector3 Velocity
+    {
+        get { return m_MoveDirection; }
+        set { m_MoveDirection = value; }
+    }
     #endregion
 
     #region Unity API
