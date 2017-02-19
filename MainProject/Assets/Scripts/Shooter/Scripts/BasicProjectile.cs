@@ -10,40 +10,48 @@ using System.Collections;
 
 namespace Shooter
 {
-	public abstract class BasicProjectile : Subject, IProjectile
-	{
-		#region Variables
-		public enum eProjectileEvents
-		{
-			NONE,
-			LAUNCH,
-			DESTROYED
-		};
+    public abstract class BasicProjectile : Subject, IProjectile
+    {
+        #region Variables
+        public enum eProjectileEvents
+        {
+            NONE,
+            LAUNCH,
+            DESTROYED
+        };
 
-		protected float m_Velocity = 0;
-		protected Transform m_Target;
-		#endregion
+        protected float m_Velocity = 0;
+        protected Transform m_Target;
+        protected Vector3 m_Direction = Vector3.right;
 
-		#region Unity API
-		#endregion
+        public Vector3 Direction { get; set; }
+        public Vector3 Position
+        {
+            get { return transform.position; }
+            set { transform.position = value; }
+        }
+        #endregion
 
-		#region Public Methods
-		public virtual void Launch(Transform target, float velocity)
-		{
-			m_Target = target;
-			m_Velocity = velocity;
-			NotifyObservers(eProjectileEvents.LAUNCH);
-		}
-		#endregion
+        #region Unity API
+        #endregion
 
-		#region Protected Methods
-		protected virtual void ProjectileDestroyed()
-		{
-			NotifyObservers(eProjectileEvents.DESTROYED);
-		}
-		#endregion
+        #region Public Methods
+        public virtual void Launch(Transform target, float velocity)
+        {
+            m_Target = target;
+            m_Velocity = velocity;
+            NotifyObservers(eProjectileEvents.LAUNCH);
+        }
+        #endregion
 
-		#region Private Methods
-		#endregion
-	}
+        #region Protected Methods
+        protected virtual void ProjectileDestroyed()
+        {
+            NotifyObservers(eProjectileEvents.DESTROYED);
+        }
+        #endregion
+
+        #region Private Methods
+        #endregion
+    }
 }
