@@ -30,6 +30,13 @@ namespace Shooter
             get { return transform.position; }
             set { transform.position = value; }
         }
+
+		public float Velocity 
+		{
+			get { return m_Velocity; }
+			set { m_Velocity = value; }
+		}
+
         #endregion
 
         #region Unity API

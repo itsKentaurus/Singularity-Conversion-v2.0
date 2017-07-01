@@ -14,5 +14,6 @@ namespace Shooter
 	{
         Vector3 Direction { get; set; }
         Vector3 Position { get; set; }
+		float Velocity { get; set; }
 	}
 }

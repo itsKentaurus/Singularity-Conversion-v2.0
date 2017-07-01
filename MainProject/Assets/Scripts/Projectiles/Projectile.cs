@@ -14,7 +14,8 @@ using System.Collections;
 public class Projectile : MonoBehaviour, Shooter.IProjectile
 {
     #region Variables
-    [SerializeField] protected Vector3 m_Direction = Vector3.right;
+	[SerializeField] protected Vector3 m_Direction = Vector3.right;
+	[SerializeField] protected float m_Velocity = 0f;
 
     public Vector3 Direction
     {
@@ -26,13 +27,19 @@ public class Projectile : MonoBehaviour, Shooter.IProjectile
         get { return transform.position; }
         set { transform.position = value; }
     }
+
+	public float Velocity
+	{
+		get { return m_Velocity; }
+		set { m_Velocity = value; }
+	}
     #endregion
 
 
     #region Unity API
     protected void Update()
     {
-        transform.position += Direction;
+		transform.position += Direction * Velocity;
     }
     #endregion
 

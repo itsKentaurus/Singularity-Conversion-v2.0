@@ -31,14 +31,7 @@ namespace Track
         #region Public Methods
         public float TrackHeightPosition()
         {
-            float position = transform.position.y;
-
-            if (m_CurrentTrack != null)
-            {
-                position = m_CurrentTrack.GetHeightOnTrack(transform.position.x);
-            }
-
-            return position;
+			return TrackHeightPosition(transform.position);
         }
 
         public void SetTrackPiece(TrackPiece track)
@@ -53,6 +46,18 @@ namespace Track
                 m_CurrentTrack = m_CurrentTrack.GetNextTrackPiece(transform);
             }
         }
+
+		public float TrackHeightPosition(Vector3 position)
+		{
+			float yPosition = position.y;
+
+			if (m_CurrentTrack != null)
+			{
+				yPosition = m_CurrentTrack.GetHeightOnTrack(position.x);
+			}
+
+			return yPosition;
+		}
         #endregion
 
         #region Protected Methods

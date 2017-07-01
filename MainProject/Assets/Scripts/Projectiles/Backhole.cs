@@ -14,6 +14,7 @@ using System.Collections.Generic;
 public class Backhole : MonoBehaviour
 {
     #region Variables
+	[SerializeField] protected AnimationCurve m_AnimationCurve;
     protected List<Shooter.IProjectile> m_Projectiles = new List<Shooter.IProjectile>();
     protected SphereCollider m_Collider;
     #endregion
@@ -32,11 +33,15 @@ public class Backhole : MonoBehaviour
     {
         for (int i = 0; i < m_Projectiles.Count; ++i)
         {
-            float angle = Vector3.Angle(m_Projectiles[i].Direction, transform.position - m_Projectiles[i].Position);
-            
-            float total = m_Collider.radius;
-            float distance = Vector3.Distance(m_Projectiles[i].Position, transform.position);
-            m_Projectiles[i].Direction = Quaternion.Euler(0f, 0f, angle * distance / total * 0.01f * GetCenterSign(transform.position - m_Projectiles[i].Position)) * m_Projectiles[i].Direction;
+			Vector3 direction = (transform.position - m_Projectiles[i].Position).normalized;
+			direction.z = 0;
+			Vector3 original = m_Projectiles[i].Direction;
+			original.z = 0f;
+			m_Projectiles[i].Direction = Vector3.RotateTowards(original, direction, 50f * Time.deltaTime, 0f).normalized;
+
+			Vector3 distance = (transform.position - m_Projectiles[i].Position);
+			distance.z = 0f;
+			m_Projectiles[i].Velocity *= m_AnimationCurve.Evaluate(Mathf.Min(distance.magnitude / m_Collider.radius, 1f));
         }
     }
 
@@ -67,26 +72,5 @@ public class Backhole : MonoBehaviour
 
 
     #region Private Methods
-    private float GetCenterSign(Vector3 directionToCenter)
-    {
-        if (directionToCenter.x > 0 && directionToCenter.y > 0)
-        {
-            return 1f;
-        }
-        else if (directionToCenter.x > 0 && directionToCenter.y < 0)
-        {
-            return -1f;
-        }
-        else if (directionToCenter.x < 0 && directionToCenter.y > 0)
-        {
-            return -1f;
-        }
-        else if (directionToCenter.x < 0 && directionToCenter.y < 0)
-        {
-            return 1f;
-        }
-        return 0f;
-    }
     #endregion
-
 }

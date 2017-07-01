@@ -62,10 +62,11 @@ public class Player : InputController
             m_MoveDirection.y -= m_Gravity * Time.deltaTime;
             m_Vehicle.SetTrackPiece(null);
         }
+			
+		// Move's the actual vehicule
+		transform.Translate(m_MoveDirection);
 
-
-        transform.Translate(m_MoveDirection);
-
+		// Updates the actual vehicule
         m_Vehicle.OnUpdate();
 
         m_NextPosition.x = transform.position.x;
