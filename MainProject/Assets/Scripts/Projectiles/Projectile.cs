@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour, Shooter.IProjectile
     #region Unity API
     protected void Update()
     {
-		transform.position += Direction * Velocity;
+		transform.position += Direction * Velocity * Time.deltaTime;
     }
     #endregion
 

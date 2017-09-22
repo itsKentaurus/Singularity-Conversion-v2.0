@@ -37,11 +37,13 @@ public class Backhole : MonoBehaviour
 			direction.z = 0;
 			Vector3 original = m_Projectiles[i].Direction;
 			original.z = 0f;
-			m_Projectiles[i].Direction = Vector3.RotateTowards(original, direction, 50f * Time.deltaTime, 0f).normalized;
+			direction = Vector3.RotateTowards(original, direction, 50f * Time.deltaTime, 0f).normalized;
+			direction.z = 0f;
+			m_Projectiles[i].Direction = direction;
 
 			Vector3 distance = (transform.position - m_Projectiles[i].Position);
 			distance.z = 0f;
-			m_Projectiles[i].Velocity *= m_AnimationCurve.Evaluate(Mathf.Min(distance.magnitude / m_Collider.radius, 1f));
+//			m_Projectiles[i].Velocity *= m_AnimationCurve.Evaluate(Mathf.Min(distance.magnitude / m_Collider.radius, 1f));
         }
     }
 
